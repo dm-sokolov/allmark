@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllMark", "AllMark\AllMark.csproj", "{B8566EC3-0F7E-477B-AF74-D66E0C062B0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8566EC3-0F7E-477B-AF74-D66E0C062B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8566EC3-0F7E-477B-AF74-D66E0C062B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8566EC3-0F7E-477B-AF74-D66E0C062B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8566EC3-0F7E-477B-AF74-D66E0C062B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D473CE56-78DB-4CFB-9C1A-4CEF62AE8A9D}
+	EndGlobalSection
+EndGlobal
