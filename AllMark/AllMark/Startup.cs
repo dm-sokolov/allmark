@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Autofac;
 using AllMark.DAL;
 using AllMark.Repository;
+using AllMark.Config;
 
 namespace AllMark
 {
@@ -37,6 +38,7 @@ namespace AllMark
             services.AddSingleton<AppSessionFactory>();
             services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
                                      .OpenSession());
+            services.Configure<DatabaseConfig>(Configuration);
 
         }
 

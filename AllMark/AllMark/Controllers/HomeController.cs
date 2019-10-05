@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using AllMark.Interfaces;
 using AllMark.Models.Models;
 using AllMark.Repository;
+using System.Threading.Tasks;
 
 namespace AllMark.Controllers
 {
@@ -23,9 +20,10 @@ namespace AllMark.Controllers
             _userRepository = userRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var value = _helper.GetValue();
+            var user = new User { Name = "user" };
+            await _userRepository.SaveAsync(user);
             return View();
         }
 

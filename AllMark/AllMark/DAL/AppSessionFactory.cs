@@ -1,7 +1,6 @@
 ﻿using AllMark.Config;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NHibernate;
 using NHibernate.Context;
@@ -43,12 +42,11 @@ namespace AllMark.DAL
             return _sessionFactory;
         }
 
-
         public void CreateSessionFactory()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var mappingAssembly = assemblies.FirstOrDefault(i => i.FullName.StartsWith("AllMark.Models"));
-            var configuration = GetConfiguration("Data Source=localhost; Database=test; User Id=root; Password=root; SslMode=none");
+            var configuration = GetConfiguration(_databaseConfig.MySql);
             _sessionFactory = BuildSessionFactory(configuration, mappingAssembly);
         }
 
