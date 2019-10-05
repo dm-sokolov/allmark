@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Autofac;
+using AllMark.DAL;
 
 namespace AllMark
 {
@@ -36,6 +37,8 @@ namespace AllMark
             services.Configure<MvcOptions>(options => options.EnableEndpointRouting = false); //TODO А надо ли это?
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddOptions();
+            services.AddNHibernate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
