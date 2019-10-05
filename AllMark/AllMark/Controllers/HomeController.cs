@@ -6,16 +6,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using AllMark.Interfaces;
+using AllMark.Models.Models;
+using AllMark.Repository;
 
 namespace AllMark.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ISimpleHelper _helper;
+        private readonly IRepository<User> _userRepository;
 
-        public HomeController(ISimpleHelper helper)
+        public HomeController(ISimpleHelper helper, 
+            IRepository<User> userRepository)
         {
             _helper = helper;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index()

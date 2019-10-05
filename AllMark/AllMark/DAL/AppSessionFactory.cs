@@ -8,6 +8,7 @@ using NHibernate.Context;
 using System;
 using System.Globalization;
 using System.Reflection;
+using System.Linq;
 
 namespace AllMark.DAL
 {
@@ -15,20 +16,43 @@ namespace AllMark.DAL
     {
         private readonly DatabaseConfig _databaseConfig;
         private ISessionFactory _sessionFactory;
+        private readonly object _lock = new object();
 
         public AppSessionFactory(IOptions<DatabaseConfig> databaseConfig)
         {
             _databaseConfig = databaseConfig.Value;
         }
 
-        public void CreateSessionFactory(IServiceCollection services)
+        public ISession OpenSession()
         {
-            var mappingAssembly = Assembly.Load("AllMakr.Models");
+            var factory = GetSessionFactory();
+            var session = factory.OpenSession();
+            session.BeginTransaction();
+            return session;
+
+        }
+
+        private ISessionFactory GetSessionFactory()
+        {
+            lock (_lock)
+            {
+                if (_sessionFactory == null)
+                    CreateSessionFactory();
+            }
+
+            return _sessionFactory;
+        }
+
+
+        public void CreateSessionFactory()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var mappingAssembly = assemblies.FirstOrDefault(i => i.FullName.StartsWith("AllMark.Models"));
             var configuration = GetConfiguration(_databaseConfig.MySql);
             _sessionFactory = BuildSessionFactory(configuration, mappingAssembly);
         }
 
-        private static ISessionFactory BuildSessionFactory(FluentConfiguration config, Assembly mappingAssembly)
+        private ISessionFactory BuildSessionFactory(FluentConfiguration config, Assembly mappingAssembly)
         {
             var cfg = config
                      .Mappings(m => m.FluentMappings.AddFromAssembly(mappingAssembly))

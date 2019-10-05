@@ -1,9 +1,6 @@
 ﻿using AllMark.Helpers;
 using Autofac;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AllMark.Repository
 {
@@ -15,7 +12,7 @@ namespace AllMark.Repository
                 throw new ArgumentException(nameof(builder));
 
             builder.RegisterGeneric(typeof(Repository<>))
-                .InstancePerRequest()
+                .InstancePerLifetimeScope()
                 .AsImplementedInterfaces();
 
             return builder;

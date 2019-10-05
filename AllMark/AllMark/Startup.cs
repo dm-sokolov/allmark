@@ -35,6 +35,9 @@ namespace AllMark
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddOptions();
             services.AddSingleton<AppSessionFactory>();
+            services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
+                                     .OpenSession());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
