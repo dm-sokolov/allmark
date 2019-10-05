@@ -48,7 +48,7 @@ namespace AllMark.DAL
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var mappingAssembly = assemblies.FirstOrDefault(i => i.FullName.StartsWith("AllMark.Models"));
-            var configuration = GetConfiguration(_databaseConfig.MySql);
+            var configuration = GetConfiguration("Data Source=localhost; Database=test; User Id=root; Password=root; SslMode=none");
             _sessionFactory = BuildSessionFactory(configuration, mappingAssembly);
         }
 
