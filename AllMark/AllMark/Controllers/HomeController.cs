@@ -5,13 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
+using AllMark.Interfaces;
 
 namespace AllMark.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ISimpleHelper _helper;
+
+        public HomeController(ISimpleHelper helper)
+        {
+            _helper = helper;
+        }
+
         public IActionResult Index()
         {
+            var value = _helper.GetValue();
             return View();
         }
 
