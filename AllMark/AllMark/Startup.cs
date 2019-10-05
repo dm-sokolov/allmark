@@ -10,6 +10,7 @@ using Autofac;
 using AllMark.DAL;
 using AllMark.Repository;
 using AllMark.Config;
+using AllMark.Middlewares;
 
 namespace AllMark
 {
@@ -59,6 +60,7 @@ namespace AllMark
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseMiddleware<CloseSessionMiddleware>();
 
             app.UseMvc(routes =>
             {

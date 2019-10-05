@@ -19,5 +19,7 @@ namespace AllMark.Repository
         Task DeleteByIdAsync(int? id);
 
         Task<T> SaveOrUpdateAsync(T entity);
+
+        Task FlushAsync();
     }
 }

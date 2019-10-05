@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AllMark.Repository
 {
-    public class Repository<T> : IRepository<T>, IDisposable where T : BaseModel
+    public class Repository<T> : IRepository<T> where T : BaseModel
     {
         private readonly ISession _session;
 
@@ -54,9 +54,21 @@ namespace AllMark.Repository
             return entity;
         }
 
-        public void Dispose()
+        public async Task FlushAsync()
         {
-            _session.Dispose();
+            try
+            {
+                if (_session.Transaction?.IsActive ?? false)
+                    await _session.Transaction.CommitAsync();
+            }
+            catch
+            {
+                if (_session.Transaction?.IsActive ?? false)
+                    await _session.Transaction.RollbackAsync();
+
+                throw;
+            }
         }
+
     }
 }
