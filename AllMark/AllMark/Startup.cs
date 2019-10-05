@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AllMark.Helpers;
-using AllMark.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Autofac;
 using AllMark.DAL;
+using AllMark.Repository;
 
 namespace AllMark
 {
@@ -38,7 +34,7 @@ namespace AllMark
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddOptions();
-            services.AddNHibernate();
+            services.AddSingleton<AppSessionFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +65,8 @@ namespace AllMark
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            builder.AddRepositories();
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(i => i.FullName.StartsWith("AllMark")).ToArray();
             builder.RegisterAssemblyTypes(assemblies)
                 .Where(i => i.Namespace.EndsWith(".Helpers"))
