@@ -22,8 +22,6 @@ namespace AllMark.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = new User { Name = "user" };
-            await _userRepository.SaveAsync(user);
             return View();
         }
 
