@@ -5,6 +5,7 @@ using AllMark.Interfaces;
 using AllMark.Models.Models;
 using AllMark.Repository;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AllMark.Controllers
 {
@@ -20,12 +21,14 @@ namespace AllMark.Controllers
             _userRepository = userRepository;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View();
+            return Content(User.Identity.Name);
+            //return View();
         }
 
-        public IActionResult Privacy()
+    public IActionResult Privacy()
         {
             return View();
         }

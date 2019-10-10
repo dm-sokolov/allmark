@@ -11,6 +11,7 @@ using AllMark.DAL;
 using AllMark.Repository;
 using AllMark.Config;
 using AllMark.Middlewares;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AllMark
 {
@@ -33,6 +34,13 @@ namespace AllMark
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.Configure<MvcOptions>(options => options.EnableEndpointRouting = false); //TODO А надо ли это?
+
+            // установка конфигурации подключения
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddOptions();
@@ -62,6 +70,8 @@ namespace AllMark
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseMiddleware<CloseSessionMiddleware>();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
