@@ -20,7 +20,12 @@ namespace AllMark
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureServices(services => services.AddAutofac())
-                .UseStartup<Startup>();
+            .ConfigureServices(services => services.AddAutofac())
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+                config.AddJsonFile($"appsettings.{environmentName}.json");
+            })
+            .UseStartup<Startup>();
     }
 }
