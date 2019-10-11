@@ -11,6 +11,8 @@ namespace AllMark.Models.Mappings
             Id(i => i.Id, "id")
                 .GeneratedBy.Native();
             Map(i => i.Name, "name");
+            Map(i => i.Email, "email");
+            Map(i => i.Password, "password");
         }
     }
 }

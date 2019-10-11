@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using AllMark.Models.Models; // пространство имен моделей RegisterModel и LoginModel
 using AllMark.Models; // пространство имен UserContext и класса User
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using AllMark.Repository;
+using NHibernate.Linq;
 
 namespace AllMark.Controllers
 {
     public class AccountController : Controller
     {
-        private UserContext db;
-        public AccountController(UserContext context)
+        private readonly IRepository<User> _userRepository;
+
+        public AccountController(IRepository<User> userRepository)
         {
-            db = context;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -25,13 +27,14 @@ namespace AllMark.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                User user = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
                     await Authenticate(model.Email); // аутентификация
@@ -53,12 +56,16 @@ namespace AllMark.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                User user = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    db.Users.Add(new User { Email = model.Email, Password = model.Password });
-                    await db.SaveChangesAsync();
+                    user = new User
+                    {
+                        Email = model.Email,
+                        Password = model.Password
+                    };
+                    await _userRepository.SaveAsync(user);
 
                     await Authenticate(model.Email); // аутентификация
 
