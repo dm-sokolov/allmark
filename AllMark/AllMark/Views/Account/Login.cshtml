@@ -1,4 +1,6 @@
-﻿@model AllMark.Models.Models.LoginModel
+﻿@using Kendo.Mvc.UI
+@model AllMark.Models.Models.LoginModel
+
 
 <h2>Вход на сайт</h2>
 
@@ -20,5 +22,6 @@
         <div class="form-group">
             <input type="submit" value="Войти" class="btn" />
         </div>
+        @Html.Kendo()
     </div>
 </form>
