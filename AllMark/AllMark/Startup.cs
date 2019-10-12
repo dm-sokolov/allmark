@@ -48,7 +48,8 @@ namespace AllMark
             services.AddSingleton<AppSessionFactory>();
             services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
                                      .OpenSession());
-            services.Configure<DatabaseConfig>(Configuration);
+            services.Configure<DatabaseConfig>(Configuration.GetSection("Database"));
+            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
             services.AddKendo();
 
         }
@@ -88,7 +89,7 @@ namespace AllMark
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(i => i.FullName.StartsWith("AllMark")).ToArray();
             builder.RegisterAssemblyTypes(assemblies)
-                .Where(i => i.Namespace.EndsWith(".Helpers"))
+                .Where(i => i.Namespace.EndsWith(".Helpers") || i.Namespace.EndsWith(".Services"))
                 .AsImplementedInterfaces();
         }
     }
