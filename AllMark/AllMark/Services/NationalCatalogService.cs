@@ -1,4 +1,5 @@
 ﻿using AllMark.Config;
+using AllMark.Services.Base;
 using AllMark.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -9,26 +10,11 @@ using Utils.NationalCatalog.Models;
 
 namespace AllMark.Services
 {
-    public class NationalCatalogService: INationalCatalogService
+    public class NationalCatalogService: BaseApiService, INationalCatalogService
     {
-        private readonly string _apiKey;
-        private readonly RestClient _client;
-
         public NationalCatalogService(IOptions<NationalCatalogConfig> nationalCatalogConfig)
-        {
-            _apiKey = nationalCatalogConfig.Value.ApiKey;
-            _client = new RestClient(nationalCatalogConfig.Value.BaseUrl);
-        }
-
-        private RestRequest GetRequest(string method, Method requestMethod = Method.POST)
-        {
-            var request = new RestRequest(method)
-            {
-                Method = requestMethod
-            };
-            request.AddQueryParameter("apikey", _apiKey);
-            return request;
-        }
+            : base(nationalCatalogConfig.Value.ApiKey, nationalCatalogConfig.Value.ApiKey)
+        {  }
 
         public async Task<ICollection<CatalogAttribute>> GetAttributes(int? categoryId, string attributeType = null)
         {
