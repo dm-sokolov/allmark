@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using AllMark.Config;
+using RestSharp;
 
 namespace AllMark.Services.Base
 {
@@ -7,10 +8,10 @@ namespace AllMark.Services.Base
         protected readonly string _apiKey;
         protected readonly RestClient _client;
 
-        public BaseApiService(string apiKey, string baseUrl)
+        public BaseApiService(IApiConfig config)
         {
-            _apiKey = apiKey;
-            _client = new RestClient(baseUrl);
+            _apiKey = config.ApiKey;
+            _client = new RestClient(config.BaseUrl);
         }
         protected RestRequest GetRequest(string method, Method requestMethod = Method.POST)
         {

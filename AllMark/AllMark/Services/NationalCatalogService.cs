@@ -13,7 +13,7 @@ namespace AllMark.Services
     public class NationalCatalogService: BaseApiService, INationalCatalogService
     {
         public NationalCatalogService(IOptions<NationalCatalogConfig> nationalCatalogConfig)
-            : base(nationalCatalogConfig.Value.ApiKey, nationalCatalogConfig.Value.ApiKey)
+            : base(nationalCatalogConfig.Value)
         {  }
 
         public async Task<ICollection<CatalogAttribute>> GetAttributes(int? categoryId, string attributeType = null)
