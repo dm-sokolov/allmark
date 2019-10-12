@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using AllMark.Models.Models; // пространство имен моделей RegisterModel и LoginModel
-using AllMark.Models; // пространство имен UserContext и класса User
+using AllMark.Models.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AllMark.Repository;
@@ -22,16 +19,11 @@ namespace AllMark.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -42,38 +34,44 @@ namespace AllMark.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError(nameof(LoginViewModel.Email), "Некорректные логин и(или) пароль");
             }
             return View(model);
         }
+
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 User user = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    // добавляем пользователя в бд
-                    user = new User
+                    if (model.Password != model.ConfirmPassword)
                     {
-                        Email = model.Email,
-                        Password = model.Password
-                    };
-                    await _userRepository.SaveAsync(user);
+                        user = new User
+                        {
+                            Email = model.Email,
+                            Password = model.Password
+                        };
+                        await _userRepository.SaveAsync(user);
 
-                    await Authenticate(model.Email); // аутентификация
+                        await Authenticate(model.Email); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                        ModelState.AddModelError(nameof(RegisterViewModel.Password), "Пользователь с таким логином уже существует");
                 }
                 else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    ModelState.AddModelError(nameof(RegisterViewModel.Email), "Пользователь с таким логином уже существует");
             }
             return View(model);
         }

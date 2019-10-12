@@ -1,4 +1,5 @@
-﻿@model AllMark.Models.Models.RegisterModel
+﻿@using Kendo.Mvc.UI
+@model AllMark.Models.Models.RegisterViewModel
 
 <h2>Регистрация</h2>
 
@@ -7,17 +8,17 @@
     <div>
         <div>
             <label asp-for="Email">Введите Email</label><br />
-            <input type="text" asp-for="Email" />
+            @Html.Kendo().TextBoxFor(i => i.Email)
             <span asp-validation-for="Email" />
         </div>
         <div>
             <label asp-for="Password">Введите пароль</label><br />
-            <input asp-for="Password" />
+            @Html.Kendo().TextBoxFor(i => i.Password)
             <span asp-validation-for="Password" />
         </div>
         <div>
             <label asp-for="ConfirmPassword">Повторите пароль</label><br />
-            <input asp-for="ConfirmPassword" />
+            @Html.Kendo().TextBoxFor(i => i.ConfirmPassword)
             <span asp-validation-for="ConfirmPassword" />
         </div>
         <div>
