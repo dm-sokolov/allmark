@@ -4,6 +4,7 @@ namespace AllMark.Models.Models
 {
     public class LoginViewModel
     {
+        [EmailAddress(ErrorMessage = "Укажите Email")]
         [Required(ErrorMessage = "Не указан Email")]
         public string Email { get; set; }
 
