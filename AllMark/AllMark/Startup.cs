@@ -12,7 +12,6 @@ using AllMark.Repository;
 using AllMark.Config;
 using AllMark.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using ShieldUI.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 
 namespace AllMark
@@ -50,7 +49,6 @@ namespace AllMark
             services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
                                      .OpenSession());
             services.Configure<DatabaseConfig>(Configuration);
-            services.AddShieldUI();
             services.AddKendo();
 
         }
@@ -82,7 +80,6 @@ namespace AllMark
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseShieldUI();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
