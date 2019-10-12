@@ -22,10 +22,9 @@ namespace AllMark.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return Content(User.Identity.Name);
-            //return View();
+            return View();
         }
 
     public IActionResult Privacy()
