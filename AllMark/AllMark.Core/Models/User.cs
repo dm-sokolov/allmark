@@ -1,6 +1,6 @@
-﻿using AllMark.Models.Models.Base;
+﻿using AllMark.Core.Models.Base;
 
-namespace AllMark.Models.Models
+namespace AllMark.Core.Models
 {
     public class User: BaseModel
     {

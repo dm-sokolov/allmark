@@ -13,6 +13,7 @@ using AllMark.Config;
 using AllMark.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace AllMark
 {
@@ -43,7 +44,11 @@ namespace AllMark
                     options.LoginPath = new PathString("/Account/Login");
                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddRazorPages()
+                    .AddRazorRuntimeCompilation();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddRazorRuntimeCompilation();
             services.AddOptions();
             services.AddSingleton<AppSessionFactory>();
             services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
@@ -51,7 +56,6 @@ namespace AllMark
             services.Configure<DatabaseConfig>(Configuration.GetSection("Database"));
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
             services.AddKendo();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +76,6 @@ namespace AllMark
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseMiddleware<CloseSessionMiddleware>();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AllMark.Repository;
 using NHibernate.Linq;
+using AllMark.Core.Models;
 
 namespace AllMark.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace AllMark.Models.Models.Base
+﻿namespace AllMark.Core.Models.Base
 {
     public class BaseModel
     {

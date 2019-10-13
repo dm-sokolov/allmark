@@ -1,5 +1,4 @@
-﻿using AllMark.Helpers;
-using Autofac;
+﻿using Autofac;
 using System;
 
 namespace AllMark.Repository

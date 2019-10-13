@@ -1,7 +1,7 @@
-﻿using AllMark.Models.Models;
+﻿using AllMark.Core.Models;
 using FluentNHibernate.Mapping;
 
-namespace AllMark.Models.Mappings
+namespace AllMark.Core.Mappings
 {
     public class UserMap: ClassMap<User>
     {
