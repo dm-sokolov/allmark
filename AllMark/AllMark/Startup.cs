@@ -44,11 +44,11 @@ namespace AllMark
                     options.LoginPath = new PathString("/Account/Login");
                 });
 
-            services.AddRazorPages()
-                    .AddRazorRuntimeCompilation();
+            //services.AddRazorPages()
+            //        .AddRazorRuntimeCompilation();
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddRazorRuntimeCompilation();
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                //.AddRazorRuntimeCompilation();
             services.AddOptions();
             services.AddSingleton<AppSessionFactory>();
             services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()

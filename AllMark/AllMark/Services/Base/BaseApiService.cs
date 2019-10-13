@@ -1,5 +1,7 @@
 ﻿using AllMark.Config;
+using Newtonsoft.Json;
 using RestSharp;
+using System.Threading.Tasks;
 
 namespace AllMark.Services.Base
 {
@@ -21,6 +23,13 @@ namespace AllMark.Services.Base
             };
             request.AddQueryParameter("apikey", _apiKey);
             return request;
+        }
+
+        protected async Task<T> ExecuteRequestAsync<T>(RestRequest request)
+        {
+            var response = await _client.ExecuteTaskAsync(request);
+            var apiResponse = JsonConvert.DeserializeObject<T>(response.Content);
+            return apiResponse;
         }
     }
 }
