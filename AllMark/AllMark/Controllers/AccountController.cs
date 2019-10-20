@@ -9,8 +9,9 @@ using AllMark.Repository;
 using NHibernate.Linq;
 using AllMark.Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using AllMark.Services.Interfaces;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace AllMark.Controllers
 {
@@ -61,22 +62,17 @@ namespace AllMark.Controllers
                 User user = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    if (model.Password != model.ConfirmPassword)
+                    user = new User
                     {
-                        user = new User
-                        {
-                            Email = model.Email,
-                            Password = model.Password
-                        };
-                        await _userRepository.SaveAsync(user);
+                        Email = model.Email,
+                        Password = model.Password
+                    };
+                    await _userRepository.SaveAsync(user);
 
-                        await Authenticate(model.Email); // аутентификация
-                        await SendConfirmMail(user);
+                    await Authenticate(model.Email); // аутентификация
+                    await SendConfirmMail(user);
 
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                        ModelState.AddModelError(nameof(RegisterViewModel.Password), "Пользователь с таким логином уже существует");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                     ModelState.AddModelError(nameof(RegisterViewModel.Email), "Пользователь с таким логином уже существует");
@@ -116,26 +112,39 @@ namespace AllMark.Controllers
             {
                 return View("Error");
             }
-            //var result = await _userManager.ConfirmEmailAsync(user, code);
-            //if (result.Succeeded)
-            //{
-            //    //user.EmailConfirmed = true;
-            //    return RedirectToAction("Index", "Home");
-            //}
-            //else
+            if (user.GUID == code)
+            {
+                user.EmailConfirmed = true;
+                await _userRepository.UpdateAsync(user);
+                return RedirectToAction("Index", "Home");
+            }
+            else
                 return View("Error");
         }
 
         private async Task SendConfirmMail(User user)
         {
-            // генерация токена для пользователя
-            var code = "";//await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            // генерация токена для пользователя. Страшно, но пока так
+            var code = Guid.NewGuid().ToString("N");
+            user.GUID = code;
+            await _userRepository.UpdateAsync(user);
             var callbackUrl = Url.Action(
                 "ConfirmEmail",
                 "Account",
-                new { userId = user.Id, code = code },
+                new { userId = user.Id, code },
                 protocol: HttpContext.Request.Scheme);
             await _emailService.SendConfirmEmail(user.Email, callbackUrl);
+        }
+
+        public async Task<ActionResult> Manage()
+        {
+            var email = HttpContext.User.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value;
+            if (!string.IsNullOrEmpty(email))
+            {
+                var user = await _userRepository.Query().FirstOrDefaultAsync(i => i.Email == email);
+                return View(user);
+            }
+            return Redirect(Url.Action("Index", "Home"));
         }
     }
 }

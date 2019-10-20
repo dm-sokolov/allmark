@@ -13,6 +13,8 @@ namespace AllMark.Core.Mappings
             Map(i => i.Name, "name");
             Map(i => i.Email, "email");
             Map(i => i.Password, "password");
+            Map(i => i.EmailConfirmed, "email_confirmed");
+            Map(i => i.GUID, "guid");
         }
     }
 }
