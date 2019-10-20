@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace AllMark.Models.Models
+namespace AllMark.Models
 {
     public class LoginViewModel
     {
@@ -11,5 +12,8 @@ namespace AllMark.Models.Models
         [Required(ErrorMessage = "Не указан пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [DisplayName("Запомнить меня")]
+        public bool RememberMe { get; set; }
     }
 }

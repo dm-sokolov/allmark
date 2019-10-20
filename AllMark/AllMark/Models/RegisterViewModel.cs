@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace AllMark.Models.Models
+namespace AllMark.Models
 {
     public class RegisterViewModel
     {
@@ -15,5 +16,8 @@ namespace AllMark.Models.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Пароль введен неверно")]
         public string ConfirmPassword { get; set; }
+
+        [DisplayName("Запомнить меня")]
+        public bool RememberMe { get; set; }
     }
 }

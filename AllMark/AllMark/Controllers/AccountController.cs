@@ -2,22 +2,28 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using AllMark.Models.Models;
+using AllMark.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AllMark.Repository;
 using NHibernate.Linq;
 using AllMark.Core.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using AllMark.Services.Interfaces;
 
 namespace AllMark.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IEmailService _emailService;
 
-        public AccountController(IRepository<User> userRepository)
+        public AccountController(IRepository<User> userRepository,
+            IEmailService emailService)
         {
             _userRepository = userRepository;
+            _emailService = emailService;
         }
 
         public IActionResult Login() => View();
@@ -65,6 +71,7 @@ namespace AllMark.Controllers
                         await _userRepository.SaveAsync(user);
 
                         await Authenticate(model.Email); // аутентификация
+                        await SendConfirmMail(user);
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -94,6 +101,41 @@ namespace AllMark.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(int userId, string code)
+        {
+            if (code == null)
+            {
+                return View("Error");
+            }
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            //var result = await _userManager.ConfirmEmailAsync(user, code);
+            //if (result.Succeeded)
+            //{
+            //    //user.EmailConfirmed = true;
+            //    return RedirectToAction("Index", "Home");
+            //}
+            //else
+                return View("Error");
+        }
+
+        private async Task SendConfirmMail(User user)
+        {
+            // генерация токена для пользователя
+            var code = "";//await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Action(
+                "ConfirmEmail",
+                "Account",
+                new { userId = user.Id, code = code },
+                protocol: HttpContext.Request.Scheme);
+            await _emailService.SendConfirmEmail(user.Email, callbackUrl);
         }
     }
 }
