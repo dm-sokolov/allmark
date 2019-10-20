@@ -31,7 +31,7 @@ namespace AllMark.Repository
             return entity;
         }
 
-        public async Task<T> Update(T entity)
+        public async Task<T> UpdateAsync(T entity)
         {
             await _session.UpdateAsync(entity);
             return entity;

@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.NationalCatalog", "Ut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllMark.Core", "AllMark.Core\AllMark.Core.csproj", "{8ECE5DA5-3E7A-4E81-90FF-43B9D3268776}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils.HonestSign", "Utils.HonestSign\Utils.HonestSign.csproj", "{72143A5F-A348-46DD-8F77-47A58B621B49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.HonestSign", "Utils.HonestSign\Utils.HonestSign.csproj", "{72143A5F-A348-46DD-8F77-47A58B621B49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{24A91472-5267-4DC4-9CAD-789DC42D53F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,14 @@ Global
 		{72143A5F-A348-46DD-8F77-47A58B621B49}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72143A5F-A348-46DD-8F77-47A58B621B49}.Release|x86.ActiveCfg = Release|Any CPU
 		{72143A5F-A348-46DD-8F77-47A58B621B49}.Release|x86.Build.0 = Release|Any CPU
+		{24A91472-5267-4DC4-9CAD-789DC42D53F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A91472-5267-4DC4-9CAD-789DC42D53F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A91472-5267-4DC4-9CAD-789DC42D53F0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24A91472-5267-4DC4-9CAD-789DC42D53F0}.Debug|x86.Build.0 = Debug|Any CPU
+		{24A91472-5267-4DC4-9CAD-789DC42D53F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A91472-5267-4DC4-9CAD-789DC42D53F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A91472-5267-4DC4-9CAD-789DC42D53F0}.Release|x86.ActiveCfg = Release|Any CPU
+		{24A91472-5267-4DC4-9CAD-789DC42D53F0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

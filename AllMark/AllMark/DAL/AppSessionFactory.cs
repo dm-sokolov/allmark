@@ -45,7 +45,7 @@ namespace AllMark.DAL
         public void CreateSessionFactory()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var mappingAssembly = assemblies.FirstOrDefault(i => i.FullName.StartsWith("AllMark.Models"));
+            var mappingAssembly = assemblies.FirstOrDefault(i => i.FullName.StartsWith("AllMark.Core"));
             var configuration = GetConfiguration(_databaseConfig.MySql);
             _sessionFactory = BuildSessionFactory(configuration, mappingAssembly);
         }
