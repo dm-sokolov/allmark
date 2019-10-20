@@ -13,20 +13,21 @@ using AllMark.Config;
 using AllMark.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace AllMark
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IConfiguration _configuration { get; }
+        private readonly IWebHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration,
+                       IWebHostEnvironment environment)
         {
-            Configuration = configuration;
+            _configuration = configuration;
+            _environment = environment;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
@@ -35,33 +36,31 @@ namespace AllMark
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.Configure<MvcOptions>(options => options.EnableEndpointRouting = false); //TODO А надо ли это?
+            services.Configure<MvcOptions>(options => options.EnableEndpointRouting = false);
 
             // установка конфигурации подключения
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => //CookieAuthenticationOptions
+                .AddCookie(options =>
                 {
                     options.LoginPath = new PathString("/Account/Login");
                 });
 
-            //services.AddRazorPages()
-            //        .AddRazorRuntimeCompilation();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-                //.AddRazorRuntimeCompilation();
             services.AddOptions();
             services.AddSingleton<AppSessionFactory>();
             services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
                                      .OpenSession());
-            services.Configure<DatabaseConfig>(Configuration.GetSection("Database"));
-            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
+            services.Configure<DatabaseConfig>(_configuration.GetSection("Database"));
+            services.Configure<EmailConfig>(_configuration.GetSection("Email"));
             services.AddKendo();
-            services
-    .AddControllersWithViews()
-    .AddRazorRuntimeCompilation();
+            if (_environment.IsDevelopment())
+            {
+                services.AddControllersWithViews()
+                    .AddRazorRuntimeCompilation();
+            }
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
