@@ -1,5 +1,3 @@
-using System;
-
 namespace AllMark.Models
 {
     public class ErrorViewModel

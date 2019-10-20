@@ -1,33 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
-using AllMark.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace AllMark.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISimpleHelper _helper;
-
-        public HomeController(ISimpleHelper helper)
-        {
-            _helper = helper;
-        }
-
-        public IActionResult Index()
-        {
-            var value = _helper.GetValue();
-            return View();
-        }
-
-        public IActionResult Privacy()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
             return View();
         }
+
+        public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

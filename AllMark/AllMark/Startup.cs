@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AllMark.Helpers;
-using AllMark.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Autofac;
+using AllMark.DAL;
+using AllMark.Repository;
+using AllMark.Config;
+using AllMark.Middlewares;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace AllMark
 {
@@ -35,11 +37,29 @@ namespace AllMark
             });
             services.Configure<MvcOptions>(options => options.EnableEndpointRouting = false); //TODO А надо ли это?
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            // установка конфигурации подключения
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                });
+
+            //services.AddRazorPages()
+            //        .AddRazorRuntimeCompilation();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                //.AddRazorRuntimeCompilation();
+            services.AddOptions();
+            services.AddSingleton<AppSessionFactory>();
+            services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
+                                     .OpenSession());
+            services.Configure<DatabaseConfig>(Configuration.GetSection("Database"));
+            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
+            services.AddKendo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +75,8 @@ namespace AllMark
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseMiddleware<CloseSessionMiddleware>();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -66,9 +88,11 @@ namespace AllMark
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            builder.AddRepositories();
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(i => i.FullName.StartsWith("AllMark")).ToArray();
             builder.RegisterAssemblyTypes(assemblies)
-                .Where(i => i.Namespace.EndsWith(".Helpers"))
+                .Where(i => i.Namespace.EndsWith(".Helpers") || i.Namespace.EndsWith(".Services"))
                 .AsImplementedInterfaces();
         }
     }

@@ -1,0 +1,28 @@
+﻿@using Kendo.Mvc.UI
+@model AllMark.Models.Models.RegisterViewModel
+
+<h2>Регистрация</h2>
+
+<form asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly" />
+    <div>
+        <div>
+            <label asp-for="Email">Введите Email</label><br />
+            @Html.Kendo().TextBoxFor(i => i.Email)
+            <span asp-validation-for="Email" />
+        </div>
+        <div>
+            <label asp-for="Password">Введите пароль</label><br />
+            @Html.Kendo().TextBoxFor(i => i.Password)
+            <span asp-validation-for="Password" />
+        </div>
+        <div>
+            <label asp-for="ConfirmPassword">Повторите пароль</label><br />
+            @Html.Kendo().TextBoxFor(i => i.ConfirmPassword)
+            <span asp-validation-for="ConfirmPassword" />
+        </div>
+        <div>
+            <input type="submit" value="Регистрация" />
+        </div>
+    </div>
+</form>
