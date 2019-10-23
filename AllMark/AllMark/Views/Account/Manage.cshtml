@@ -1,38 +1,44 @@
 ﻿@using Kendo.Mvc.UI
-@model AllMark.Models.RegisterViewModel
+@using User = AllMark.Core.Models.User
+@model User
 
-<h2>Регистрация</h2>
-
-<form id="registerForm" asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly" />
-    <div>
-        <div>
-            <label asp-for="Email">Введите Email</label><br />
-            @Html.Kendo().TextBoxFor(i => i.Email)
-            <span asp-validation-for="Email" />
-        </div>
-        <div>
-            <label asp-for="Password">Введите пароль</label><br />
-            @Html.Kendo().TextBoxFor(i => i.Password)
-            <span asp-validation-for="Password" />
-        </div>
-        <div>
-            <label asp-for="ConfirmPassword">Повторите пароль</label><br />
-            @Html.Kendo().TextBoxFor(i => i.ConfirmPassword)
-            <span asp-validation-for="ConfirmPassword" />
-        </div>
-        <div>
-            @(Html.Kendo()
-                .Button()
-                .Name("btSubmit")
-                .Content("Регистрация")
-                .Events(e => e.Click("tbSubmit_onClick"))
-                )
-        </div>
+<div class="row">
+    @Html.LabelFor(i => i.Name, new { @class = "col-sm-3" })
+    <div class="col-sm-9">
+        @Html.Kendo().TextBox().Name("tbName").Value(Model.Name)
     </div>
-</form>
+    @Html.LabelFor(i => i.Email, new { @class = "col-sm-3" })
+    <div class="col-sm-9">
+        @(Html.Kendo().TextBoxFor(i => i.Email)
+            .Enable(false)
+            )
+    </div>
+</div>
+@(Html.Kendo().Button()
+    .Name("btSave")
+    .Content("Сохранить")
+    .Events(e => e.Click("btSave_onClick")))
+
 <script>
-    function btSubmit_onClick() {
-        $("#registerForm").submit();
+    var name;
+
+    $(document).ready(() => {
+        name = $("#tbName").getKendoTextBox();
+    });
+
+    function btSave_onClick() {
+        var data = collectFields();
+        $.ajax({
+          url: "@Url.Action("Update", "User")",
+          data: data
+        }).done((response) => {
+            alert("1");
+        });
+    }
+
+    function collectFields() {
+        return {
+            Name: name.val()
+        };
     }
 </script>
