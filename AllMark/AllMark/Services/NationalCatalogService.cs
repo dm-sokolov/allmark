@@ -33,5 +33,24 @@ namespace AllMark.Services
             var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogBrand>>(request);
             return apiResponse.Items;
         }
+
+        public async Task<ICollection<CatalogProduct>> GetProducts(int? goodId, long? gtin, int? ltin, int? sku, string product_name, int? catId)
+        {
+            var request = GetRequest("product");
+            if (goodId.HasValue)
+                request.AddQueryParameter("good_id", goodId.Value.ToString());
+            if (gtin.HasValue)
+                request.AddQueryParameter("gtin", gtin.Value.ToString());
+            if (ltin.HasValue)
+                request.AddQueryParameter("ltin", ltin.Value.ToString());
+            if (sku.HasValue)
+                request.AddQueryParameter("sku", sku.Value.ToString());
+            if (!string.IsNullOrEmpty(product_name))
+                request.AddQueryParameter("product_name", product_name);
+            if (catId.HasValue)
+                request.AddQueryParameter("cat_id", catId.Value.ToString());
+            var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogProduct>>(request);
+            return apiResponse.Items;
+        }
     }
 }

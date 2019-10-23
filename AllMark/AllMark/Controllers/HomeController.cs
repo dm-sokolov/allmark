@@ -19,7 +19,7 @@ namespace AllMark.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var result = await _nationalCatalogService.GetBrands();
+            var result = await _nationalCatalogService.GetProducts(gtin: 6411300162475);
             return View();
         }
 
