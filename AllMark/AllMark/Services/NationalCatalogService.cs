@@ -14,7 +14,7 @@ namespace AllMark.Services
             : base(nationalCatalogConfig.Value)
         {  }
 
-        public async Task<ICollection<CatalogAttribute>> GetAttributes(int? categoryId, string attributeType = null)
+        public async Task<ICollection<CatalogAttribute>> GetAttributes(int? categoryId = null, string attributeType = null)
         {
             var request = GetRequest("attributes");
             if (categoryId.HasValue)
@@ -22,6 +22,15 @@ namespace AllMark.Services
             if (!string.IsNullOrEmpty(attributeType))
                 request.AddQueryParameter("attr_type", attributeType);
             var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogAttribute>>(request);
+            return apiResponse.Items;
+        }
+
+        public async Task<ICollection<CatalogBrand>> GetBrands(int? partyId = null)
+        {
+            var request = GetRequest("brands");
+            if (partyId.HasValue)
+                request.AddQueryParameter("party_id", partyId.Value.ToString());
+            var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogBrand>>(request);
             return apiResponse.Items;
         }
     }
