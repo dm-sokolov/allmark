@@ -53,6 +53,8 @@ namespace AllMark
                                      .OpenSession());
             services.Configure<DatabaseConfig>(_configuration.GetSection("Database"));
             services.Configure<EmailConfig>(_configuration.GetSection("Email"));
+            services.Configure<NationalCatalogConfig>(_configuration.GetSection("NationalCatalog"));
+            services.Configure<HonestSignConfig>(_configuration.GetSection("HonestSign"));
             services.AddKendo();
             if (_environment.IsDevelopment())
             {
