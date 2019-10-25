@@ -2,24 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
-using AllMark.Services.Interfaces;
 
 namespace AllMark.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly INationalCatalogService _nationalCatalogService;
-
-        public HomeController(INationalCatalogService nationalCatalogService)
-        {
-            _nationalCatalogService = nationalCatalogService;
-        }
-
         [Authorize]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var result = await _nationalCatalogService.GetProducts(gtin: 6411300162475);
             return View();
         }
 
