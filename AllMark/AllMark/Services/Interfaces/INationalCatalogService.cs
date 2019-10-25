@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Utils.NationalCatalog.Models;
 
@@ -18,14 +17,14 @@ namespace AllMark.Services.Interfaces
         /// o — вернуть только опциональные атрибуты
         /// </param>
         /// <returns></returns>
-        Task<ICollection<CatalogAttribute>> GetAttributes(int? categoryId, string attributeType = null);
+        Task<IEnumerable<CatalogAttribute>> GetAttributes(int? categoryId, string attributeType = null);
 
         /// <summary>
         /// Используется для получения списка торговых марок
         /// </summary>
         /// <param name="partyId">идентификатор торговой сети (необязательный)</param>
         /// <returns></returns>
-        Task<ICollection<CatalogBrand>> GetBrands(int? partyId = null);
+        Task<IEnumerable<CatalogBrand>> GetBrands(int? partyId = null);
 
         /// <summary>
         /// Метод возвращает краткую или полную информацию о продукте (товаре). Требует обязательного указания одного из следующих параметров: идентификатор товара, GTIN (штрих-код), LTIN или SKU с указанием идентификатора торговой сети, который относится к запрашиваемому аккаунту.
@@ -37,13 +36,13 @@ namespace AllMark.Services.Interfaces
         /// <param name="product_name">название продукта (необязательный; используется при запросе на поиск отсутствующего товара)</param>
         /// <param name="catId">идентификатор категории (необязательный; используется при запросе на поиск отсутствующего товара)</param>
         /// <returns></returns>
-        Task<ICollection<CatalogProduct>> GetProducts(int? goodId = null, long? gtin = null, int? ltin = null, int? sku = null, string product_name = null, int? catId = null);
+        Task<IEnumerable<CatalogProduct>> GetProducts(int? goodId = null, long? gtin = null, int? ltin = null, int? sku = null, string product_name = null, int? catId = null);
 
         /// <summary>
         /// Используется для получения дерева категорий, корень дерева не возвращается.
         /// </summary>
         /// <returns></returns>
-        Task<ICollection<CatalogCategory>> GetCategories();
+        Task<IEnumerable<CatalogCategory>> GetCategories();
 
         /// <summary>
         /// Метод возвращает краткую или полную информацию о продукте (товаре). Требует обязательного указания одного из следующих параметров: 
@@ -56,8 +55,21 @@ namespace AllMark.Services.Interfaces
         /// <param name="productName">название продукта(необязательный; используется при запросе на поиск отсутствующего товара)</param>
         /// <param name="categoryId">идентификатор категории(необязательный; используется при запросе на поиск отсутствующего товара)</param>
         /// <returns></returns>
-        Task<ICollection<CatalogShortProduct>> GetShortProduct(int? goodId, long? gtin, long? ltin, long? sku, string productName, int? categoryId);
+        Task<IEnumerable<CatalogShortProduct>> GetShortProduct(int? goodId, long? gtin, long? ltin, long? sku, string productName, int? categoryId);
 
+        /// <summary>
+        /// Метод возвращает XML товаров для подписи по goodId или GTIN
+        /// </summary>
+        /// <param name="goodIds">массив ID товаров</param>
+        /// <param name="gtins">массив строк GTIN</param>
+        /// <returns></returns>
+        Task<NationalCatalogXmlResponse> FeedProductDocument(IEnumerable<int> goodIds, IEnumerable<string> gtins);
 
+        /// <summary>
+        /// Метод принимает массив объектов, в объектах содержатся ID товара и подписанный XML для этого товара, количество принимаемых данных ограничено 25
+        /// </summary>
+        /// <param name="xmlResult"></param>
+        /// <returns></returns>
+        Task<NationalCatalogSignResponse> FeedProductSign(IEnumerable<NationalCatalogXmlResult> xmlResult);
     }
 }
