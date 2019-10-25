@@ -55,7 +55,7 @@ namespace AllMark.Services.Interfaces
         /// <param name="productName">название продукта(необязательный; используется при запросе на поиск отсутствующего товара)</param>
         /// <param name="categoryId">идентификатор категории(необязательный; используется при запросе на поиск отсутствующего товара)</param>
         /// <returns></returns>
-        Task<IEnumerable<CatalogShortProduct>> GetShortProduct(int? goodId, long? gtin, long? ltin, long? sku, string productName, int? categoryId);
+        Task<IEnumerable<CatalogShortProduct>> GetShortProduct(int? goodId = null, long? gtin = null, long? ltin = null, long? sku = null, string productName = null, int? categoryId = null);
 
         /// <summary>
         /// Метод возвращает XML товаров для подписи по goodId или GTIN

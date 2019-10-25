@@ -2,6 +2,8 @@
 @using User = AllMark.Core.Models.User
 @model User
 
+@Html.HiddenFor(i => i.Id)
+
 <div class="row">
     @Html.LabelFor(i => i.Name, new { @class = "col-sm-3" })
     <div class="col-sm-9">
@@ -20,12 +22,6 @@
     .Events(e => e.Click("btSave_onClick")))
 
 <script>
-    var name;
-
-    $(document).ready(() => {
-        name = $("#tbName").getKendoTextBox();
-    });
-
     function btSave_onClick() {
         var data = collectFields();
         $.ajax({
@@ -38,7 +34,9 @@
 
     function collectFields() {
         return {
-            Name: name.val()
+            Id: $("#Id").val(),
+            Name: $("#tbName").val(),
+            Email: $("tbEmail").val()
         };
     }
 </script>

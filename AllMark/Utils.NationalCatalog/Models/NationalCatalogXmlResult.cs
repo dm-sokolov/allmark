@@ -10,6 +10,9 @@ namespace Utils.NationalCatalog.Models
         [JsonProperty("goodId")]
         public int GoodId { get; set; }
 
+        /// <summary>
+        /// xml — подписанный XML товара
+        /// </summary>
         [JsonProperty("xml")]
         public string Xml { get; set; }
     }
