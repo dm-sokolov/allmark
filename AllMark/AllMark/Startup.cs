@@ -80,6 +80,7 @@ namespace AllMark
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseMiddleware<CloseSessionMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseAuthentication();
 
             app.UseMvc(routes =>
