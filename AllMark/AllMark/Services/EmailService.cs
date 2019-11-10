@@ -19,8 +19,8 @@ namespace AllMark.Services
 
         public async Task SendConfirmEmail(string email, string callbackUrl)
         {
-            await SendEmailAsync(email, "Confirm your account",
-                $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
+            await SendEmailAsync(email, "Подтверждение учетной записи",
+                $@"C:\Users\Николай\Documents\allmark\AllMark\AllMark\Services\EmailService.cs: <a href='{callbackUrl}'>CONFIRM_LINK</a>");
         }
 
         public async Task SendEmailAsync(string email, string subject, string message)

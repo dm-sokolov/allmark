@@ -38,7 +38,7 @@ namespace AllMark.Middlewares
                     str.AppendLine($"Stack trace {ex.StackTrace}");
                     ex = ex.InnerException;
                 }
-                await _emailService.SendEmailAsync("esaulkovNikolay@yandex.ru", "Exception", str.ToString());
+                await _emailService.SendEmailAsync("markirovschik@yandex.ru", "Exception", str.ToString());
                 context.Response.Clear();
                 context.Response.Redirect("/Home/Error");
                 return;
