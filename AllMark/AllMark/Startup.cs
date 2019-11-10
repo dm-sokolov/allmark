@@ -97,7 +97,7 @@ namespace AllMark
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(i => i.FullName.StartsWith("AllMark")).ToArray();
             builder.RegisterAssemblyTypes(assemblies)
-                .Where(i => i.Namespace.EndsWith(".Helpers") || i.Namespace.EndsWith(".Services"))
+                .Where(i => !string.IsNullOrEmpty(i.Namespace) && (i.Namespace.EndsWith(".Helpers") || i.Namespace.EndsWith(".Services")))
                 .AsImplementedInterfaces();
         }
     }

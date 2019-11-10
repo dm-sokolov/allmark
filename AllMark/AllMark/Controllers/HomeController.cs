@@ -2,11 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using AllMark.Services.Interfaces;
 
 namespace AllMark.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IExcelService _excelService;
+
+        public HomeController(IExcelService excelService)
+        {
+            _excelService = excelService;
+        }
+
         [Authorize]
         public IActionResult Index()
         {
@@ -19,6 +29,11 @@ namespace AllMark.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public void Upload(IEnumerable<IFormFile> files)
+        {
+            _excelService.ReadFiles(files);
         }
     }
 }
