@@ -1,31 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace AllMark
 {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        /// <summary>
+        /// Точка входа
+        /// </summary>
+        /// <param name="args"></param>
+        public static async Task Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            await CreateHostBuilder(args)
+                 .Build()
+                 .RunAsync();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-            .ConfigureServices(services => services.AddAutofac())
-            .ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
-                config.AddJsonFile($"appsettings.{environmentName}.json");
-            })
-            .UseStartup<Startup>();
+        /// <summary>
+        /// Билдер хоста
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                       .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                       .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+        }
+
     }
 }

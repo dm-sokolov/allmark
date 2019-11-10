@@ -5,6 +5,10 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="ExcelDataReader" Version="3.6.0" />
