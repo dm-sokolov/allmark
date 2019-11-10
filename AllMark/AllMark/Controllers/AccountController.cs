@@ -75,7 +75,7 @@ namespace AllMark.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                    ModelState.AddModelError(nameof(RegisterViewModel.Email), "Пользователь с таким логином уже существует");
+                    ModelState.AddModelError(string.Empty, "Пользователь с таким логином уже существует");
             }
             return View(model);
         }
