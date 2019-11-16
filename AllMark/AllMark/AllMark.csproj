@@ -9,10 +9,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\Product\Products.cshtml" />
-  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="ExcelDataReader" Version="3.6.0" />
@@ -42,6 +38,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AllMark.Core\AllMark.Core.csproj" />
     <ProjectReference Include="..\Utils.HonestSign\Utils.HonestSign.csproj" />
+    <ProjectReference Include="..\Utils.Kendo\Utils.Kendo.csproj" />
     <ProjectReference Include="..\Utils.NationalCatalog\Utils.NationalCatalog.csproj" />
   </ItemGroup>
 
@@ -49,18 +46,6 @@
     <Reference Include="Kendo.Mvc">
       <HintPath>..\lib\KENDOUIMVC\Kendo.Mvc.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Product\Products.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Product\Products.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Product\Products.cshtml" />
   </ItemGroup>
 
 </Project>

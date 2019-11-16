@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllMark.Core", "AllMark.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.HonestSign", "Utils.HonestSign\Utils.HonestSign.csproj", "{72143A5F-A348-46DD-8F77-47A58B621B49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils.Kendo", "Utils.Kendo\Utils.Kendo.csproj", "{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{72143A5F-A348-46DD-8F77-47A58B621B49}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72143A5F-A348-46DD-8F77-47A58B621B49}.Release|x86.ActiveCfg = Release|Any CPU
 		{72143A5F-A348-46DD-8F77-47A58B621B49}.Release|x86.Build.0 = Release|Any CPU
+		{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}.Debug|x86.Build.0 = Debug|Any CPU
+		{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}.Release|x86.ActiveCfg = Release|Any CPU
+		{1B57A37C-13D8-4145-A2B4-DFDB28E9C298}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
