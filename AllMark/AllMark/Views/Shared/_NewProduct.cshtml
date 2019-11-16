@@ -2,8 +2,8 @@
 
 <div id="wndProduct" style="display: none" class="container-fluid">
     <div class="row">
-        <label class="col-sm-3">Штрихкод/GTIN</label>
-        <div class="col-sm-9">
+        <label class="col-sm-10">Штрихкод/GTIN</label>
+        <div class="col-sm-10">
             @(Html.Kendo()
                 .TextBox()
                 .Name("wndProduct_tbGTIN")
@@ -12,8 +12,71 @@
         </div>
     </div>
     <div class="row">
-        <label class="col-sm-3">Модель производителя</label>
-        <div class="col-sm-9">
+        <label class="col-sm-10">Модель производителя</label>
+        <div class="col-sm-10">
+            @(Html.Kendo()
+                .TextBox()
+                .Name("wndProduct_tbManufacturerModel")
+                .HtmlAttributes(new { style = "width:100%;" })
+            )
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-sm-10">Дата публикации (план)</label>
+        <div class="col-sm-10">
+            @(Html.Kendo()
+                .DatePicker()
+                .Value(DateTime.Now)
+                .Name("wndProduct_dtPublishedDate")
+                .HtmlAttributes(new { style = "width:100%;" })
+             )
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-sm-10">Наименование товара на этикетке</label>
+        <div class="col-sm-10">
+            @(Html.Kendo()
+                .TextBox()
+                .Name("wndProduct_tbGoodName")
+                .HtmlAttributes(new { style = "width:100%;" })
+            )
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-sm-10">Бренд (торговая марка) </label>
+        <div class="col-sm-10">
+            @(Html.Kendo()
+                .ComboBox()
+                .Name("wndProduct_tbBrand")
+                .HtmlAttributes(new { style = "width:100%;" })
+                .Items(i =>
+                    {
+                        i.Add()
+                            .Text("Adidas")
+                            .Value("1");
+                        i.Add()
+                            .Text("Reebok")
+                            .Value("2");
+                        i.Add()
+                            .Text("Nike")
+                            .Value("3");
+                    })
+                )
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-sm-10">ИНН производителя/импортёра</label>
+        <div class="col-sm-10">
+            @(Html.Kendo()
+                .TextBox()
+                .Name("wndProduct_tbINN")
+                .HtmlAttributes(new { style = "width:100%;" })
+            )
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-sm-10">Вид обуви</label>
+        <div class="col-sm-10">
             @(Html.Kendo()
                 .TextBox()
                 .Name("wndProduct_tbGTIN")
@@ -22,8 +85,8 @@
         </div>
     </div>
     <div class="row">
-        <label class="col-sm-3">Дата публикации (план)</label>
-        <div class="col-sm-9">
+        <label class="col-sm-10">Материал верха</label>
+        <div class="col-sm-10">
             @(Html.Kendo()
                 .TextBox()
                 .Name("wndProduct_tbGTIN")
@@ -32,58 +95,8 @@
         </div>
     </div>
     <div class="row">
-        <label class="col-sm-3">Наименование товара на этикетке</label>
-        <div class="col-sm-9">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-3">Бренд (торговая марка) </label>
-        <div class="col-sm-9">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-3">ИНН производителя/импортёра</label>
-        <div class="col-sm-9">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-3">Вид обуви</label>
-        <div class="col-sm-9">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-3">Материал верха</label>
-        <div class="col-sm-9">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-3">Материал подкладки</label>
-        <div class="col-sm-9">
+        <label class="col-sm-10">Материал подкладки</label>
+        <div class="col-sm-10">
             @(Html.Kendo()
                 .TextBox()
                 .Name("wndProduct_tbGTIN")
@@ -92,8 +105,8 @@
         </div>
     </div>   
     <div class="row">
-        <label class="col-sm-3">Материал низа</label>
-        <div class="col-sm-9">
+        <label class="col-sm-10">Материал низа</label>
+        <div class="col-sm-10">
             @(Html.Kendo()
                 .TextBox()
                 .Name("wndProduct_tbGTIN")
@@ -102,8 +115,8 @@
         </div>
     </div>    
     <div class="row">
-        <label class="col-sm-3">ТНВЭД</label>
-        <div class="col-sm-9">
+        <label class="col-sm-10">ТНВЭД</label>
+        <div class="col-sm-10">
             @(Html.Kendo()
                 .TextBox()
                 .Name("wndProduct_tbGTIN")
@@ -123,7 +136,7 @@
     function wndProduct_createWindow() {
 
         $('#wndProduct').kendoWindow({
-            width: '800px',
+            width: '600px',
             title: 'Добавление товара',
             visible: false,
             fade: true,
