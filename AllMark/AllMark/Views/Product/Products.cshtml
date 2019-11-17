@@ -1,7 +1,6 @@
 ﻿@using Kendo.Mvc.UI;
 @using Utils.NationalCatalog.Models
 @using Utils.Kendo.Extensions
-@model IEnumerable<CatalogFeed>
 
 <div class="buttons" style="padding-bottom: 10px; padding-top: 10px">
     @(Html.Kendo()
@@ -12,23 +11,35 @@
         )
 </div>
 @(Html.Kendo()
-        .Grid<CatalogFeed>()
+        .Grid<CatalogProduct>()
         .BaseGrid()
         .Name("grProducts")
+        .DataSource(ds => ds.Ajax()
+                            .Read(read => read.Action("GetProducts", "Product"))
+                            .Events(e => e.Error("onError"))
+        )
         .AutoBind(false)
         .Columns(columns =>
         {
-            columns.Bound(p => p.Id).Hidden();
-            columns.Bound(p => p.GoodId);
-            columns.Bound(p => p.GTIN);
-            columns.Bound(p => p.GoodName);
-            columns.Bound(p => p.TNVED);
-            columns.Bound(p => p.Brand);
-            columns.Bound(p => p.Moderation);
-            columns.Bound(p => p.Barcodes);
-            columns.Bound(p => p.Categories);
-            columns.Bound(p => p.Attributes);
-            columns.Bound(p => p.Images);
+            //columns.Bound(p => p.Id).Hidden();
+            //columns.Bound(p => p.GoodId);
+            //columns.Bound(p => p.GTIN);
+            //columns.Bound(p => p.GoodName);
+            //columns.Bound(p => p.TNVED);
+            //columns.Bound(p => p.Brand);
+            //columns.Bound(p => p.Moderation);
+            //columns.Bound(p => p.Barcodes);
+            //columns.Bound(p => p.Categories);
+            //columns.Bound(p => p.Attributes);
+            //columns.Bound(p => p.Images);
+            columns.Bound(i => i.BrandId);
+            columns.Bound(i => i.BrandName);
+            columns.Bound(i => i.GoodId);
+            columns.Bound(i => i.GoodImage).Encoded(false);
+            columns.Bound(i => i.GoodName);
+            columns.Bound(i => i.GoodReviewCount);
+            columns.Bound(i => i.GoodUrl);
+            columns.Bound(i => i.PartyBrandId);
         })
 )
 
@@ -59,5 +70,9 @@
 
     function wndProduct_open() {
         $('#wndProduct').getKendoWindow().center().open();
+    }
+
+    function onError(e) {
+        alert("error");
     }
 </script>

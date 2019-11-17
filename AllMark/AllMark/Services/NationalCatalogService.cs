@@ -38,7 +38,7 @@ namespace AllMark.Services
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<CatalogProduct>> GetProducts(int? goodId, long? gtin, int? ltin, int? sku, string product_name, int? catId)
+        public async Task<List<CatalogProduct>> GetProducts(int? goodId, long? gtin, int? ltin, int? sku, string product_name, int? catId)
         {
             var request = GetRequest("product");
             if (goodId.HasValue)
@@ -54,7 +54,7 @@ namespace AllMark.Services
             if (catId.HasValue)
                 request.AddQueryParameter("cat_id", catId.Value.ToString());
             var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogProduct>>(request);
-            return apiResponse.Items;
+            return apiResponse.Items?.ToList();
         }
 
         /// <inheritdoc />

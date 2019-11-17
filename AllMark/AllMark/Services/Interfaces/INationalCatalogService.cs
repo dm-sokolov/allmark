@@ -36,7 +36,7 @@ namespace AllMark.Services.Interfaces
         /// <param name="product_name">название продукта (необязательный; используется при запросе на поиск отсутствующего товара)</param>
         /// <param name="catId">идентификатор категории (необязательный; используется при запросе на поиск отсутствующего товара)</param>
         /// <returns></returns>
-        Task<IEnumerable<CatalogProduct>> GetProducts(int? goodId = null, long? gtin = null, int? ltin = null, int? sku = null, string product_name = null, int? catId = null);
+        Task<List<CatalogProduct>> GetProducts(int? goodId = null, long? gtin = null, int? ltin = null, int? sku = null, string product_name = null, int? catId = null);
 
         /// <summary>
         /// Используется для получения дерева категорий, корень дерева не возвращается.
