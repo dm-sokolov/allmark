@@ -1,19 +1,43 @@
 ﻿@using Kendo.Mvc.UI
+@using Utils.Kendo.Extensions
 @using User = AllMark.Core.Models.User
 @model User
 
 @Html.HiddenFor(i => i.Id)
 
-<div class="row">
-    @Html.LabelFor(i => i.Name, new { @class = "col-sm-3" })
-    <div class="col-sm-9">
-        @Html.Kendo().TextBox().Name("tbName").Value(Model.Name)
-    </div>
-    @Html.LabelFor(i => i.Email, new { @class = "col-sm-3" })
-    <div class="col-sm-9">
-        @(Html.Kendo().TextBoxFor(i => i.Email)
-            .Enable(false)
+<div class="container-fluid">
+    <div class="row allmark-div" style="margin-top: 40px;">
+        @Html.LabelFor(i => i.Name, new { @class = "col-sm-3  allmark-div" })
+        <div class="col-sm-9  allmark-div">
+            @(Html.Kendo()
+                .TextBoxFor(i => i.Name)
+                .Value(Model.Name)
+                .FullWidth()
             )
+        </div>
+        @Html.LabelFor(i => i.EmailConfirmed, new { @class = "col-sm-3  allmark-div" })
+        <div class="col-sm-9  allmark-div">
+            @(Html.Kendo()
+                .CheckBoxFor(i => i.EmailConfirmed)
+                .Checked(Model.EmailConfirmed)
+                .Enable(false)
+                .Label(string.Empty)
+                .FullWidth()
+            )
+        </div>
+        @Html.LabelFor(i => i.Email, new { @class = "col-sm-3  allmark-div" })
+        <div class="col-sm-9  allmark-div">
+            @(Html.Kendo().TextBoxFor(i => i.Email)
+                .Enable(false)
+                .FullWidth()
+            )
+        </div>
+        @Html.LabelFor(i => i.NationalCatalogKey, new { @class = "col-sm-3  allmark-div" })
+        <div class="col-sm-9  allmark-div">
+            @(Html.Kendo().TextBoxFor(i => i.NationalCatalogKey)
+                .FullWidth()
+            )
+        </div>
     </div>
 </div>
 @(Html.Kendo().Button()
@@ -25,18 +49,22 @@
     function btSave_onClick() {
         var data = collectFields();
         $.ajax({
-          url: "@Url.Action("Update", "User")",
-          data: data
+          url: "@Url.Action("Update", "Account")",
+            data: data
         }).done((response) => {
-            alert("1");
+            if (response)
+                swal("Успех", "Данные успешно сохранены", "success");
+            else
+                swal("Ошибка при сохранении", "Не удалось произвести сохранение", "error");
         });
     }
 
     function collectFields() {
         return {
             Id: $("#Id").val(),
-            Name: $("#tbName").val(),
-            Email: $("tbEmail").val()
+            Name: $("#@nameof(AllMark.Core.Models.User.Name)").val(),
+            Email: $("#@nameof(AllMark.Core.Models.User.Email)").val(),
+            NationalCatalogKey: $("#@nameof(AllMark.Core.Models.User.NationalCatalogKey)").val()
         };
     }
 </script>

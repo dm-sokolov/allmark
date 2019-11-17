@@ -12,10 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 using AllMark.Services.Interfaces;
 using System;
 using Microsoft.AspNetCore.Http;
+using AllMark.Controllers.Base;
 
 namespace AllMark.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly IRepository<User> _userRepository;
         private readonly IEmailService _emailService;
@@ -28,6 +29,17 @@ namespace AllMark.Controllers
         }
 
         public IActionResult Login() => View();
+
+        public async Task<ActionResult> Manage()
+        {
+            var email = HttpContext.User.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value;
+            if (!string.IsNullOrEmpty(email))
+            {
+                var user = await _userRepository.Query().FirstOrDefaultAsync(i => i.Email == email);
+                return View(user);
+            }
+            return Redirect(Url.Action("Index", "Home"));
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -80,19 +92,6 @@ namespace AllMark.Controllers
             return View(model);
         }
 
-        private async Task Authenticate(string userName)
-        {
-            // создаем один claim
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-            };
-            // создаем объект ClaimsIdentity
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-        }
-
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -122,6 +121,30 @@ namespace AllMark.Controllers
                 return View("Error");
         }
 
+        public async Task<ActionResult> Update(User userModel)
+        {
+            var user = await _userRepository.GetByIdAsync(userModel?.Id);
+            user.Name = userModel.Name;
+            user.NationalCatalogKey = userModel.NationalCatalogKey;
+            await _userRepository.UpdateAsync(user);
+            return Json(user);
+        }
+
+        #region Private
+
+        private async Task Authenticate(string userName)
+        {
+            // создаем один claim
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
         private async Task SendConfirmMail(User user)
         {
             // генерация токена для пользователя. Страшно, но пока так
@@ -136,15 +159,6 @@ namespace AllMark.Controllers
             await _emailService.SendConfirmEmail(user.Email, callbackUrl);
         }
 
-        public async Task<ActionResult> Manage()
-        {
-            var email = HttpContext.User.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value;
-            if (!string.IsNullOrEmpty(email))
-            {
-                var user = await _userRepository.Query().FirstOrDefaultAsync(i => i.Email == email);
-                return View(user);
-            }
-            return Redirect(Url.Action("Index", "Home"));
-        }
+        #endregion
     }
 }

@@ -9,6 +9,7 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
     <link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.blueopal.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" rel="stylesheet" type="text/css" />
 
     <script src="https://kendo.cdn.telerik.com/2019.2.619/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.619/js/kendo.aspnetmvc.min.js"></script>
@@ -19,6 +20,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -34,7 +37,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AllMark</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -58,7 +61,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav>*@
         @(Html.Kendo()
               .Menu()
               .Name("kendoMenu")
@@ -71,8 +74,29 @@
                        .Text("Для Юр. Лиц")
                        .Action("ForLegalEntity", "Home");
                   items.Add()
+                       .Text("Для ИП")
+                       .Action("ForIP", "Home");
+                  items.Add()
                        .Text("Товары")
                        .Action("Products", "Product");
+                  if (ViewBag.User != null)
+                  {
+                      items.Add()
+                           .Text("Настройки")
+                           .Action("Manage", "Account");
+                      items.Add()
+                           .Text("Выйти")
+                           .Action("Logout", "Account");
+                  }
+                  else
+                  {
+                      items.Add()
+                           .Text("Войти")
+                           .Action("Login", "Account");
+                      items.Add()
+                           .Text("Регистрация")
+                           .Action("Register", "Account");
+                  }
               })
             )
     </header>

@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using AllMark.Services.Interfaces;
+using AllMark.Controllers.Base;
 
 namespace AllMark.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IExcelService _excelService;
 
@@ -18,10 +19,11 @@ namespace AllMark.Controllers
         }
 
         [Authorize]
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
+
+        public IActionResult ForLegalEntity() => View();
+
+        public IActionResult ForIP() => View();
 
         public IActionResult Privacy() => View();
 

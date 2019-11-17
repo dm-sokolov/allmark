@@ -15,6 +15,7 @@ namespace AllMark.Core.Mappings
             Map(i => i.Password, "password");
             Map(i => i.EmailConfirmed, "email_confirmed");
             Map(i => i.GUID, "guid");
+            Map(i => i.NationalCatalogKey, "national_catalog_key");
         }
     }
 }

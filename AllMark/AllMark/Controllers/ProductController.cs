@@ -1,4 +1,5 @@
-﻿using AllMark.Services.Interfaces;
+﻿using AllMark.Controllers.Base;
+using AllMark.Services.Interfaces;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AllMark.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly INationalCatalogService _nationalCatalogService;
 
