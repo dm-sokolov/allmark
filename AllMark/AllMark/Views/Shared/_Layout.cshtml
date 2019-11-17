@@ -59,6 +59,22 @@
                 </div>
             </div>
         </nav>
+        @(Html.Kendo()
+              .Menu()
+              .Name("kendoMenu")
+              .Items(items =>
+              {
+                  items.Add()
+                       .Text("Главная")
+                       .Action("Index", "Home");
+                  items.Add()
+                       .Text("Для Юр. Лиц")
+                       .Action("ForLegalEntity", "Home");
+                  items.Add()
+                       .Text("Товары")
+                       .Action("Products", "Product");
+              })
+            )
     </header>
     <div class="container">
         <partial name="_CookieConsentPartial" />
