@@ -30,19 +30,34 @@
             columns.Bound(p => p.Attributes);
             columns.Bound(p => p.Images);
         })
-        .Events(e => e.Change("aaa"))
 )
 
-<partial name="_NewProduct"/>
+@(Html.Kendo()
+    .Window()
+    .Name("wndProduct")
+    .Visible(false)
+    .Title("Добавление товара")
+    .Resizable(r => r.Enabled(false))
+    .Animation(true)
+    .Width(800)
+    .Actions(a => a.Close())
+    .Draggable()
+    .Animation(animation => 
+              animation.Open(effect => 
+                  effect.Fade(FadeDirection.In)))
+    .Content(@<text>
+        <div class="container-fluid allmark-div">
+                <partial name="_NewProduct" />
+        </div>
+</text>)
+    )
 
 <script type="text/javascript">
     function btAdd_onClick() {
-        window.wndProduct_createWindow();
+        wndProduct_open();
     }
 
-    function aaa() {
-
+    function wndProduct_open() {
+        $('#wndProduct').getKendoWindow().center().open();
     }
-
-    
 </script>

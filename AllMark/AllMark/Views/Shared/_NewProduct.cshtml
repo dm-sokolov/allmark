@@ -1,158 +1,157 @@
 ﻿@using Kendo.Mvc.UI
-
-<div id="wndProduct" style="display: none" class="container-fluid">
-    <div class="row">
-        <label class="col-sm-10">Штрихкод/GTIN</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-10">Модель производителя</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbManufacturerModel")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-10">Дата публикации (план)</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .DatePicker()
-                .Value(DateTime.Now)
-                .Name("wndProduct_dtPublishedDate")
-                .HtmlAttributes(new { style = "width:100%;" })
-             )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-10">Наименование товара на этикетке</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGoodName")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-10">Бренд (торговая марка) </label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .ComboBox()
-                .Name("wndProduct_tbBrand")
-                .HtmlAttributes(new { style = "width:100%;" })
-                .Items(i =>
-                    {
-                        i.Add()
-                            .Text("Adidas")
-                            .Value("1");
-                        i.Add()
-                            .Text("Reebok")
-                            .Value("2");
-                        i.Add()
-                            .Text("Nike")
-                            .Value("3");
-                    })
-                )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-10">ИНН производителя/импортёра</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbINN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-10">Вид обуви</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-10">Материал верха</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-            )
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-sm-10">Материал подкладки</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-                )
-        </div>
-    </div>   
-    <div class="row">
-        <label class="col-sm-10">Материал низа</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-                )
-        </div>
-    </div>    
-    <div class="row">
-        <label class="col-sm-10">ТНВЭД</label>
-        <div class="col-sm-10">
-            @(Html.Kendo()
-                .TextBox()
-                .Name("wndProduct_tbGTIN")
-                .HtmlAttributes(new { style = "width:100%;" })
-                )
-        </div>
-    </div>
-
-    <label class="col-sm-12 text-center" style="font-weight: bold">Сохранить и ...</label>
-    <div class="row" style="padding-top: 5px;">
-        @Html.Kendo().Button().Name("wndProduct_btSaveAndCreateMore").Content("Создать еще").Events(e => e.Click("wndProduct_btSaveAndCreateMore_onClick"))
-        @Html.Kendo().Button().Name("wndProduct_btSaveAndQuit").Content("Выйти").Events(e => e.Click("wndProduct_btSaveAndQuit_onClick"))
-    </div>
+    <div class="col-sm-12 allmark-div">
+        @(Html.Kendo()
+                           .TabStrip()
+                           .Name("tabStrip")
+                           .Animation(animation =>
+                                   animation.Open(effect =>
+                                       effect.Fade(FadeDirection.In)))
+                           .Items(items =>
+                           {
+                           items.Add()
+                   .Text("first")
+                   .Selected(true)
+                   .Content(@<text>
+                                    <label class="col-sm-10">Штрихкод/GTIN</label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+    .TextBox()
+    .Name("wndProduct_tbGTIN")
+    .HtmlAttributes(new { style = "width:100%;" })
+                                        )
+                                    </div>
+                                <div class="row">
+                                    <label class="col-sm-10">Модель производителя</label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+    .TextBox()
+    .Name("wndProduct_tbManufacturerModel")
+    .HtmlAttributes(new { style = "width:100%;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-10">Дата публикации (план)</label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+    .DatePicker()
+    .Value(DateTime.Now)
+    .Name("wndProduct_dtPublishedDate")
+    .HtmlAttributes(new { style = "width:100%;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-10">Наименование товара на этикетке</label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+    .TextBox()
+    .Name("wndProduct_tbGoodName")
+    .HtmlAttributes(new { style = "width:100%;" })
+                                        )
+                                    </div>
+                                </div>
+                </text>);
+ items.Add()
+.Text("second")
+.Content(@<text>
+                                <div class="row">
+                                    <label class="col-sm-10">Бренд (торговая марка) </label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+.ComboBox()
+.Name("wndProduct_tbBrand")
+.HtmlAttributes(new { style = "width:100%;" })
+.Items(i =>
+{
+i.Add()
+.Text("Adidas")
+.Value("1");
+i.Add()
+.Text("Reebok")
+.Value("2");
+i.Add()
+.Text("Nike")
+.Value("3");
+})
+                                        )
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-10">ИНН производителя/импортёра</label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+.TextBox()
+.Name("wndProduct_tbINN")
+.HtmlAttributes(new { style = "width:100%;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-10">Вид обуви</label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+.TextBox()
+.Name("wndProduct_tbGTIN")
+.HtmlAttributes(new { style = "width:100%;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-10">Материал верха</label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+.TextBox()
+.Name("wndProduct_tbGTIN")
+.HtmlAttributes(new { style = "width:100%;" })
+                                        )
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-10">Материал подкладки</label>
+                                    <div class="col-sm-10">
+                                        @(Html.Kendo()
+.TextBox()
+.Name("wndProduct_tbGTIN")
+.HtmlAttributes(new { style = "width:100%;" })
+                                        )
+                                    </div>
+                                </div>
+    </text>);
+         items.Add().Text("third")
+             .Content(@<text>
+                        <div class="row">
+                            <label class="col-sm-10">Материал низа</label>
+                            <div class="col-sm-10">
+                                @(Html.Kendo()
+            .TextBox()
+            .Name("wndProduct_tbGTIN")
+            .HtmlAttributes(new { style = "width:100%;" })
+                    )
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-10">ТНВЭД</label>
+                <div class="col-sm-10">
+                    @(Html.Kendo()
+.TextBox()
+.Name("wndProduct_tbGTIN")
+.HtmlAttributes(new { style = "width:100%;" })
+                    )
+                </div>
+            </div>
+    </text>);
+     }).HtmlAttributes(new { style = "width:100%;" })
+        )
 </div>
 
-<script>   
-    function wndProduct_createWindow() {
+<label class="col-sm-12 text-center allmark-div" style="font-weight: bold">Сохранить и ...</label>
+<div class="col-sm-12 text-center allmark-div">
+    @Html.Kendo().Button().Name("wndProduct_btSaveAndCreateMore").Content("Создать еще").Events(e => e.Click("wndProduct_btSaveAndCreateMore_onClick"))
+    @Html.Kendo().Button().Name("wndProduct_btSaveAndQuit").Content("Выйти").Events(e => e.Click("wndProduct_btSaveAndQuit_onClick"))
+</div>
 
-        $('#wndProduct').kendoWindow({
-            width: '600px',
-            title: 'Добавление товара',
-            visible: false,
-            fade: true,
-            resizable: false,
-            animation: {
-                open: {
-                    effects: 'fade:in'
-                },
-                close: {
-                    effects: 'fade:out'
-                }
-            },
-            draggable: false
-        }).getKendoWindow().center().open();
-    }
-
+<script>
     function wndProduct_btSaveAndCreateMore_onClick() {
         const wndProduct = $('#wndProduct').getKendoWindow();
         if (wndProduct)
