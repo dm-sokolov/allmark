@@ -3,23 +3,38 @@ using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using AllMark.Services.Interfaces;
 using AllMark.Controllers.Base;
+using Newtonsoft.Json;
 
 namespace AllMark.Controllers
 {
     public class HomeController : BaseController
     {
         private readonly IExcelService _excelService;
+        private readonly INationalCatalogService _nationalCatalogService;
 
-        public HomeController(IExcelService excelService)
+
+        public HomeController(IExcelService excelService,
+            INationalCatalogService nationalCatalogService)
         {
             _excelService = excelService;
+            _nationalCatalogService = nationalCatalogService;
         }
 
         [Authorize]
-        public IActionResult Index() => View();
+        public async Task<IActionResult> Index()
+        {
+            //var categories = await _nationalCatalogService.GetCategories();
+            //var contentCategories = JsonConvert.SerializeObject(categories);
+
+            var attributes = await _nationalCatalogService.GetAttributes(30717);
+            var contentAttributes = JsonConvert.SerializeObject(attributes);
+
+            return Content(contentAttributes); //View();
+        }
 
         public IActionResult ForLegalEntity() => View();
 
