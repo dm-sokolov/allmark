@@ -18,10 +18,10 @@ namespace AllMark.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Customer> _userRepository;
         private readonly IEmailService _emailService;
 
-        public AccountController(IRepository<User> userRepository,
+        public AccountController(IRepository<Customer> userRepository,
             IEmailService emailService)
         {
             _userRepository = userRepository;
@@ -47,8 +47,8 @@ namespace AllMark.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
+                Customer customer = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                if (customer != null)
                 {
                     await Authenticate(model.Email); // аутентификация
 
@@ -71,18 +71,18 @@ namespace AllMark.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
-                if (user == null)
+                Customer customer = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
+                if (customer == null)
                 {
-                    user = new User
+                    customer = new Customer
                     {
                         Email = model.Email,
                         Password = model.Password
                     };
-                    await _userRepository.SaveAsync(user);
+                    await _userRepository.SaveAsync(customer);
 
                     await Authenticate(model.Email); // аутентификация
-                    await SendConfirmMail(user);
+                    await SendConfirmMail(customer);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -121,11 +121,11 @@ namespace AllMark.Controllers
                 return View("Error");
         }
 
-        public async Task<ActionResult> Update(User userModel)
+        public async Task<ActionResult> Update(Customer customerModel)
         {
-            var user = await _userRepository.GetByIdAsync(userModel?.Id);
-            user.Name = userModel.Name;
-            user.NationalCatalogKey = userModel.NationalCatalogKey;
+            var user = await _userRepository.GetByIdAsync(customerModel?.Id);
+            user.Name = customerModel.Name;
+            user.NationalCatalogKey = customerModel.NationalCatalogKey;
             await _userRepository.UpdateAsync(user);
             return Json(user);
         }
@@ -145,18 +145,18 @@ namespace AllMark.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
-        private async Task SendConfirmMail(User user)
+        private async Task SendConfirmMail(Customer customer)
         {
             // генерация токена для пользователя. Страшно, но пока так
             var code = Guid.NewGuid().ToString("N");
-            user.GUID = code;
-            await _userRepository.UpdateAsync(user);
+            customer.GUID = code;
+            await _userRepository.UpdateAsync(customer);
             var callbackUrl = Url.Action(
                 "ConfirmEmail",
                 "Account",
-                new { userId = user.Id, code },
+                new { userId = customer.Id, code },
                 protocol: HttpContext.Request.Scheme);
-            await _emailService.SendConfirmEmail(user.Email, callbackUrl);
+            await _emailService.SendConfirmEmail(customer.Email, callbackUrl);
         }
 
         #endregion

@@ -3,11 +3,11 @@ using FluentNHibernate.Mapping;
 
 namespace AllMark.Core.Mappings
 {
-    public class UserMap: ClassMap<User>
+    public class CustomerMap: ClassMap<Customer>
     {
-        public UserMap()
+        public CustomerMap()
         {
-            Table("user");
+            Table("customer");
             Id(i => i.Id, "id")
                 .GeneratedBy.Native();
             Map(i => i.Name, "name");
@@ -15,7 +15,7 @@ namespace AllMark.Core.Mappings
             Map(i => i.Password, "password");
             Map(i => i.EmailConfirmed, "email_confirmed");
             Map(i => i.GUID, "guid");
-            Map(i => i.NationalCatalogKey, "national_catalog_key");
+            Map(i => i.NationalCatalogKey, "national_catalog_apikey");
         }
     }
 }

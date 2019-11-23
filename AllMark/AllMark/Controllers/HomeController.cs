@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using AllMark.Services.Interfaces;
@@ -25,16 +26,7 @@ namespace AllMark.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
-        {
-            //var categories = await _nationalCatalogService.GetCategories();
-            //var contentCategories = JsonConvert.SerializeObject(categories);
-
-            var attributes = await _nationalCatalogService.GetAttributes(30717);
-            var contentAttributes = JsonConvert.SerializeObject(attributes);
-
-            return Content(contentAttributes); //View();
-        }
+        public IActionResult Index() => View();
 
         public IActionResult ForLegalEntity() => View();
 

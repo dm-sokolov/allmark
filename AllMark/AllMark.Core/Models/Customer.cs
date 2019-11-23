@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace AllMark.Core.Models
 {
-    public class User: BaseModel
+    public class Customer: BaseModel
     {
         [DisplayName("Название")]
         public virtual string Name { get; set; }
