@@ -11,15 +11,23 @@ namespace AllMark.Core.Mappings
         public ProductMap()
         {
             Table("product");
-            Id(i => i.Id, "id").GeneratedBy.Native();
+            Id(i => i.Id, "id")
+                .GeneratedBy.Native();
             Map(i => i.BrandId, "brand_id");
             Map(i => i.GTIN, "gtin");
             Map(i => i.GoodId, "good_id");
             Map(i => i.GoodName, "good_name");
             Map(i => i.TNVED, "tnved");
-            HasMany(i => i.Attributes).KeyColumn("product_id").Cascade.AllDeleteOrphan().BatchSize(30);
-            HasMany(i => i.Categories).KeyColumn("product_id").Cascade.AllDeleteOrphan().BatchSize(30);
-            References(i => i.Customer).Cascade.None();
+            References(i => i.Customer)
+                .Cascade.None();
+            HasMany(i => i.Attributes)
+                .KeyColumn("product_id")
+                .Cascade.AllDeleteOrphan()
+                .BatchSize(30);
+            HasMany(i => i.Categories)
+                .KeyColumn("product_id")
+                .Cascade.AllDeleteOrphan()
+                .BatchSize(30);
         }
     }
 }

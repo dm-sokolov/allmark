@@ -53,6 +53,7 @@ namespace AllMark
                     jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
             services.AddOptions();
+            services.AddHttpContextAccessor();
             services.AddSingleton<AppSessionFactory>();
             services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
                                      .OpenSession());

@@ -3,26 +3,20 @@ using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using AllMark.Services.Interfaces;
 using AllMark.Controllers.Base;
-using Newtonsoft.Json;
 
 namespace AllMark.Controllers
 {
     public class HomeController : BaseController
     {
         private readonly IExcelService _excelService;
-        private readonly INationalCatalogService _nationalCatalogService;
 
 
-        public HomeController(IExcelService excelService,
-            INationalCatalogService nationalCatalogService)
+        public HomeController(IExcelService excelService)
         {
             _excelService = excelService;
-            _nationalCatalogService = nationalCatalogService;
         }
 
         [Authorize]

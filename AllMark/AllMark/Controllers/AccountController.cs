@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using AllMark.Models;
@@ -10,22 +9,25 @@ using NHibernate.Linq;
 using AllMark.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using AllMark.Services.Interfaces;
-using System;
 using Microsoft.AspNetCore.Http;
 using AllMark.Controllers.Base;
+using AllMark.Helpers.Interfaces;
 
 namespace AllMark.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly IRepository<Customer> _userRepository;
-        private readonly IEmailService _emailService;
+        private readonly IRepository<Customer> _customerRepository;
+        private readonly ICustomerHelper _customerHelper;
+        private readonly IAuthentificationHelper _authentificationHelper;
 
-        public AccountController(IRepository<Customer> userRepository,
-            IEmailService emailService)
+        public AccountController(IRepository<Customer> customerRepository,
+            ICustomerHelper customerHelper,
+            IAuthentificationHelper authentificationHelper)
         {
-            _userRepository = userRepository;
-            _emailService = emailService;
+            _customerRepository = customerRepository;
+            _customerHelper = customerHelper;
+            _authentificationHelper = authentificationHelper;
         }
 
         public IActionResult Login() => View();
@@ -35,7 +37,7 @@ namespace AllMark.Controllers
             var email = HttpContext.User.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value;
             if (!string.IsNullOrEmpty(email))
             {
-                var user = await _userRepository.Query().FirstOrDefaultAsync(i => i.Email == email);
+                var user = await _customerRepository.Query().FirstOrDefaultAsync(i => i.Email == email);
                 return View(user);
             }
             return Redirect(Url.Action("Index", "Home"));
@@ -47,10 +49,10 @@ namespace AllMark.Controllers
         {
             if (ModelState.IsValid)
             {
-                Customer customer = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                var customer = await _customerRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (customer != null)
                 {
-                    await Authenticate(model.Email); // аутентификация
+                    await _authentificationHelper.Authenticate(customer); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -71,7 +73,7 @@ namespace AllMark.Controllers
         {
             if (ModelState.IsValid)
             {
-                Customer customer = await _userRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
+                Customer customer = await _customerRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (customer == null)
                 {
                     customer = new Customer
@@ -79,10 +81,10 @@ namespace AllMark.Controllers
                         Email = model.Email,
                         Password = model.Password
                     };
-                    await _userRepository.SaveAsync(customer);
+                    await _customerRepository.SaveAsync(customer);
 
-                    await Authenticate(model.Email); // аутентификация
-                    await SendConfirmMail(customer);
+                    await _authentificationHelper.Authenticate(customer); // аутентификация
+                    await _customerHelper.SendConfirmEmail(customer);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -103,62 +105,29 @@ namespace AllMark.Controllers
         public async Task<IActionResult> ConfirmEmail(int userId, string code)
         {
             if (code == null)
-            {
-                return View("Error");
-            }
-            var user = await _userRepository.GetByIdAsync(userId);
+                return RedirectToAction("Error", "Home");
+
+            var user = await _customerRepository.GetByIdAsync(userId);
             if (user == null)
-            {
-                return View("Error");
-            }
+                return RedirectToAction("Error", "Home");
+
             if (user.GUID == code)
             {
                 user.EmailConfirmed = true;
-                await _userRepository.UpdateAsync(user);
+                await _customerRepository.UpdateAsync(user);
                 return RedirectToAction("Index", "Home");
             }
             else
-                return View("Error");
+                return RedirectToAction("Error", "Home");
         }
 
         public async Task<ActionResult> Update(Customer customerModel)
         {
-            var user = await _userRepository.GetByIdAsync(customerModel?.Id);
+            var user = await _customerRepository.GetByIdAsync(customerModel?.Id);
             user.Name = customerModel.Name;
             user.NationalCatalogKey = customerModel.NationalCatalogKey;
-            await _userRepository.UpdateAsync(user);
+            await _customerRepository.UpdateAsync(user);
             return Json(user);
         }
-
-        #region Private
-
-        private async Task Authenticate(string userName)
-        {
-            // создаем один claim
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-            };
-            // создаем объект ClaimsIdentity
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-        }
-
-        private async Task SendConfirmMail(Customer customer)
-        {
-            // генерация токена для пользователя. Страшно, но пока так
-            var code = Guid.NewGuid().ToString("N");
-            customer.GUID = code;
-            await _userRepository.UpdateAsync(customer);
-            var callbackUrl = Url.Action(
-                "ConfirmEmail",
-                "Account",
-                new { userId = customer.Id, code },
-                protocol: HttpContext.Request.Scheme);
-            await _emailService.SendConfirmEmail(customer.Email, callbackUrl);
-        }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AllMark.Config;
-using AllMark.Core.Models;
 using AllMark.Services.Interfaces;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
@@ -15,12 +14,6 @@ namespace AllMark.Services
         public EmailService(IOptions<EmailConfig> emailConfig)
         {
             _emailConfig = emailConfig.Value;
-        }
-
-        public async Task SendConfirmEmail(string email, string callbackUrl)
-        {
-            await SendEmailAsync(email, "Подтверждение учетной записи",
-                $@"C:\Users\Николай\Documents\allmark\AllMark\AllMark\Services\EmailService.cs: <a href='{callbackUrl}'>CONFIRM_LINK</a>");
         }
 
         public async Task SendEmailAsync(string email, string subject, string message)
