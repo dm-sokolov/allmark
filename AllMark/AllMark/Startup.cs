@@ -13,7 +13,6 @@ using AllMark.Config;
 using AllMark.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Serialization;
 
 namespace AllMark
 {

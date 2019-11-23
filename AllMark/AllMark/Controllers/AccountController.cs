@@ -12,6 +12,7 @@ using AllMark.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using AllMark.Controllers.Base;
 using AllMark.Helpers.Interfaces;
+using System;
 
 namespace AllMark.Controllers
 {
@@ -84,7 +85,13 @@ namespace AllMark.Controllers
                     await _customerRepository.SaveAsync(customer);
 
                     await _authentificationHelper.Authenticate(customer); // аутентификация
-                    await _customerHelper.SendConfirmEmail(customer);
+                    var code = Guid.NewGuid().ToString("N");
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail",
+                        "Account",
+                        new { userId = customer.Id, code },
+                        protocol: HttpContext.Request.Scheme);
+                    await _customerHelper.SendConfirmEmail(customer, callbackUrl, code);
 
                     return RedirectToAction("Index", "Home");
                 }

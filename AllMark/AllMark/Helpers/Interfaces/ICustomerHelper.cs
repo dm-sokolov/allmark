@@ -5,6 +5,6 @@ namespace AllMark.Helpers.Interfaces
 {
     public interface ICustomerHelper
     {
-        Task SendConfirmEmail(Customer customer);
+        Task SendConfirmEmail(Customer customer, string callbackUrl, string code);
     }
 }
