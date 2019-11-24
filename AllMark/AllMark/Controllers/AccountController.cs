@@ -1,18 +1,18 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using AllMark.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using AllMark.Repository;
 using NHibernate.Linq;
 using AllMark.Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using AllMark.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using AllMark.Controllers.Base;
 using AllMark.Helpers.Interfaces;
 using System;
+using AllMark.Services.Interfaces;
+using AllMark.AutoMapper.Extensions;
+using AutoMapper;
+using AllMark.DTO;
 
 namespace AllMark.Controllers
 {
@@ -21,26 +21,32 @@ namespace AllMark.Controllers
         private readonly IRepository<Customer> _customerRepository;
         private readonly ICustomerHelper _customerHelper;
         private readonly IAuthentificationHelper _authentificationHelper;
+        private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
 
         public AccountController(IRepository<Customer> customerRepository,
             ICustomerHelper customerHelper,
-            IAuthentificationHelper authentificationHelper)
+            IAuthentificationHelper authentificationHelper,
+            ICustomerService customerService,
+            IMapper mapper)
         {
             _customerRepository = customerRepository;
             _customerHelper = customerHelper;
             _authentificationHelper = authentificationHelper;
+            _customerService = customerService;
+            _mapper = mapper;
         }
 
         public IActionResult Login() => View();
 
+        [HttpGet]
+        public IActionResult Register() => View();
+
         public async Task<ActionResult> Manage()
         {
-            var email = HttpContext.User.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value;
-            if (!string.IsNullOrEmpty(email))
-            {
-                var user = await _customerRepository.Query().FirstOrDefaultAsync(i => i.Email == email);
-                return View(user);
-            }
+            var customer = await _customerService.GetCurrentAsync();
+            if (customer != null)
+                return View(_mapper, customer, typeof(CustomerDto));
             return Redirect(Url.Action("Index", "Home"));
         }
 
@@ -53,19 +59,12 @@ namespace AllMark.Controllers
                 var customer = await _customerRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (customer != null)
                 {
-                    await _authentificationHelper.Authenticate(customer); // аутентификация
-
+                    await _authentificationHelper.Authenticate(customer);
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(nameof(LoginViewModel.Email), "Некорректные логин и(или) пароль");
             }
             return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -74,14 +73,10 @@ namespace AllMark.Controllers
         {
             if (ModelState.IsValid)
             {
-                Customer customer = await _customerRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
+                var customer = await _customerRepository.Query().FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (customer == null)
                 {
-                    customer = new Customer
-                    {
-                        Email = model.Email,
-                        Password = model.Password
-                    };
+                    customer = model.MapTo<Customer>(_mapper);
                     await _customerRepository.SaveAsync(customer);
 
                     await _authentificationHelper.Authenticate(customer); // аутентификация
@@ -103,7 +98,7 @@ namespace AllMark.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _authentificationHelper.Logout();
             return RedirectToAction("Login", "Account");
         }
 
@@ -128,13 +123,13 @@ namespace AllMark.Controllers
                 return RedirectToAction("Error", "Home");
         }
 
-        public async Task<ActionResult> Update(Customer customerModel)
+        public async Task<ActionResult> Update(CustomerDto dto)
         {
-            var user = await _customerRepository.GetByIdAsync(customerModel?.Id);
-            user.Name = customerModel.Name;
-            user.NationalCatalogKey = customerModel.NationalCatalogKey;
+            var user = await _customerRepository.GetByIdAsync(dto?.Id);
+            user.Name = dto.Name;
+            user.NationalCatalogKey = dto.NationalCatalogKey;
             await _customerRepository.UpdateAsync(user);
-            return Json(user);
+            return Json(_mapper, user, typeof(CustomerDto));
         }
     }
 }

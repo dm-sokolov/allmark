@@ -2,9 +2,6 @@
 using AllMark.Helpers.Interfaces;
 using AllMark.Repository;
 using AllMark.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace AllMark.Helpers
@@ -13,6 +10,13 @@ namespace AllMark.Helpers
     {
         private readonly IEmailService _emailService;
         private readonly IRepository<Customer> _customerRepository;
+
+        public CustomerHelper(IEmailService emailService,
+            IRepository<Customer> customerRepository)
+        {
+            _emailService = emailService;
+            _customerRepository = customerRepository;
+        }
 
         public async Task SendConfirmEmail(Customer customer, string callbackUrl, string code)
         {

@@ -6,17 +6,20 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using AllMark.Services.Interfaces;
 using AllMark.Controllers.Base;
+using AutoMapper;
 
 namespace AllMark.Controllers
 {
     public class HomeController : BaseController
     {
         private readonly IExcelService _excelService;
+        private readonly IMapper _mapper;
 
-
-        public HomeController(IExcelService excelService)
+        public HomeController(IExcelService excelService,
+            IMapper mapper)
         {
             _excelService = excelService;
+            _mapper = mapper;
         }
 
         [Authorize]

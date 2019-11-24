@@ -13,18 +13,19 @@ using AllMark.Config;
 using AllMark.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Hosting;
+using AutoMapper;
 
 namespace AllMark
 {
     public class Startup
     {
-        private IConfiguration _configuration { get; }
+        private IConfiguration Configuration { get; }
         private readonly IWebHostEnvironment _environment;
 
         public Startup(IConfiguration configuration,
                        IWebHostEnvironment environment)
         {
-            _configuration = configuration;
+            Configuration = configuration;
             _environment = environment;
         }
 
@@ -51,15 +52,16 @@ namespace AllMark
                 {
                     jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
+            services.AddAutoMapper(typeof(Startup));
             services.AddOptions();
             services.AddHttpContextAccessor();
             services.AddSingleton<AppSessionFactory>();
             services.AddScoped(x => x.GetRequiredService<AppSessionFactory>()
                                      .OpenSession());
-            services.Configure<DatabaseConfig>(_configuration.GetSection("Database"));
-            services.Configure<EmailConfig>(_configuration.GetSection("Email"));
-            services.Configure<NationalCatalogConfig>(_configuration.GetSection("NationalCatalog"));
-            services.Configure<HonestSignConfig>(_configuration.GetSection("HonestSign"));
+            services.Configure<DatabaseConfig>(Configuration.GetSection("Database"));
+            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
+            services.Configure<NationalCatalogConfig>(Configuration.GetSection("NationalCatalog"));
+            services.Configure<HonestSignConfig>(Configuration.GetSection("HonestSign"));
             services.AddKendo();
             if (_environment.IsDevelopment())
             {

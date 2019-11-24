@@ -1,4 +1,4 @@
-﻿using AllMark.Core.Models.Base;
+﻿using AllMark.Core.Models;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -1,6 +1,5 @@
-﻿using AllMark.Core.Models.Base;
+﻿using AllMark.Core.Models;
 using NHibernate;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 

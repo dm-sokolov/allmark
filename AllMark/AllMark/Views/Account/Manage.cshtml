@@ -1,7 +1,7 @@
 ﻿@using Kendo.Mvc.UI
 @using Utils.Kendo.Extensions
-@using AllMark.Core.Models
-@model Customer
+@using AllMark.DTO
+@model CustomerDto
 
 @Html.HiddenFor(i => i.Id)
 
@@ -62,9 +62,9 @@
     function collectFields() {
         return {
             Id: $("#Id").val(),
-            Name: $("#@nameof(Customer.Name)").val(),
-            Email: $("#@nameof(Customer.Email)").val(),
-            NationalCatalogKey: $("#@nameof(Customer.NationalCatalogKey)").val()
+            Name: $("#@nameof(CustomerDto.Name)").val(),
+            Email: $("#@nameof(CustomerDto.Email)").val(),
+            NationalCatalogKey: $("#@nameof(CustomerDto.NationalCatalogKey)").val()
         };
     }
 </script>

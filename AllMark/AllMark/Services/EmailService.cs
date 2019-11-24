@@ -28,14 +28,12 @@ namespace AllMark.Services
                 Text = message
             };
 
-            using (var client = new SmtpClient())
-            {
-                await client.ConnectAsync(_emailConfig.Host, _emailConfig.Port, _emailConfig.UseSsl);
-                await client.AuthenticateAsync(_emailConfig.Login, _emailConfig.Password);
-                await client.SendAsync(emailMessage);
+            using var client = new SmtpClient();
+            await client.ConnectAsync(_emailConfig.Host, _emailConfig.Port, _emailConfig.UseSsl);
+            await client.AuthenticateAsync(_emailConfig.Login, _emailConfig.Password);
+            await client.SendAsync(emailMessage);
 
-                await client.DisconnectAsync(true);
-            }
+            await client.DisconnectAsync(true);
         }
     }
 }

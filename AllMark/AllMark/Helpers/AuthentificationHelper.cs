@@ -30,5 +30,10 @@ namespace AllMark.Helpers
             // установка аутентификационных куки
             await _accessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
+
+        public async Task Logout()
+        {
+            await _accessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
     }
 }

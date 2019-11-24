@@ -1,6 +1,4 @@
-﻿using AllMark.Core.Models.Base;
-
-namespace AllMark.Core.Models
+﻿namespace AllMark.Core.Models
 {
     public class ProductAttribute: BaseModel
     {
