@@ -2,7 +2,9 @@
 using AllMark.Services.Interfaces;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AllMark.Controllers
@@ -10,10 +12,13 @@ namespace AllMark.Controllers
     public class ProductController : BaseController
     {
         private readonly INationalCatalogService _nationalCatalogService;
+        private readonly IExcelService _excelService;
 
-        public ProductController(INationalCatalogService nationalCatalogService)
+        public ProductController(INationalCatalogService nationalCatalogService,
+            IExcelService excelService)
         {
             _nationalCatalogService = nationalCatalogService;
+            _excelService = excelService;
         }
 
         public IActionResult Products() => View();
@@ -23,6 +28,11 @@ namespace AllMark.Controllers
         {
             var products = await _nationalCatalogService.GetProducts(gtin: 6411300162475);
             return Json(products.ToDataSourceResult(request));
+        }
+
+        public void UploadExcel(IEnumerable<IFormFile> files)
+        {
+            _excelService.ReadFiles(files);
         }
     }
 }

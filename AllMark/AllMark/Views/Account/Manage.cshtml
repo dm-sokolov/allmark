@@ -3,6 +3,12 @@
 @using AllMark.DTO
 @model CustomerDto
 
+@{ 
+    ViewData["Title"] = "Настройки";
+}
+
+<h2>@ViewData["Title"]</h2>
+
 @Html.HiddenFor(i => i.Id)
 
 <div class="container-fluid">

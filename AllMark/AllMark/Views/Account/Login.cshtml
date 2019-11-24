@@ -1,7 +1,11 @@
 ﻿@using Kendo.Mvc.UI
 @model AllMark.Models.LoginViewModel
 
-<h2>Вход на сайт</h2>
+@{ 
+    ViewData["Title"] = "Вход на сайт";
+}
+
+<h2>ViewData["Title"]</h2>
 
 <a asp-action="Register" asp-controller="Account">Регистрация</a>
 

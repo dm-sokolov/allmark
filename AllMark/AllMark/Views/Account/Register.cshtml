@@ -1,7 +1,11 @@
 ﻿@using Kendo.Mvc.UI
 @model AllMark.Models.RegisterViewModel
 
-<h2>Регистрация</h2>
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+    <h2>ViewData["Title"]</h2>
 
 <form id="registerForm" asp-action="Register" asp-controller="Account" asp-anti-forgery="true" class="container-fluid">
     <div class="validation" asp-validation-summary="All" />
@@ -37,4 +41,3 @@
     )
 
 </form>
-    
