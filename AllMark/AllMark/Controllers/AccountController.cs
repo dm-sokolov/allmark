@@ -5,7 +5,6 @@ using AllMark.Repository;
 using NHibernate.Linq;
 using AllMark.Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using AllMark.Controllers.Base;
 using AllMark.Helpers.Interfaces;
 using System;
