@@ -71,5 +71,23 @@ namespace AllMark.Services.Interfaces
         /// <param name="xmlResult"></param>
         /// <returns></returns>
         Task<NationalCatalogSignResponse> FeedProductSign(IEnumerable<NationalCatalogXmlResult> xmlResult);
+
+        /// <summary>
+        /// Дает возможность лабораториям создавать и обновлять товары. Метод возвращает feed_id или ошибку.
+        /// Ограничения
+        /// Размер фида - 25 МБ
+        /// Количество товаров в фиде - 5000
+        /// </summary>
+        /// <param name="feed"></param>
+        /// <returns></returns>
+        Task<CatalogFeedResult> Feed(List<CatalogFeed> feed);
+
+        /// <summary>
+        /// Генерирует черновики GTIN и возвращает их.
+        /// </summary>
+        /// <param name="quantity"></param>
+        /// <param name="supplierKey"></param>
+        /// <returns></returns>
+        Task<CatalogGtinResult> GenerateGtins(int quantity, string supplierKey = null);
     }
 }

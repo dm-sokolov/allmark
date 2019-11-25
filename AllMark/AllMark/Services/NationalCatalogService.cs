@@ -1,10 +1,12 @@
-﻿using AllMark.Config;
+﻿using System;
+using AllMark.Config;
 using AllMark.Services.Base;
 using AllMark.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RestSharp;
 using Utils.NationalCatalog.Models;
 
 namespace AllMark.Services
@@ -104,6 +106,26 @@ namespace AllMark.Services
             request.AddJsonBody(xmlResult);
             var apiResponse = await ExecuteRequestAsync<NationalCatalogSignResponse>(request);
             return apiResponse;
+        }
+
+        /// <inheritdoc />
+        public async Task<CatalogFeedResult> Feed(List<CatalogFeed> feed)
+        {
+            var request = GetRequest("feed");
+            request.AddJsonBody(feed);
+            var apiResponse = await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedResult>>(request);
+            return apiResponse.Result;
+        }
+
+        /// <inheritdoc />
+        public async Task<CatalogGtinResult> GenerateGtins(int quantity, string supplierKey = null)
+        {
+            var request = GetRequest("generate-gtins", Method.GET);
+            request.AddParameter("quantity", quantity);
+            if (!string.IsNullOrEmpty(supplierKey))
+                request.AddParameter("supplier_key", supplierKey);
+            var apiResponse = await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogGtinResult>>(request);
+            return apiResponse.Result;
         }
     }
 }
