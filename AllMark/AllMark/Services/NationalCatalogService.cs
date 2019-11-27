@@ -133,7 +133,29 @@ namespace AllMark.Services
         {
             var request = GetRequest("feed-status", Method.GET);
             request.AddParameter("feed_id", feedId);
-            var apiResponse = await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedStatusResult>>(request);
+            var apiResponse =
+                await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedStatusResult>>(request);
+            return apiResponse.Result;
+        }
+
+        /// <inheritdoc />
+        public async Task<CatalogFeedModerationResult> FeedModeration(int goodId)
+        {
+            var request = GetRequest("feed-moderation", Method.GET);
+            request.AddParameter("good_id", goodId);
+            var apiResponse =
+                await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedModerationResult>>(request);
+            return apiResponse.Result;
+        }
+
+        /// <inheritdoc />
+        public async Task<CatalogFeedModerationResult> FeedModeration(int gtin, int inn)
+        {
+            var request = GetRequest("feed-moderation", Method.GET);
+            request.AddParameter("gtin", gtin);
+            request.AddParameter("inn", inn);
+            var apiResponse =
+                await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedModerationResult>>(request);
             return apiResponse.Result;
         }
     }

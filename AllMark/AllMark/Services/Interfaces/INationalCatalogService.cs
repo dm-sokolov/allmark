@@ -96,5 +96,21 @@ namespace AllMark.Services.Interfaces
         /// <param name="feedId"></param>
         /// <returns></returns>
         Task<CatalogFeedStatusResult> FeedStatus(int feedId);
+
+        /// <summary>
+        /// Отправляет на модерацию, для указанных в запросе good_id или GTIN+ИНН, созданные ранее карточки товаров в статусе "Черновик"
+        /// </summary>
+        /// <param name="goodId"></param>
+        /// <returns></returns>
+        Task<CatalogFeedModerationResult> FeedModeration(int goodId);
+
+        /// <summary>
+        /// Отправляет на модерацию, для указанных в запросе good_id или GTIN+ИНН, созданные ранее карточки товаров в статусе "Черновик"
+        /// </summary>
+        /// <param name="gtin"></param>
+        /// <param name="inn"></param>
+        /// <returns></returns>
+        Task<CatalogFeedModerationResult> FeedModeration(int gtin, int inn);
+
     }
 }
