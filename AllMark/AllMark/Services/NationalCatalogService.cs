@@ -127,5 +127,14 @@ namespace AllMark.Services
             var apiResponse = await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogGtinResult>>(request);
             return apiResponse.Result;
         }
+
+        /// <inheritdoc />
+        public async Task<CatalogFeedStatusResult> FeedStatus(int feedId)
+        {
+            var request = GetRequest("feed-status", Method.GET);
+            request.AddParameter("feed_id", feedId);
+            var apiResponse = await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedStatusResult>>(request);
+            return apiResponse.Result;
+        }
     }
 }

@@ -89,5 +89,12 @@ namespace AllMark.Services.Interfaces
         /// <param name="supplierKey"></param>
         /// <returns></returns>
         Task<CatalogGtinResult> GenerateGtins(int quantity, string supplierKey = null);
+
+        /// <summary>
+        /// Проверить стасус ранее отправленого фида.
+        /// </summary>
+        /// <param name="feedId"></param>
+        /// <returns></returns>
+        Task<CatalogFeedStatusResult> FeedStatus(int feedId);
     }
 }
