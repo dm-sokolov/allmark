@@ -1,4 +1,4 @@
-﻿@model ICollection<Utils.NationalCatalog.Models.CatalogAttribute>
+﻿@model IEnumerable<Utils.NationalCatalog.Models.CatalogAttribute>
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -25,7 +25,8 @@
                         {
                             Html.Kendo()
                                 .IntegerTextBox()
-                                .Name($"tbAttr{attribute.Id}");
+                                .Name($"tbAttr{attribute.Id}")
+                                .ToHtmlString();
                         }
                         else if (attribute.Preset?.Any() ?? false)
                         {
@@ -40,7 +41,15 @@
                                          .Text(presetItem)
                                          .Value(presetItem);
                                     }
-                                });
+                                })
+                                .ToHtmlString();
+                        }
+                        else
+                        {
+                            Html.Kendo()
+                                .TextBox()
+                                .Name($"tbAttr{attribute.Id}")
+                                .ToHtmlString();
                         }
                     </div>
                 </div>
