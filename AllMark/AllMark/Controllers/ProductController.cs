@@ -34,5 +34,11 @@ namespace AllMark.Controllers
         {
             _excelService.ReadFiles(files);
         }
+
+        public async Task<IActionResult> GetAttributes(int categoryId)
+        {
+            var attributes = await _nationalCatalogService.GetAttributes(categoryId);
+            return PartialView("_Attributes", attributes);
+        }
     }
 }

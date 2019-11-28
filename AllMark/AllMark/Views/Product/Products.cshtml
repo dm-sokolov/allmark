@@ -50,11 +50,7 @@
     .Animation(animation =>
               animation.Open(effect =>
                   effect.Fade(FadeDirection.In)))
-    .Content(@<text>
-            <div class="container-fluid allmark-div">
-                <partial name="_NewProduct" />
-            </div>
-    </text>)
+    .LoadContentFrom(Url.Action("GetAttributes", "Product", new { categoryId = 3352}))
 )
 
 @(Html.Kendo()
