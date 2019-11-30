@@ -1,101 +1,41 @@
-﻿@using Utils.Kendo.Extensions
-@model IEnumerable<Utils.NationalCatalog.Models.CatalogAttribute>
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Utils.NationalCatalog.Models
+@using AllMark.HtmlHelpers
+@addTagHelper *, AllMark.HtmlHelpers
+@model IEnumerable<CatalogAttribute>
 
-    <div>
-        @(Html.Kendo()
-                .TabStrip()
-                .Name("tabStrip")
-                .Scrollable(false)
-                .Items(items =>
-                {
-                var groups = Model.GroupBy(i => i.GroupName).ToList();
-                var first = true;
-                foreach (var group in groups)
-                {
-                    items.Add()
-                        .Selected(first)
-                        .Text(group.Key)
-                        .Content(@<text>
-                                    @foreach (var attribute in group)
+<div>
+    @(Html.Kendo()
+            .TabStrip()
+            .Name("tabStrip")
+            .Scrollable(false)
+            .Items(items =>
+            {
+            var groups = Model.GroupBy(i => i.GroupName).ToList();
+            var first = true;
+            foreach (var group in groups)
+            {
+                items.Add()
+                    .Selected(first)
+                    .Text(group.Key)
+                    .Content(@<text>
+                                @foreach (var attribute in group)
                                         {
-                                        <div class="row" style="margin:5px;">
-                                            <div class="col-sm-3 allmark-div">
-                                                @( attribute.Name)
-                                            </div>
-
-                                            <div class="col-sm-9 allmark-div">
-                                                @if (attribute.Type == "number")
-                                                        {
-                                                    <text>
-                                                    @( Html.Kendo()
-                                                  .IntegerTextBox()
-                                                  .Name($"tbAttr{attribute.Id}")
-                                                  .FullWidth())
-                                            </text>
-                                                }
-                                                else if (attribute.Preset?.Any() ?? false)
-                                                {
-                                            <text>
-                                                                                            <div class="row">
-                                                                                                @( Html.Kendo()
-                                                                                            .ComboBox()
-                                                                                            .Name($"cbAttr{attribute.Id}")
-                                                                                            .Items(i =>
-                                                                                            {
-                                                                                                foreach (var presetItem in attribute.Preset)
-                                                                                                {
-                                                                                                    i.Add()
-                                                                                                    .Text(presetItem)
-                                                                                                    .Value(presetItem);
-                                                                                                }
-                                                                                            })
-                                                                                            .FullWidth())
-                                                                                            </div>
-                                                                                            <div class="row">
-                                                                                                @if (attribute.ValueTypes != null && attribute.ValueTypes.Count > 0)
-                                                                                                        {
-                                                                                                    @(Html.Kendo()
-                                                                                                            .ComboBox()
-                                                                                                            .Name($"cbAttrType{attribute.Id}")
-                                                                                                            .Items(i =>
-                                                                                                            {
-                                                                                                                foreach (var presetItem in attribute.ValueTypes)
-                                                                                                                {
-                                                                                                                    i.Add()
-                                                                                                                    .Text(presetItem)
-                                                                                                                    .Value(presetItem);
-                                                                                                                }
-                                                                                                            })
-                                                                                                            .FullWidth())
-                                                                                                        }
-                                                                                            </div>
-
-                                            </text>
-                                                }
-                                                else
-                                                {
-                                            <text>
-                                                @( Html.Kendo()
-                                              .TextBox()
-                                              .Name($"tbAttr{attribute.Id}")
-                                              .FullWidth())
-                                            </text>
-                                                }
-                                        /**/
-                                                /**/
-                                            </div>
-
+                                    <div class="row" style="margin:5px;">
+                                        <div class="col-sm-3 allmark-div">
+                                            @(attribute.Name)
                                         </div>
+                                        <div class="col-sm-9 allmark-div">
+                                            @Html.Raw(Html.CreateAttributeControls(attribute).Value)
+                                        </div>
+
+                                    </div>
                                         }
-                                    </text>);
-                  first = false;
-              }
-          })
-        )
-    </div>
+                                </text>);
+       first = false;
+   }
+})
+    )
+</div>
 <div>
     @(Html.Kendo()
     .Button()
