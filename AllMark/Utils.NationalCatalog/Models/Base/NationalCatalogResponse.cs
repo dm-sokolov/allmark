@@ -8,7 +8,7 @@ namespace Utils.NationalCatalog.Models
         [JsonProperty("apiversion")]
         public int ApiVersion { get; set; }
 
-        [JsonProperty("result")]
+        [JsonProperty("result", NullValueHandling = NullValueHandling.Ignore)]
         public ICollection<T> Items { get; set; } = new List<T>();
     }
 }

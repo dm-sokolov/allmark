@@ -1,9 +1,12 @@
 ﻿using AllMark.Config;
+using AllMark.Models;
 using AllMark.Services.Base;
 using AllMark.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Utils.NationalCatalog.Models;
 
@@ -16,15 +19,15 @@ namespace AllMark.Services
         {  }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<CatalogAttribute>> GetAttributes(int? categoryId = null, string attributeType = null)
+        public async Task<BaseApiResponse<NationalCatalogResponse<CatalogAttribute>>> GetAttributes(int? categoryId = null, string attributeType = null)
         {
             var request = GetRequest("attributes");
             if (categoryId.HasValue)
                 request.AddQueryParameter("cat_id", categoryId.Value.ToString());
             if (!string.IsNullOrEmpty(attributeType))
                 request.AddQueryParameter("attr_type", attributeType);
-            var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogAttribute>>(request);
-            return apiResponse.Items;
+            var httpResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogAttribute>>(request);
+            return httpResponse;
         }
 
         /// <inheritdoc />
@@ -33,8 +36,8 @@ namespace AllMark.Services
             var request = GetRequest("brands");
             if (partyId.HasValue)
                 request.AddQueryParameter("party_id", partyId.Value.ToString());
-            var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogBrand>>(request);
-            return apiResponse.Items;
+            var httpResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogBrand>>(request);
+            return httpResponse.Content?.Items;
         }
 
         /// <inheritdoc />
@@ -53,16 +56,16 @@ namespace AllMark.Services
                 request.AddQueryParameter("product_name", product_name);
             if (catId.HasValue)
                 request.AddQueryParameter("cat_id", catId.Value.ToString());
-            var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogProduct>>(request);
-            return apiResponse.Items?.ToList();
+            var httpResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogProduct>>(request);
+            return httpResponse.Content?.Items?.ToList();
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<CatalogCategory>> GetCategories()
         {
             var request = GetRequest("categories");
-            var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogCategory>>(request);
-            return apiResponse.Items;
+            var httpResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogCategory>>(request);
+            return httpResponse.Content?.Items;
         }
 
         /// <inheritdoc />
@@ -81,8 +84,8 @@ namespace AllMark.Services
                 request.AddQueryParameter("product_name", productName);
             if (categoryId.HasValue)
                 request.AddQueryParameter("cat_id", categoryId.Value.ToString());
-            var apiResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogShortProduct>>(request);
-            return apiResponse.Items;
+            var httpResponse = await ExecuteRequestAsync<NationalCatalogResponse<CatalogShortProduct>>(request);
+            return httpResponse.Content?.Items;
         }
 
         /// <inheritdoc />
@@ -93,8 +96,8 @@ namespace AllMark.Services
                 request.AddParameter("goodIds", goodIds);
             if (gtins != null && gtins.Any())
                 request.AddParameter("gtins", gtins);
-            var apiResponse = await ExecuteRequestAsync<NationalCatalogXmlResponse>(request);
-            return apiResponse;
+            var httpResponse = await ExecuteRequestAsync<NationalCatalogXmlResponse>(request);
+            return httpResponse.Content;
         }
 
         /// <inheritdoc />
@@ -102,8 +105,16 @@ namespace AllMark.Services
         {
             var request = GetRequest("feed-product-sign");
             request.AddJsonBody(xmlResult);
-            var apiResponse = await ExecuteRequestAsync<NationalCatalogSignResponse>(request);
-            return apiResponse;
+            var httpResponse = await ExecuteRequestAsync<NationalCatalogSignResponse>(request);
+            return httpResponse.Content;
+        }
+
+        protected override string ProcessResponseError(HttpStatusCode statusCode)
+        {
+            var builder = new StringBuilder();
+            builder.Append("Произошла ошибка при запросе в \"Нацональный каталог\". ");
+            builder.Append(GetResponseStatusDescription(statusCode));
+            return builder.ToString();
         }
     }
 }

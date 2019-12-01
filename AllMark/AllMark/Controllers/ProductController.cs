@@ -38,8 +38,10 @@ namespace AllMark.Controllers
 
         public async Task<IActionResult> GetAttributes(int categoryId)
         {
-            var attributes = await _nationalCatalogService.GetAttributes(categoryId);
-            return PartialView("_Attributes", attributes);
+            var attributesResponse = await _nationalCatalogService.GetAttributes(categoryId);
+            if (attributesResponse.IsSuccess)
+                return PartialView("_Attributes", attributesResponse.Content?.Items);
+            return RedirectToAction("ErrorPartial", "Home", new { message = attributesResponse.Message });
         }
     }
 }

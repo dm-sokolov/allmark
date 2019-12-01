@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using RestSharp;
 using Utils.HonestSign.Models;
+using System.Net;
 
 namespace AllMark.Services
 {
@@ -36,8 +37,8 @@ namespace AllMark.Services
             var request = GetRequest(GetMethodString("registration/accounting_system"), Method.POST);
             request = GetAuthorizedRequest(request, token);
             request.AddJsonBody(accountingSystem);
-            var apiResponse = await ExecuteRequestAsync<AccountingSystemRegistered>(request);
-            return apiResponse;
+            var httpResponse = await ExecuteRequestAsync<AccountingSystemRegistered>(request);
+            return httpResponse.Content;
         }
 
         /// <summary>
@@ -49,8 +50,13 @@ namespace AllMark.Services
         {
             var request = GetRequest(GetMethodString("auth"), Method.POST);
             request.AddJsonBody(info);
-            var apiResponse = await ExecuteRequestAsync<AuthCode>(request);
-            return apiResponse.Code;
+            var httpResponse = await ExecuteRequestAsync<AuthCode>(request);
+            return httpResponse.Content.Code;
+        }
+
+        protected override string ProcessResponseError(HttpStatusCode statusCode)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
