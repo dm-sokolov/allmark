@@ -26,7 +26,7 @@ namespace AllMark.HtmlHelpers
                                         .NumericTextBox()
                                         .Name($"tbAttr{attribute.Id}")
                                         .FullWidth();
-                    textBoxDiv.InnerHtml.Append(textBox.ToClientTemplate().ToString());
+                    textBoxDiv.InnerHtml.Append(textBox.Deferred().ToHtmlString());
                     var comboBoxDiv = new TagBuilder("div");
                     var comboBox = helper.Kendo()
                                          .ComboBox()
@@ -41,7 +41,7 @@ namespace AllMark.HtmlHelpers
                                              }
                                          })
                                          .FullWidth();
-                    comboBoxDiv.InnerHtml.Append(comboBox.ToClientTemplate().ToString());
+                    comboBoxDiv.InnerHtml.Append(comboBox.Deferred().ToHtmlString());
                     parentDiv.InnerHtml.AppendHtml(textBoxDiv);
                     parentDiv.InnerHtml.AppendHtml(comboBoxDiv);
                 }
@@ -65,7 +65,7 @@ namespace AllMark.HtmlHelpers
                                                 }
                                             })
                                             .FullWidth();
-                            attrValueDiv.InnerHtml.Append(combobox.ToClientTemplate().ToString());
+                            attrValueDiv.InnerHtml.Append(combobox.Deferred().ToHtmlString());
                             var attrValueTypeDiv = new TagBuilder("div");
                             var typeCombobox = helper.Kendo()
                                             .ComboBox()
@@ -83,13 +83,13 @@ namespace AllMark.HtmlHelpers
                                                  .Value("ДРУГОЕ");
                                             })
                                             .FullWidth();
-                            attrValueTypeDiv.InnerHtml.Append(typeCombobox.ToClientTemplate().ToString());
+                            attrValueTypeDiv.InnerHtml.Append(typeCombobox.Deferred().ToHtmlString());
                             var hiddenTextBoxDiv = new TagBuilder("div");
                             var hiddentTextBox = helper.Kendo()
                                                        .TextBox()
                                                        .Name($"tbAttr{attribute.Id}")
                                                        .FullWidth();
-                            hiddenTextBoxDiv.InnerHtml.Append(hiddentTextBox.ToClientTemplate().ToString());
+                            hiddenTextBoxDiv.InnerHtml.Append(hiddentTextBox.Deferred().ToHtmlString());
                             parentDiv.InnerHtml.AppendHtml(attrValueDiv);
                             parentDiv.InnerHtml.AppendHtml(attrValueTypeDiv);
                             parentDiv.InnerHtml.AppendHtml(hiddenTextBoxDiv);
@@ -110,7 +110,7 @@ namespace AllMark.HtmlHelpers
                                                 }
                                             })
                                             .FullWidth();
-                            attrValueDiv.InnerHtml.Append(combobox.ToClientTemplate().ToString());
+                            attrValueDiv.InnerHtml.Append(combobox.Deferred().ToHtmlString());
                             var attrValueTypeDiv = new TagBuilder("div");
                             var typeCombobox = helper.Kendo()
                                             .ComboBox()
@@ -128,7 +128,7 @@ namespace AllMark.HtmlHelpers
                                                  .Value("ДРУГОЕ");
                                             })
                                             .FullWidth();
-                            attrValueTypeDiv.InnerHtml.Append(typeCombobox.ToClientTemplate().ToString());
+                            attrValueTypeDiv.InnerHtml.Append(typeCombobox.Deferred().ToHtmlString());
                             parentDiv.InnerHtml.AppendHtml(attrValueDiv);
                             parentDiv.InnerHtml.AppendHtml(attrValueTypeDiv);
                         }
@@ -140,7 +140,7 @@ namespace AllMark.HtmlHelpers
                                             .TextBox()
                                             .Name($"tbAttr{attribute.Id}")
                                             .FullWidth();
-                        textBoxDiv.InnerHtml.Append(textBox.ToClientTemplate().ToString());
+                        textBoxDiv.InnerHtml.Append(textBox.Deferred().ToHtmlString());
                         var comboBoxDiv = new TagBuilder("div");
                         var comboBox = helper.Kendo()
                                              .ComboBox()
@@ -155,7 +155,7 @@ namespace AllMark.HtmlHelpers
                                                  }
                                              })
                                              .FullWidth();
-                        comboBoxDiv.InnerHtml.Append(comboBox.ToClientTemplate().ToString());
+                        comboBoxDiv.InnerHtml.Append(comboBox.Deferred().ToHtmlString());
                         parentDiv.InnerHtml.AppendHtml(textBoxDiv);
                         parentDiv.InnerHtml.AppendHtml(comboBoxDiv);
                     }
@@ -169,7 +169,7 @@ namespace AllMark.HtmlHelpers
                                                .IntegerTextBox()
                                                .Name($"tbAttr{attribute.Id}")
                                                .FullWidth();
-                    parentDiv.InnerHtml.Append(numericTextBox.ToClientTemplate().ToString());
+                    parentDiv.InnerHtml.Append(numericTextBox.Deferred().ToHtmlString());
                 }
                 else
                 {
@@ -188,7 +188,7 @@ namespace AllMark.HtmlHelpers
                                                 }
                                             })
                                             .FullWidth();
-                        parentDiv.InnerHtml.Append(combobox.ToClientTemplate().ToString());
+                        parentDiv.InnerHtml.Append(combobox.Deferred().ToHtmlString());
                     }
                     else
                     {
@@ -196,7 +196,7 @@ namespace AllMark.HtmlHelpers
                                               .TextBox()
                                               .Name($"tbAttr{attribute.Id}")
                                               .FullWidth();
-                        parentDiv.InnerHtml.Append(textBox.ToClientTemplate().ToString());
+                        parentDiv.InnerHtml.Append(textBox.Deferred().ToHtmlString());
                     }
                 }
             }
