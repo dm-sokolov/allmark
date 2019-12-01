@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Utils.NationalCatalog.Models;
 
 namespace AllMark.Controllers
 {
@@ -38,10 +39,21 @@ namespace AllMark.Controllers
 
         public async Task<IActionResult> GetAttributes(int categoryId)
         {
-            var attributesResponse = await _nationalCatalogService.GetAttributes(categoryId);
-            if (attributesResponse.IsSuccess)
-                return PartialView("_Attributes", attributesResponse.Content?.Items);
-            return RedirectToAction("ErrorPartial", "Home", new { message = attributesResponse.Message });
+            //var attributesResponse = await _nationalCatalogService.GetAttributes(categoryId);
+            //if (attributesResponse.IsSuccess)
+            //    return PartialView("_Attributes", attributesResponse.Content?.Items);
+            //return RedirectToAction("ErrorPartial", "Home", new { message = attributesResponse.Message });
+            var attrs = new List<CatalogAttribute>
+            {
+                new CatalogAttribute
+                {
+                    Preset = new List<string>{"11", "22"},
+                    FieldType = "text",
+                    GroupName = "group",
+                    Name = "name"
+                }
+            };
+            return PartialView("_Attributes", attrs);
         }
     }
 }
