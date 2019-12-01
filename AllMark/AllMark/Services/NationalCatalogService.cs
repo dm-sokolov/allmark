@@ -112,7 +112,7 @@ namespace AllMark.Services
         protected override string ProcessResponseError(HttpStatusCode statusCode)
         {
             var builder = new StringBuilder();
-            builder.Append("Произошла ошибка при запросе в \"Нацональный каталог\". ");
+            builder.Append("Произошла ошибка при запросе в \"Национальный каталог\". ");
             builder.Append(GetResponseStatusDescription(statusCode));
             return builder.ToString();
         }
