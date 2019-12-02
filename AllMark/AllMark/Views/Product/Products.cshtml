@@ -13,7 +13,12 @@
         .Name("btAdd")
         .Content("Добавить товар")
         .Events(e => e.Click("btAdd_onClick"))
-    )
+        )
+    @(Html.Kendo()
+        .DropDownTree()
+        .Name("ddtSelectCategory")
+        //.Events(e => e.Click("ddtSelectCategory_onClick"))
+        )
     @(Html.Kendo()
         .Button()
         .Name("btLoadExcel")
@@ -31,9 +36,11 @@
         .AutoBind(false)
         .Columns(columns =>
         {
-            columns.Bound(i => i.GoodName);
-            columns.Bound(i => i.BrandId);
             columns.Bound(i => i.GoodId);
+            columns.Bound(i => i.GoodName);
+            columns.Bound(i => i.GTIN);
+            columns.Bound(i => i.BrandId);
+            columns.Bound(i => i.CategoryId);
         })
 )
 

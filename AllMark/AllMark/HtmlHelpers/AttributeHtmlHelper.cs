@@ -16,7 +16,7 @@ namespace AllMark.HtmlHelpers
         public static HtmlString CreateAttributeControls<T>(this IHtmlHelper<IEnumerable<T>> helper, CatalogAttribute attribute)
         {
             var parentDiv = new TagBuilder("div");
-            parentDiv.AddCssClass("col-sm-9");
+            
             if (attribute.ValueTypes?.Any() ?? false)
             {
                 if (attribute.FieldType == "number")
