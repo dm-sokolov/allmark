@@ -1,6 +1,8 @@
-﻿@using Kendo.Mvc.UI;
+﻿@using AllMark.Core.Models
+@using Kendo.Mvc.UI;
 @using AllMark.DTO
 @using Utils.Kendo.Extensions
+@using Utils.NationalCatalog.Models
 
 @{
     ViewData["Title"] = "Товары";
@@ -17,12 +19,17 @@
     @(Html.Kendo()
         .DropDownTree()
         .Name("ddtSelectCategory")
-        //.Events(e => e.Click("ddtSelectCategory_onClick"))
-        )
+        .Placeholder("Категория 'по умолчанию'")
+        .DataSource(i=>i.Read(k=>k.Action("GetCategories", "Product")))
+        .DataTextField(nameof(CatalogCategory.Name))
+        .DataValueField(nameof(CatalogCategory.Id))
+        .AutoWidth(true)
+    )
     @(Html.Kendo()
         .Button()
         .Name("btLoadExcel")
         .Content("Загрузить Excel")
+        .HtmlAttributes( new { style="float:right" })
         .Events(e => e.Click("btLoadExcel_onClick"))
     )
 </div>

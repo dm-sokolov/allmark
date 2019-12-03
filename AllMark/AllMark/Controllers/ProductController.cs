@@ -55,5 +55,11 @@ namespace AllMark.Controllers
             //};
             //return PartialView("_Attributes", attrs);
         }
+
+        public async Task<IActionResult> GetCategories()
+        {
+            var categoriesResponse = await _nationalCatalogService.GetCategories();
+            return Json(categoriesResponse);
+        }
     }
 }
