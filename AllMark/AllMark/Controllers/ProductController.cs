@@ -61,5 +61,11 @@ namespace AllMark.Controllers
             var categoriesResponse = await _nationalCatalogService.GetCategories();
             return Json(categoriesResponse);
         }
+
+        public async Task<IActionResult> GetBrands()
+        {
+            var brandsResponse = await _nationalCatalogService.GetBrands();
+            return Json(brandsResponse);
+        }
     }
 }
