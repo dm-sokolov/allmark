@@ -5,9 +5,8 @@ using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Utils.NationalCatalog.Models;
+
 
 namespace AllMark.Controllers
 {
@@ -41,8 +40,9 @@ namespace AllMark.Controllers
         {
             var attributesResponse = await _nationalCatalogService.GetAttributes(categoryId);
             if (attributesResponse.IsSuccess)
-                return PartialView("_Attributes", attributesResponse.Content?.Items);
+                return PartialView("_attrTabStrip", attributesResponse.Content?.Items);
             return RedirectToAction("ErrorPartial", "Home", new { message = attributesResponse.Message });
+            
             //var attrs = new List<CatalogAttribute>
             //{
             //    new CatalogAttribute
