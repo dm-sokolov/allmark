@@ -71,25 +71,6 @@
               </text>)
     )
 
-
-@*@(Html.Kendo()
-    .Window()
-    .Name("wndProduct")
-    .HtmlAttributes(new { style="padding:0;"})
-    .Scrollable(true)
-    .Visible(false)
-    .Title("Добавление товара")
-    .Resizable(r => r.Enabled(false))
-    .Animation(true)
-    .Width(1200)
-    .Actions(a => a.Close())
-    .Draggable()
-    .Animation(animation =>
-              animation.Open(effect =>
-                  effect.Fade(FadeDirection.In)))
-    .LoadContentFrom(Url.Action("GetAttributes", "Product", new { categoryId = 30141}))
-)*@
-
 @(Html.Kendo()
     .Window()
     .Name("wndLoadExcel")

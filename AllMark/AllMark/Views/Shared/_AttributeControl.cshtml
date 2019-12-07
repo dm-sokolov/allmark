@@ -16,7 +16,7 @@
                         .Name($"cbAttrValueType{Model.Id}")
                         .Items(i =>
                         {
-                            foreach (var presetItem in Model.Preset)
+                            foreach (var presetItem in Model.ValueTypes)
                             {
                                 i.Add()
                                     .Text(presetItem)
