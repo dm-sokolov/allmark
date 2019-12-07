@@ -6,15 +6,15 @@
         @(Html.Kendo()
             .TabStrip()
             .Name("tabStrip")
-            .Animation(animation =>
-                animation.Open(effect =>
-                    effect.Fade(FadeDirection.In)))
+            //.Animation(animation =>
+            //    animation.Open(effect =>
+            //        effect.Fade(FadeDirection.In)))
             .Items(items =>
             {
-                items.Add()
-                    .Text("Обязательные поля")
-                    .Selected(true)
-                    .Content(
+            items.Add()
+                .Text("Обязательные поля")
+                .Selected(true)
+                .Content(
                             @<text>
                                 <label class="col-sm-10 allmark-div">Наименование товара</label>
                                 <div class="col-sm-10 allmark-div">
@@ -107,13 +107,13 @@
     .Visible(false)
     .Title("Атрибуты товара")
     .Resizable(r => r.Enabled(false))
-    .Animation(true)
+    //.Animation(true)
     .Width(1200)
     .Actions(a => a.Close())
     .Draggable()
-    .Animation(animation =>
-        animation.Open(effect =>
-            effect.Fade(FadeDirection.In)))
+    //.Animation(animation =>
+    //    animation.Open(effect =>
+    //        effect.Fade(FadeDirection.In)))
     .LoadContentFrom(Url.Action("GetAttributes", "Product", new { categoryId = 30141}))
     )
 

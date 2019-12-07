@@ -57,13 +57,13 @@
     .Visible(false)
     .Title("Добавление товара")
     .Resizable(r => r.Enabled(false))
-    .Animation(true)
+    //.Animation(true)
     .Width(800)
     .Actions(a => a.Close())
     .Draggable()
-    .Animation(animation => 
-        animation.Open(effect => 
-            effect.Fade(FadeDirection.In)))
+    //.Animation(animation => 
+    //    animation.Open(effect => 
+    //        effect.Fade(FadeDirection.In)))
     .Content(@<text>
                  <div class="container-fluid allmark-div">
                      <partial name="_NewProduct" />
@@ -77,12 +77,12 @@
     .Visible(false)
     .Title("Загрузка Excel")
     .Resizable(r => r.Enabled(false))
-    .Animation(true)
+    //.Animation(true)
     .Width(400)
     .Actions(a => a.Close())
-    .Animation(animation =>
-              animation.Open(effect =>
-                  effect.Fade(FadeDirection.In)))
+    //.Animation(animation =>
+    //          animation.Open(effect =>
+    //              effect.Fade(FadeDirection.In)))
     .Content(@<text>
             <div class="k-content">
                 @(Html.Kendo().Upload()
