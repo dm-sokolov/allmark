@@ -1,9 +1,6 @@
 ﻿@addTagHelper *, AllMark.HtmlHelpers
 @using AllMark.HtmlHelpers
 @model IEnumerable<Utils.NationalCatalog.Models.CatalogAttribute>
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
 
 @(Html.Kendo()
     .TabStrip()
@@ -16,35 +13,31 @@
         foreach (var group in groups)
         {
             items.Add()
-                .Selected(first)
-                .Text(group.Key)
-                .Content(@<text>
-                             @foreach (var attribute in group)
-                             {
-                                 <div class="row" style="margin:5px;">
-                                     <div class="col-sm-3 allmark-div">
-                                         @(attribute.Name)
-                                     </div>
-                                     <div class="col-sm-9 allmark-div">
-                                         @Html.CreateAttributeControls(attribute)
-                                     </div>
-
-                                 </div>
-                             }
-                             <script>
-                                 @Html.Kendo().DeferredScripts(false)
-                             </script>
-                          </text>);
+            .Selected(first)
+            .Text(group.Key)
+            .Content(@<text>
+                    @foreach (var attribute in group)
+                    {
+                        <div class="row" style="margin:5px;">
+                            <div class="col-sm-3 allmark-div">
+                                @(attribute.Name)
+                            </div>
+                            <div class="col-sm-9 allmark-div">
+                                <partial name="_AttributeControl" model="attribute" />
+                            </div>
+                        </div>
+                    }
+            </text>);
             first = false;
         }
     })
-    )
+)
 
 <div>
-@(Html.Kendo()
-    .Button()
-    .Name("wndAttributes_btSave")
-    .Content("Сохранить")
-    .Events(e => e.Click("wndAttributes_btSave_onClick"))
+    @(Html.Kendo()
+        .Button()
+        .Name("wndAttributes_btSave")
+        .Content("Сохранить")
+        .Events(e => e.Click("wndAttributes_btSave_onClick"))
     )
 </div>
