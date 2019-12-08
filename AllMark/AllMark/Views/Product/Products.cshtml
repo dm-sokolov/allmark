@@ -57,13 +57,9 @@
     .Visible(false)
     .Title("Добавление товара")
     .Resizable(r => r.Enabled(false))
-    //.Animation(true)
     .Width(800)
     .Actions(a => a.Close())
     .Draggable()
-    //.Animation(animation => 
-    //    animation.Open(effect => 
-    //        effect.Fade(FadeDirection.In)))
     .Content(@<text>
                  <div class="container-fluid allmark-div">
                      <partial name="_NewProduct" />
@@ -77,12 +73,8 @@
     .Visible(false)
     .Title("Загрузка Excel")
     .Resizable(r => r.Enabled(false))
-    //.Animation(true)
     .Width(400)
     .Actions(a => a.Close())
-    //.Animation(animation =>
-    //          animation.Open(effect =>
-    //              effect.Fade(FadeDirection.In)))
     .Content(@<text>
             <div class="k-content">
                 @(Html.Kendo().Upload()
@@ -112,14 +104,6 @@
 
     function wndProduct_open() {
         $('#wndProduct').getKendoWindow().center().open();
-    }
-
-    function wndAttributes_btSave_onClick() {
-        var comboValues = $('[data-role=combobox]').toArray().map((i) => $(`#${i.id}`).getKendoComboBox()).map((i) => [i.element[0].id.replace('cbAttr', ''), i.value()]); 
-        var textValues = $('.k-textbox').map((i, v) => {
-            var elem = $(v);
-            var controlName = elem.attr('id');
-            return [[elem.attr('id').replace('tbAttr', ''), elem.val()]];
-        });
+        setControlsSettings();
     }
 </script>

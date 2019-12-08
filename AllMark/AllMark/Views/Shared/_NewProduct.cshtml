@@ -18,54 +18,54 @@
                             @<text>
                                 <label class="col-sm-10 allmark-div">Наименование товара</label>
                                 <div class="col-sm-10 allmark-div">
-                                    @( Html.Kendo()
-                                      .TextBox()
-                                      .Name("wndProduct_tbGoodName")
-                                      .FullWidth()
+                                    @(Html.Kendo()
+                                          .TextBox()
+                                          .Name("wndProduct_tbGoodName")
+                                          .FullWidth()
                                     )
                                 </div>
 
                                 <label class="col-sm-10 allmark-div">Штрихкод/GTIN</label>
                                 <div class="col-sm-10 allmark-div">
-                                    @( Html.Kendo()
-                                      .IntegerTextBox()
-                                      .Name("wndProduct_tbGTIN")
-                                      .FullWidth()
+                                    @(Html.Kendo()
+                                          .IntegerTextBox()
+                                          .Name("wndProduct_tbGTIN")
+                                          .FullWidth()
                                     )
                                 </div>
 
                                 <label class="col-sm-10 allmark-div">Бренд</label>
                                 <div class="col-sm-10 allmark-div">
-                                    @( Html.Kendo()
-                                      .ComboBox()
-                                      .Name("wndProduct_cbBrand")
-                                      .Placeholder("Выбрать бренд")
-                                      .DataSource(i => i.Read(k => k.Action("GetBrands", "Product")))
-                                      .DataTextField(nameof(CatalogBrand.Name))
-                                      .DataValueField(nameof(CatalogBrand.Id))
-                                      .AutoWidth(true)
+                                    @(Html.Kendo()
+                                          .ComboBox()
+                                          .Name("wndProduct_cbBrand")
+                                          .Placeholder("Выбрать бренд")
+                                          .DataSource(i => i.Read(k => k.Action("GetBrands", "Product")))
+                                          .DataTextField(nameof(CatalogBrand.Name))
+                                          .DataValueField(nameof(CatalogBrand.Id))
+                                          .FullWidth()
                                     )
                                 </div>
 
                                 <label class="col-sm-10 allmark-div">ТН ВЭД</label>
                                 <div class="col-sm-10 allmark-div">
-                                    @( Html.Kendo()
-                                      .IntegerTextBox()
-                                      .Name("wndProduct_tbTnved")
-                                      .FullWidth()
+                                    @(Html.Kendo()
+                                          .IntegerTextBox()
+                                          .Name("wndProduct_tbTnved")
+                                          .FullWidth()
                                     )
                                 </div>
 
                                 <label class="col-sm-10 allmark-div">Категория</label>
                                 <div class="col-sm-10 allmark-div">
-                                    @( Html.Kendo()
-                                      .DropDownTree()
-                                      .Name("ddtChangeCategory")
-                                      .Placeholder("Выбрать категорию")
-                                      .DataSource(i => i.Read(k => k.Action("GetCategories", "Product")))
-                                      .DataTextField(nameof(CatalogCategory.Name))
-                                      .DataValueField(nameof(CatalogCategory.Id))
-                                      .AutoWidth(true)
+                                    @(Html.Kendo()
+                                          .DropDownTree()
+                                          .Name("ddtChangeCategory")
+                                          .Placeholder("Выбрать категорию")
+                                          .DataSource(i => i.Read(k => k.Action("GetCategories", "Product")))
+                                          .DataTextField(nameof(CatalogCategory.Name))
+                                          .DataValueField(nameof(CatalogCategory.Id))
+                                          .FullWidth()
                                     )
                                 </div>
 
@@ -107,40 +107,73 @@
     .Visible(false)
     .Title("Атрибуты товара")
     .Resizable(r => r.Enabled(false))
-    //.Animation(true)
     .Width(1200)
     .Actions(a => a.Close())
     .Draggable()
-    //.Animation(animation =>
-    //    animation.Open(effect =>
-    //        effect.Fade(FadeDirection.In)))
     .LoadContentFrom(Url.Action("GetAttributes", "Product", new { categoryId = 30141}))
     )
 
 <script>
-        function wndProduct_btSaveAndCreateMore_onClick() {
-            const wndProduct = $('#wndProduct').getKendoWindow();
-            if (wndProduct)
-                wndProduct.close();
-        }
+    var wndProduct_tbGoodName,
+        wndProduct_tbGTIN,
+        wndProduct_cbBrand,
+        wndProduct_tbTnved,
+        ddtChangeCategory;
 
-        function wndProduct_btSaveAndQuit_onClick() {
-            const wndProduct = $('#wndProduct').getKendoWindow();
-            if (wndProduct)
-                wndProduct.close();
-        }
-
-        function wndProduct_btSaveAndQuit_onClick() {
-            const wndProduct = $('#wndProduct').getKendoWindow();
-            if (wndProduct)
-                wndProduct.close();
-        }
-
-        function btAttributes_onClick() {
-            wndAttributes_open();
+    function initControls() {
+        wndProduct_tbGoodName = getKendoTextBox("wndProduct_tbGoodName");
+        wndProduct_tbGTIN = getKendoNumericTextBox("wndProduct_tbGTIN");
+        wndProduct_cbBrand = getKendoComboBox("wndProduct_cbBrand");
+        wndProduct_tbTnved = getKendoNumericTextBox("wndProduct_tbTnved");
+        ddtChangeCategory = getKendoDropDownTree("ddtChangeCategory");
     }
 
-        function wndAttributes_open() {
-            $('#wndAttributes').getKendoWindow().center().open();
+    function wndProduct_btSaveAndCreateMore_onClick() {
+        const wndProduct = $('#wndProduct').getKendoWindow();
+        if (wndProduct)
+            wndProduct.close();
+    }
+
+    function wndProduct_btSaveAndQuit_onClick() {
+        const wndProduct = $('#wndProduct').getKendoWindow();
+        var fields = collectProductFields();
+        var attributeFields = collectAttributes();
+        if (wndProduct)
+            wndProduct.close();
+    }
+
+    function wndProduct_btSaveAndQuit_onClick() {
+        const wndProduct = $('#wndProduct').getKendoWindow();
+        if (wndProduct)
+            wndProduct.close();
+    }
+
+    function btAttributes_onClick() {
+        wndAttributes_open();
+    }
+
+    function wndAttributes_open() {
+        $('#wndAttributes').getKendoWindow().center().open();
+    }
+
+    function collectProductFields() {
+        initControls();
+        return {
+            Name: wndProduct_tbGoodName.val(),
+            Gtin: wndProduct_tbGTIN.value(),
+            Brand: wndProduct_cbBrand.value(),
+            Tnved: wndProduct_tbTnved.value(),
+            Category: ddtChangeCategory.value()
         }
-    </script>
+    }
+
+    function collectAttributes() {
+        var comboValues = $('[data-role=combobox]').toArray().map((i) => $(`#${i.id}`).getKendoComboBox()).map((i) => [i.element[0].id.replace('cbAttr', ''), i.value()]); 
+        var textValues = $('.k-textbox').map((i, v) => {
+            var elem = $(v);
+            var controlName = elem.attr('id');
+            return [[elem.attr('id').replace('tbAttr', ''), elem.val()]];
+        });
+        return comboValues.concat(textValues);
+    }
+</script>

@@ -38,3 +38,18 @@ function setControlsSettings() {
     });
 }
 
+function getKendoTextBox(name) {
+    return $(`#${name}`);
+}
+
+function getKendoComboBox(name) {
+    return $(`#${name}`).getKendoComboBox();
+}
+
+function getKendoDropDownTree(name) {
+    return $(`#${name}`).getKendoDropDownTree();
+}
+
+function getKendoNumericTextBox(name) {
+    return $(`#${name}`).getKendoNumericTextBox();
+}
