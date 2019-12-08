@@ -8,8 +8,9 @@
     if (Model.FieldType == "number")
     {
             @(Html.Kendo()
-                    .NumericTextBox()
+                    .IntegerTextBox()
                     .Name($"tbAttr{Model.Id}")
+                    .Min(0)
                     .FullWidth())
             @(Html.Kendo()
                         .ComboBox()
@@ -126,6 +127,7 @@ else
     {
         @(Html.Kendo()
                 .IntegerTextBox()
+                .Min(0)
                 .Name($"tbAttr{Model.Id}")
                 .FullWidth())
     }
