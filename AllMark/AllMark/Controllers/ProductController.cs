@@ -6,20 +6,31 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AllMark.AutoMapper.Extensions;
+using AllMark.Core.Models;
+using AllMark.DTO;
+using AllMark.Repository;
+using AutoMapper;
 
 
 namespace AllMark.Controllers
 {
     public class ProductController : BaseController
     {
+        private readonly IRepository<Product> _productRepository;
         private readonly INationalCatalogService _nationalCatalogService;
         private readonly IExcelService _excelService;
+        private readonly IMapper _mapper;
 
         public ProductController(INationalCatalogService nationalCatalogService,
-            IExcelService excelService)
+            IExcelService excelService,
+            IMapper mapper,
+            IRepository<Product> productRepository)
         {
+            _productRepository = productRepository;
             _nationalCatalogService = nationalCatalogService;
             _excelService = excelService;
+            _mapper = mapper;
         }
 
         public IActionResult Products() => View();
@@ -66,6 +77,13 @@ namespace AllMark.Controllers
         {
             var brandsResponse = await _nationalCatalogService.GetBrands();
             return Json(brandsResponse);
+        }
+        
+        public async Task<IActionResult> Put(ProductDto productDto)
+        {
+            var newProduct = productDto.MapTo<Product>(_mapper);
+            var result = await _productRepository.SaveAsync(newProduct);
+            return Json(result);
         }
     }
 }
