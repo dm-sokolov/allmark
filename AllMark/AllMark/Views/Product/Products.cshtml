@@ -1,5 +1,4 @@
-﻿@using AllMark.Core.Models
-@using Kendo.Mvc.UI;
+﻿@using Kendo.Mvc.UI;
 @using AllMark.DTO
 @using Utils.Kendo.Extensions
 @using Utils.NationalCatalog.Models
@@ -94,10 +93,14 @@
 )
 
 <script type="text/javascript">
-    var ddtSelectCategory;
+    var ddtSelectCategory,
+        wndLoadExcel,
+        wndProduct;
 
     $(document).ready(() => {
         ddtSelectCategory = getKendoDropDownTree("ddtSelectCategory");
+        wndLoadExcel = getKendoWindow("wndLoadExcel");
+        wndProduct = getKendoWindow("wndProduct");
     });
 
     function btAdd_onClick() {
@@ -107,11 +110,11 @@
     }
 
     function btLoadExcel_onClick() {
-        getKendoWindow("wndLoadExcel").center().open();
+        wndLoadExcel.center().open();
     }
 
     function wndProduct_open() {
-        getKendoWindow("wndProduct").center().open();
+        wndProduct.center().open();
         setControlsSettings();
     }
 </script>
