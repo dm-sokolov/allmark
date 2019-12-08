@@ -17,6 +17,7 @@
         )
     @(Html.Kendo()
         .DropDownTree()
+        .AutoBind(false)
         .Name("ddtSelectCategory")
         .Placeholder("Категория 'по умолчанию'")
         .DataSource(i => i.Read(read => read.Action("GetCategories", "Product"))

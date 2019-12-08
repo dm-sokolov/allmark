@@ -10,12 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AllMark.AutoMapper.Extensions;
 using AllMark.Core.Models;
-using AllMark.DTO;
 using AllMark.Repository;
-using AutoMapper;
-
 
 namespace AllMark.Controllers
 {
@@ -57,18 +53,6 @@ namespace AllMark.Controllers
             if (attributesResponse.IsSuccess)
                 return PartialView("_attrTabStrip", attributesResponse.Content?.Items);
             return RedirectToAction("ErrorPartial", "Home", new { message = attributesResponse.Message });
-            
-            //var attrs = new List<CatalogAttribute>
-            //{
-            //    new CatalogAttribute
-            //    {
-            //        Preset = new List<string>{"11", "22"},
-            //        FieldType = "text",
-            //        GroupName = "group",
-            //        Name = "name"
-            //    }
-            //};
-            //return PartialView("_Attributes", attrs);
         }
 
         public async Task<IActionResult> GetCategories(int? id)
@@ -96,6 +80,7 @@ namespace AllMark.Controllers
             return Json(brandsResponse);
         }
         
+        [HttpPost]
         public async Task<IActionResult> Put(ProductDto productDto)
         {
             var newProduct = productDto.MapTo<Product>(_mapper);

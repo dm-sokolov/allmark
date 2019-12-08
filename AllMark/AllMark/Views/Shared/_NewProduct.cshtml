@@ -6,9 +6,6 @@
         @(Html.Kendo()
             .TabStrip()
             .Name("tabStrip")
-            //.Animation(animation =>
-            //    animation.Open(effect =>
-            //        effect.Fade(FadeDirection.In)))
             .Items(items =>
             {
             items.Add()
@@ -64,6 +61,7 @@
                                     @(Html.Kendo()
                                           .DropDownTree()
                                           .Name("ddtChangeCategory")
+                                          .AutoBind(false)
                                           .Placeholder("Выбрать категорию")
                                           .DataSource(i => i.Read(k => k.Action("GetCategories", "Product")))
                                           .DataTextField(nameof(CatalogCategory.Name))
@@ -113,7 +111,6 @@
     .Width(1200)
     .Actions(a => a.Close())
     .Draggable()
-    //.LoadContentFrom(Url.Action("GetAttributes", "Product", new { categoryId = 30141}))
     )
 
 <script>
@@ -141,12 +138,11 @@
         const wndProduct = $('#wndProduct').getKendoWindow();
         var fields = collectProductFields();
         var attributeFields = collectAttributes();
-        if (wndProduct)
-            wndProduct.close();
-    }
-
-    function wndProduct_btSaveAndQuit_onClick() {
-        const wndProduct = $('#wndProduct').getKendoWindow();
+        $.ajax({
+            url: '@Url.Action("Put", "Product")',
+            data: fields,
+            method: 'POST'
+        });
         if (wndProduct)
             wndProduct.close();
     }
