@@ -8,7 +8,7 @@ namespace AllMark.DTO
         public int GoodId { get; set; }
         
         [DisplayName("Штрих-код/GTIN")]
-        public int GTIN { get; set; }
+        public long GTIN { get; set; }
 
         [DisplayName("Наименование товара")]
         public string GoodName { get; set; }

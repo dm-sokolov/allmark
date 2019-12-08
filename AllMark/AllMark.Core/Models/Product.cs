@@ -5,7 +5,7 @@ namespace AllMark.Core.Models
     public class Product: BaseModel
     {
         public virtual int GoodId { get; set; }
-        public virtual int GTIN { get; set; }
+        public virtual long GTIN { get; set; }
         public virtual string GoodName { get; set; }
         public virtual int TNVED { get; set; }
         public virtual int BrandId { get; set; }
