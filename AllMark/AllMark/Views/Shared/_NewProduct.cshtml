@@ -151,18 +151,17 @@
     }
 
     function btAttributes_onClick() {
-        const wndProduct = $('#wndProduct').getKendoWindow();
-        const ddtChangeCategory = getKendoDropDownTree("ddtChangeCategory");
-        if (wndProduct)
-            wndProduct.refresh({
-                url: '@(Url.Action("GetAttributes", "Product"))',
-                data: { categoryId: Number(ddtChangeCategory.value()) }
-            });
         wndAttributes_open();
     }
 
     function wndAttributes_open() {
-        $('#wndAttributes').getKendoWindow().center().open();
+        const wndAttributes = $('#wndAttributes').getKendoWindow().center().open();
+        const ddtChangeCategory = getKendoDropDownTree("ddtChangeCategory");
+        if (wndAttributes)
+            wndAttributes.refresh({
+                url: '@(Url.Action("GetAttributes", "Product"))',
+                data: { categoryId: Number(ddtChangeCategory.value()) }
+            });
     }
 
     function collectProductFields() {
