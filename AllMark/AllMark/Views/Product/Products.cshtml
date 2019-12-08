@@ -94,16 +94,24 @@
 )
 
 <script type="text/javascript">
+    var ddtSelectCategory;
+
+    $(document).ready(() => {
+        ddtSelectCategory = getKendoDropDownTree("ddtSelectCategory");
+    });
+
     function btAdd_onClick() {
         wndProduct_open();
+        window.initControls();
+        window.ddtChangeCategory.value(window.ddtSelectCategory.value());
     }
 
     function btLoadExcel_onClick() {
-        $("#wndLoadExcel").getKendoWindow().center().open();
+        getKendoWindow("wndLoadExcel").center().open();
     }
 
     function wndProduct_open() {
-        $('#wndProduct').getKendoWindow().center().open();
+        getKendoWindow("wndProduct").center().open();
         setControlsSettings();
     }
 </script>

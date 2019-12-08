@@ -120,13 +120,7 @@
         wndProduct_tbGTIN,
         wndProduct_cbBrand,
         wndProduct_tbTnved,
-        ddtChangeCategory,
-        ddtSelectedCategory;
-
-    //$(document).ready(() => {
-    //    //initControls();
-    //    //ddtChangeCategory.value(Number(ddtSelectedCategory.value())); -- не знаю куда поставить это присвоение
-    //});
+        ddtChangeCategory;
 
     function initControls() {
         wndProduct_tbGoodName = getKendoTextBox("wndProduct_tbGoodName");
@@ -134,7 +128,6 @@
         wndProduct_cbBrand = getKendoComboBox("wndProduct_cbBrand");
         wndProduct_tbTnved = getKendoNumericTextBox("wndProduct_tbTnved");
         ddtChangeCategory = getKendoDropDownTree("ddtChangeCategory");
-        ddtSelectedCategory = getKendoDropDownTree("ddtSelectedCategory");
     }
 
     function wndProduct_btSaveAndCreateMore_onClick() {
@@ -162,7 +155,7 @@
         const ddtChangeCategory = getKendoDropDownTree("ddtChangeCategory");
         if (wndProduct)
             wndProduct.refresh({
-                url: @(Url.Action("GetAttributes", "Product")),
+                url: '@(Url.Action("GetAttributes", "Product"))',
                 data: { categoryId: Number(ddtChangeCategory.value()) }
             });
         wndAttributes_open();
@@ -192,9 +185,4 @@
         });
         return comboValues.concat(textValues);
     }
-
-    dialog.refresh({
-        url: "/feedbackForm",
-        data: { userId: 42 }
-    });
 </script>

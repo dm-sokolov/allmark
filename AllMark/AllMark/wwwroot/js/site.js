@@ -53,3 +53,7 @@ function getKendoDropDownTree(name) {
 function getKendoNumericTextBox(name) {
     return $(`#${name}`).getKendoNumericTextBox();
 }
+
+function getKendoWindow(name) {
+    return $(`#${name}`).getKendoWindow();
+}
