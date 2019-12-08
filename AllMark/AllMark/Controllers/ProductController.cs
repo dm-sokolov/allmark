@@ -1,10 +1,14 @@
-﻿using AllMark.Controllers.Base;
+﻿using AllMark.AutoMapper.Extensions;
+using AllMark.Controllers.Base;
+using AllMark.DTO;
 using AllMark.Services.Interfaces;
+using AutoMapper;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AllMark.AutoMapper.Extensions;
 using AllMark.Core.Models;
@@ -67,10 +71,23 @@ namespace AllMark.Controllers
             //return PartialView("_Attributes", attrs);
         }
 
-        public async Task<IActionResult> GetCategories()
+        public async Task<IActionResult> GetCategories(int? id)
         {
             var categoriesResponse = await _nationalCatalogService.GetCategories();
-            return Json(categoriesResponse);
+            var categories = categoriesResponse.MapTo<List<CategoryDto>>(_mapper);
+            var selectedCategories = new List<CategoryDto>();
+            if (id.HasValue)
+            {
+                selectedCategories = categories.Where(i => i.ParentId == id.Value).ToList();
+            }
+            else
+            {
+                var minLevel = categories.Min(i => i.Level);
+                selectedCategories = categories.Where(i => i.Level == minLevel).ToList();
+            }
+            selectedCategories.ForEach(category => category.HasChildren = categories.Any(i => i.ParentId == category.Id));
+
+            return Json(selectedCategories);
         }
 
         public async Task<IActionResult> GetBrands()
