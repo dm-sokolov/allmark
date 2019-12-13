@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AllMark.Core.Models;
 using AllMark.Repository;
+using NHibernate.Linq;
 
 namespace AllMark.Controllers
 {
@@ -19,18 +20,24 @@ namespace AllMark.Controllers
     {
         private readonly IRepository<Product> _productRepository;
         private readonly INationalCatalogService _nationalCatalogService;
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly ICustomerService _customerService;
         private readonly IExcelService _excelService;
         private readonly IMapper _mapper;
 
         public ProductController(INationalCatalogService nationalCatalogService,
             IExcelService excelService,
             IMapper mapper,
+            IRepository<Category> categoryRepository,
+            ICustomerService customerService,
             IRepository<Product> productRepository)
         {
             _productRepository = productRepository;
             _nationalCatalogService = nationalCatalogService;
             _excelService = excelService;
             _mapper = mapper;
+            _customerService = customerService;
+            _categoryRepository = categoryRepository;
         }
 
         public IActionResult Products() => View();
@@ -84,6 +91,15 @@ namespace AllMark.Controllers
         public async Task<IActionResult> Put(ProductDto productDto)
         {
             var newProduct = productDto.MapTo<Product>(_mapper);
+
+            var customer = await _customerService.GetCurrentAsync();
+            var category = await _categoryRepository.Query()
+                .FirstOrDefaultAsync(i => i.CategoryId == productDto.CategoryId);
+            
+            newProduct.Customer = customer;
+            if (category != null)
+                newProduct.Categories.Add(category);
+
             var result = await _productRepository.SaveAsync(newProduct);
             return Json(result);
         }

@@ -11,7 +11,8 @@ namespace AllMark.AutoMapper.Profiles
         {
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>()
-                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => new List<Category> { new Category { CategoryId = src.CategoryId } }));
+                //.ForMember(dest => dest.Categories, opt => opt.MapFrom(src => new List<Category> { new Category { CategoryId = src.CategoryId } }));
+                .ForMember(dest => dest.Categories, opt => opt.Ignore());
         }
     }
 }
