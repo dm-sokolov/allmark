@@ -22,6 +22,6 @@ namespace AllMark.DTO
         public int CategoryId { get; set; }
 
         [DisplayName ("Категория")]
-        public int CategoriesToString { get; set; }
+        public string CategoriesToString { get; set; }
     }
 }
