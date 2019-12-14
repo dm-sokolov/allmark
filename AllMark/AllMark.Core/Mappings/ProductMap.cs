@@ -24,9 +24,11 @@ namespace AllMark.Core.Mappings
                 .KeyColumn("product_id")
                 .Cascade.AllDeleteOrphan()
                 .BatchSize(30);
-            HasMany(i => i.Categories)
-                .KeyColumn("product_id")
-                .Cascade.AllDeleteOrphan()
+            HasManyToMany(i => i.Categories)
+                .Table("product_category")
+                .ParentKeyColumn("product_id")
+                .ChildKeyColumn("category_id")
+                .Cascade.None()
                 .BatchSize(30);
         }
     }
