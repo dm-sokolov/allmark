@@ -1,6 +1,6 @@
-﻿using AllMark.DTO;
+﻿using AllMark.Core.Models;
+using AllMark.DTO;
 using AutoMapper;
-using Utils.NationalCatalog.Models;
 
 namespace AllMark.AutoMapper.Profiles
 {
@@ -8,7 +8,7 @@ namespace AllMark.AutoMapper.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<CatalogCategory, CategoryDto>();
+            CreateMap<Category, CategoryDto>();
         }
     }
 }

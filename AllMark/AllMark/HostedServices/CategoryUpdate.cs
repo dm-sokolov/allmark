@@ -44,14 +44,23 @@ namespace AllMark.HostedServices
                         .Where(i => categoryIds.Contains(i.CategoryId))
                         .ToListAsync();
                     var newCategories = categories.Where(i => existingCategories.All(c => c.CategoryId != i.Id))
+                        .OrderBy(i => i.Level)
                         .ToList();
+                    var count = 0;
                     foreach(var newCategory in newCategories)
                     {
                         var category = new Category
                         {
                             CategoryId = newCategory.Id,
+                            Level = newCategory.Level,
+                            Name = newCategory.Name,
+                            ParentId = newCategory.ParentId
                         };
                         await categoryRepository.SaveAsync(category);
+
+                        count++;
+                        if (count % 25 == 0)
+                            await categoryRepository.FlushAsync();
                     }
 
                     await categoryRepository.FlushAsync();

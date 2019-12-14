@@ -64,9 +64,9 @@ namespace AllMark.Controllers
 
         public async Task<IActionResult> GetCategories(int? id)
         {
-            var categoriesResponse = await _nationalCatalogService.GetCategories();
-            var categories = categoriesResponse.MapTo<List<CategoryDto>>(_mapper);
-            var selectedCategories = new List<CategoryDto>();
+            var categories = await _categoryRepository.GetAllCacheableAsync();
+            
+            var selectedCategories = new List<Category>();
             if (id.HasValue)
             {
                 selectedCategories = categories.Where(i => i.ParentId == id.Value).ToList();
@@ -76,9 +76,10 @@ namespace AllMark.Controllers
                 var minLevel = categories.Min(i => i.Level);
                 selectedCategories = categories.Where(i => i.Level == minLevel).ToList();
             }
-            selectedCategories.ForEach(category => category.HasChildren = categories.Any(i => i.ParentId == category.Id));
+            var categoryDtos = selectedCategories.MapTo<List<CategoryDto>>(_mapper);
+            categoryDtos.ForEach(category => category.HasChildren = categories.Any(i => i.ParentId == category.CategoryId));
 
-            return Json(selectedCategories);
+            return Json(_mapper, categoryDtos, typeof(List<CategoryDto>));
         }
 
         public async Task<IActionResult> GetBrands()

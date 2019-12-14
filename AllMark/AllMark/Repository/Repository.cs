@@ -1,5 +1,7 @@
 ﻿using AllMark.Core.Models;
 using NHibernate;
+using NHibernate.Linq;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -69,5 +71,16 @@ namespace AllMark.Repository
             }
         }
 
+        public async Task<List<T>> GetAllCacheableAsync()
+        {
+            return await Query()
+                        .WithOptions(o => o.SetCacheable(true))
+                        .ToListAsync();
+        }
+
+        public async Task EvictAsync(T entity)
+        {
+            await _session.EvictAsync(entity);
+        }
     }
 }
