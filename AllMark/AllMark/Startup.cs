@@ -14,6 +14,7 @@ using AllMark.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Hosting;
 using AutoMapper;
+using AllMark.HostedServices;
 
 namespace AllMark
 {
@@ -68,6 +69,7 @@ namespace AllMark
                 services.AddControllersWithViews()
                     .AddRazorRuntimeCompilation();
             }
+            services.AddHostedServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
