@@ -39,7 +39,6 @@
                                           .ComboBox()
                                           .Name("wndProduct_cbBrand")
                                           .Placeholder("Выбрать бренд")
-                                          .AutoBind(false)
                                           .DataSource(i => i.Read(k => k.Action("GetBrands", "Product")))
                                           .DataTextField(nameof(CatalogBrand.Name))
                                           .DataValueField(nameof(CatalogBrand.Id))

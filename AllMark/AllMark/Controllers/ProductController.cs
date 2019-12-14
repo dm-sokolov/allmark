@@ -45,8 +45,9 @@ namespace AllMark.Controllers
         [HttpPost]
         public async Task<ActionResult> GetProducts([DataSourceRequest] DataSourceRequest request)
         {
-            var products = _productRepository.Query();
-            return Json(products.ToDataSourceResult(request));
+            var products = await _productRepository.Query().ToListAsync();
+            var dtos = products.MapTo<List<ProductDto>>(_mapper);
+            return Json(dtos.ToDataSourceResult(request));
         }
 
         public void UploadExcel(IEnumerable<IFormFile> files)
@@ -94,8 +95,7 @@ namespace AllMark.Controllers
             var newProduct = productDto.MapTo<Product>(_mapper);
 
             var customer = await _customerService.GetCurrentAsync();
-            var category = await _categoryRepository.Query()
-                .FirstOrDefaultAsync(i => i.CategoryId == productDto.CategoryId);
+            var category = await _categoryRepository.GetByIdAsync(productDto.CategoryId);
             
             newProduct.Customer = customer;
             if (category != null)

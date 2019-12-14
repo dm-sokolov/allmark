@@ -36,14 +36,14 @@
         .DataSource(ds => ds.Ajax()
                             .Read(read => read.Action("GetProducts", "Product"))
         )
-        .AutoBind(false)
         .Columns(columns =>
         {
             columns.Bound(i => i.GoodId);
             columns.Bound(i => i.GoodName);
             columns.Bound(i => i.GTIN);
             columns.Bound(i => i.BrandId);
-            columns.Bound(i => i.CategoryId);
+            columns.Bound(i => i.CategoriesToString)
+                .Sortable(false);
         })
 )
 
