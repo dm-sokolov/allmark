@@ -57,3 +57,11 @@ function getKendoNumericTextBox(name) {
 function getKendoWindow(name) {
     return $(`#${name}`).getKendoWindow();
 }
+
+function rebindDataSource(control) {
+    if (!control) {
+        console.warn(`Rebinding failed, control ${control} wasn't found`);
+        return;
+    }
+    control.dataSource.read();
+}
