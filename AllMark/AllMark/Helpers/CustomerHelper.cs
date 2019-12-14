@@ -22,7 +22,7 @@ namespace AllMark.Helpers
         {
             customer.GUID = code;
             await _customerRepository.UpdateAsync(customer);
-
+            //TODO Исправить строку подтверждения
             await _emailService.SendEmailAsync(customer.Email, "Подтверждение учетной записи",
                 $@"C:\Users\Николай\Documents\allmark\AllMark\AllMark\Services\EmailService.cs: <a href='{callbackUrl}'>CONFIRM_LINK</a>");
         }

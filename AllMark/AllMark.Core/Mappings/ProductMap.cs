@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AllMark.Core.Models;
+﻿using AllMark.Core.Models;
 using FluentNHibernate.Mapping;
 
 namespace AllMark.Core.Mappings

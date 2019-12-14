@@ -1,5 +1,4 @@
-﻿using System;
-namespace AllMark.Interfaces
+﻿namespace AllMark.Interfaces
 {
     public interface ISimpleHelper
     {

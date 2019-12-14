@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using AllMark.Controllers.Base;
 
 namespace AllMark.Controllers

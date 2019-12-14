@@ -1,7 +1,6 @@
 ﻿using AllMark.Core.Models;
 using AllMark.DTO;
 using AutoMapper;
-using System.Collections.Generic;
 
 namespace AllMark.AutoMapper.Profiles
 {

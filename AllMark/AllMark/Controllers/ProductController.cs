@@ -3,7 +3,6 @@ using AllMark.Controllers.Base;
 using AllMark.DTO;
 using AllMark.Services.Interfaces;
 using AutoMapper;
-using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AllMark.Core.Models;
 using AllMark.Repository;
+using Kendo.Mvc.Extensions;
 using NHibernate.Linq;
 
 namespace AllMark.Controllers
@@ -45,7 +45,7 @@ namespace AllMark.Controllers
         [HttpPost]
         public async Task<ActionResult> GetProducts([DataSourceRequest] DataSourceRequest request)
         {
-            var products = await _nationalCatalogService.GetProducts(gtin: 6411300162475);
+            var products = _productRepository.Query();
             return Json(products.ToDataSourceResult(request));
         }
 
