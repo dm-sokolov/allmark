@@ -62,14 +62,14 @@ namespace AllMark.Controllers
             return RedirectToAction("ErrorPartial", "Home", new { message = attributesResponse.Message });
         }
 
-        public async Task<IActionResult> GetCategories(int? id)
+        public async Task<IActionResult> GetCategories(int? categoryId)
         {
             var categories = await _categoryRepository.GetAllCacheableAsync();
             
             var selectedCategories = new List<Category>();
-            if (id.HasValue)
+            if (categoryId.HasValue)
             {
-                selectedCategories = categories.Where(i => i.ParentId == id.Value).ToList();
+                selectedCategories = categories.Where(i => i.ParentId == categoryId.Value).ToList();
             }
             else
             {
