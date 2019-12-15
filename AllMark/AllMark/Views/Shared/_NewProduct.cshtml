@@ -62,7 +62,9 @@
                                           .DropDownTree()
                                           .BaseDropDownTree()
                                           .CategoryDropDownTree()
-                                          .Name("ddtChangeCategory")                                         
+                                          .Name("ddtChangeCategory")
+                                          .LoadOnDemand()
+                                          .Events(e => e.Select("ddtChangeCategory_onChange"))
                                           .FullWidth()                                        
                                     )
                                 </div>
@@ -115,7 +117,8 @@
         wndProduct_tbGTIN,
         wndProduct_cbBrand,
         wndProduct_tbTnved,
-        ddtChangeCategory;
+        ddtChangeCategory,
+        selectedCategory;
 
     function initControls() {
         wndProduct_tbGoodName = getKendoTextBox("wndProduct_tbGoodName");
@@ -135,6 +138,8 @@
         const wndProduct = $('#wndProduct').getKendoWindow();
         var fields = collectProductFields();
         var attributeFields = collectAttributes();
+        var attributes = prepareAttributes(attributeFields);
+        fields.@nameof(ProductDto.Attributes) = attributes;
         $.ajax({
             url: '@Url.Action("Put", "Product")',
             data: fields,
@@ -151,11 +156,14 @@
 
     function wndAttributes_open() {
         const wndAttributes = $('#wndAttributes').getKendoWindow().center().open();
-        const ddtChangeCategory = getKendoDropDownTree("ddtChangeCategory");
+        if (!selectedCategory) {
+            swal('Внимание!', 'Выберите категорию', 'warning');
+            return;
+        }
         if (wndAttributes)
             wndAttributes.refresh({
                 url: '@(Url.Action("GetAttributes", "Product"))',
-                data: { categoryId: Number(ddtChangeCategory.value()) }
+                data: { categoryId: Number(selectedCategory.@nameof(CategoryDto.CategoryId)) }
             });
     }
 
@@ -170,13 +178,57 @@
         }
     }
 
+    const groupBy = (array, func) =>
+          array.reduce((objectsByKeyValue, obj) => {
+            const value = func(obj);
+            objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat([obj]);
+            return objectsByKeyValue;
+          }, {});
+
     function collectAttributes() {
-        var comboValues = $('[data-role=combobox]').toArray().map((i) => $(`#${i.id}`).getKendoComboBox()).map((i) => [i.element[0].id.replace('cbAttr', ''), i.value()]); 
+        var comboValues = $('[data-role=combobox]').toArray().map((i) => $(`#${i.id}`).getKendoComboBox()).map((i) => [i.element[0].id, i.value()]); 
         var textValues = $('.k-textbox').map((i, v) => {
             var elem = $(v);
             var controlName = elem.attr('id');
-            return [[elem.attr('id').replace('tbAttr', ''), elem.val()]];
+            return [[controlName, elem.val()]];
         });
-        return comboValues.concat(textValues);
+        var listValues = comboValues.concat(textValues.toArray());
+        var filledItems = listValues.filter((i) => i[0].includes("Attr") && i[1] !== 0 && i[1] !== '');
+        var grouped = groupBy(filledItems, (i) => getAttributeId(i[0]));
+        return grouped;
+    }
+
+    function getAttributeId(controlId) {
+        return controlId.replace(/\D/g,'');
+    }
+
+    function prepareAttributes(attributes) {
+        var result = [];
+        for (var key in attributes) {
+            var clearedList = attributes[key].map((i) => [i[0].replace(/\d/g, ''), i[1]]);
+            var attribute = {
+                @nameof(AttributeDto.AttributeId): key
+            };
+            for (var index in clearedList) {
+                var item = clearedList[index];
+                var type = item[0];
+                var value = item[1];
+                switch (type) {
+                    case 'cbAttr':
+                    case 'tbAttr':
+                        attribute.@nameof(AttributeDto.AttributeValue) = value;
+                        break;
+                    case 'cbAttrValueType':
+                        attribute.@nameof(AttributeDto.ValueType) = value;
+                        break;
+                }
+            }
+            result.push(attribute);
+        }
+        return result;
+    }
+
+    function ddtChangeCategory_onChange(e) {
+        selectedCategory = this.dataItem(e.node);
     }
 </script>

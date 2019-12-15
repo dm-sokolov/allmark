@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace AllMark.DTO
 {
@@ -23,5 +24,7 @@ namespace AllMark.DTO
 
         [DisplayName ("Категория")]
         public string CategoriesToString { get; set; }
+
+        public ICollection<AttributeDto> Attributes { get; set; } = new List<AttributeDto>();
     }
 }
