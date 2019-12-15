@@ -144,7 +144,7 @@
             url: '@Url.Action("Put", "Product")',
             data: fields,
             method: 'POST',
-            success: rebindDataSource("#grProducts")
+            success: () => rebindDataSource(window.grProducts)
         });
         if (wndProduct)
             wndProduct.close();
@@ -178,13 +178,6 @@
         }
     }
 
-    const groupBy = (array, func) =>
-          array.reduce((objectsByKeyValue, obj) => {
-            const value = func(obj);
-            objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat([obj]);
-            return objectsByKeyValue;
-          }, {});
-
     function collectAttributes() {
         var comboValues = $('[data-role=combobox]').toArray().map((i) => $(`#${i.id}`).getKendoComboBox()).map((i) => [i.element[0].id, i.value()]); 
         var textValues = $('.k-textbox').map((i, v) => {
@@ -207,7 +200,7 @@
         for (var key in attributes) {
             var clearedList = attributes[key].map((i) => [i[0].replace(/\d/g, ''), i[1]]);
             var attribute = {
-                @nameof(AttributeDto.AttributeId): key
+                '@(nameof(AttributeDto.AttributeId))': key
             };
             for (var index in clearedList) {
                 var item = clearedList[index];
@@ -216,10 +209,10 @@
                 switch (type) {
                     case 'cbAttr':
                     case 'tbAttr':
-                        attribute.@nameof(AttributeDto.AttributeValue) = value;
+                        attribute.@(nameof(AttributeDto.AttributeValue)) = value;
                         break;
                     case 'cbAttrValueType':
-                        attribute.@nameof(AttributeDto.ValueType) = value;
+                        attribute.@(nameof(AttributeDto.ValueType)) = value;
                         break;
                 }
             }

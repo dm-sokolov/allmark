@@ -94,12 +94,14 @@
 <script type="text/javascript">
     var ddtSelectCategory,
         wndLoadExcel,
-        wndProduct;
+        wndProduct,
+        grProducts;
 
     $(document).ready(() => {
         ddtSelectCategory = getKendoDropDownTree("ddtSelectCategory");
         wndLoadExcel = getKendoWindow("wndLoadExcel");
         wndProduct = getKendoWindow("wndProduct");
+        grProducts = getKendoGrid("grProducts");
     });
 
     function btAdd_onClick() {

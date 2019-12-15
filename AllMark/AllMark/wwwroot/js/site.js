@@ -2,6 +2,12 @@
     setControlsSettings();
 });
 
+const groupBy = (array, func) =>
+    array.reduce((objectsByKeyValue, obj) => {
+        const value = func(obj);
+        objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat([obj]);
+        return objectsByKeyValue;
+    }, {});
 
 function setControlsSettings() {
     // открытие выпадашки комобокса по нажатию на поле, а не только на "треугольник"
@@ -56,6 +62,10 @@ function getKendoNumericTextBox(name) {
 
 function getKendoWindow(name) {
     return $(`#${name}`).getKendoWindow();
+}
+
+function getKendoGrid(name) {
+    return $(`#${name}`).data('kendoGrid');
 }
 
 function rebindDataSource(control) {

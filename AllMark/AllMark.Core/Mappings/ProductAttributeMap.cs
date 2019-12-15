@@ -16,8 +16,7 @@ namespace AllMark.Core.Mappings
                 .Not.Nullable();
             Map(i => i.ValueType, "value_type");
             References(i => i.Product, "product_id")
-                .Cascade.None()
-                .Not.Nullable();
+                .Cascade.None();
         }
     }
 }

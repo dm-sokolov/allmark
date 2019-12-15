@@ -15,7 +15,6 @@ namespace AllMark.HostedServices
     {
         private readonly IServiceProvider _services;
         private Timer _timer;
-        private const string CacheKey = "CategoryUpdateKey";
 
         /// <summary>
         /// Конструктор
@@ -28,50 +27,48 @@ namespace AllMark.HostedServices
 
         private async void DoWork(object state)
         {
-            using (var scope = _services.CreateScope())
+            using var scope = _services.CreateScope();
+            var provider = scope.ServiceProvider;
+            var categoryRepository = provider.GetRequiredService<IRepository<Category>>();
+            var nationalCatalogService = provider.GetRequiredService<INationalCatalogService>();
+            var emailService = provider.GetRequiredService<IEmailService>();
+
+            try
             {
-                var provider = scope.ServiceProvider;
-                var categoryRepository = provider.GetRequiredService<IRepository<Category>>();
-                var nationalCatalogService = provider.GetRequiredService<INationalCatalogService>();
-                var emailService = provider.GetRequiredService<IEmailService>();
-
-                try
+                var categories = await nationalCatalogService.GetCategories();
+                var categoryIds = categories.Select(i => i.Id);
+                var existingCategories = await categoryRepository.Query()
+                    .Where(i => categoryIds.Contains(i.CategoryId))
+                    .ToListAsync();
+                var newCategories = categories.Where(i => existingCategories.All(c => c.CategoryId != i.Id))
+                    .OrderBy(i => i.Level)
+                    .ToList();
+                var count = 0;
+                foreach (var newCategory in newCategories)
                 {
-                    var categories = await nationalCatalogService.GetCategories();
-                    var categoryIds = categories.Select(i => i.Id);
-                    var existingCategories = await categoryRepository.Query()
-                        .Where(i => categoryIds.Contains(i.CategoryId))
-                        .ToListAsync();
-                    var newCategories = categories.Where(i => existingCategories.All(c => c.CategoryId != i.Id))
-                        .OrderBy(i => i.Level)
-                        .ToList();
-                    var count = 0;
-                    foreach(var newCategory in newCategories)
+                    var category = new Category
                     {
-                        var category = new Category
-                        {
-                            CategoryId = newCategory.Id,
-                            Level = newCategory.Level,
-                            Name = newCategory.Name,
-                            ParentId = newCategory.ParentId
-                        };
-                        await categoryRepository.SaveAsync(category);
+                        CategoryId = newCategory.Id,
+                        Level = newCategory.Level,
+                        Name = newCategory.Name,
+                        ParentId = newCategory.ParentId
+                    };
+                    await categoryRepository.SaveAsync(category);
 
-                        count++;
-                        if (count % 25 == 0)
-                            await categoryRepository.FlushAsync();
-                    }
-
-                    await categoryRepository.FlushAsync();
+                    count++;
+                    if (count % 25 == 0)
+                        await categoryRepository.FlushAsync();
                 }
-                catch (Exception exception)
-                {
-                    await emailService.SendEmailAsync("markirovschik@yandex.ru", $"Exception in {nameof(CategoryUpdate)}", $"{exception.Message} \n{exception.InnerException?.Message}");
-                    await StopAsync(default);
-                    await Task.Delay(10000);
-                    await StartAsync(default);
 
-                }
+                await categoryRepository.FlushAsync();
+            }
+            catch (Exception exception)
+            {
+                await emailService.SendEmailAsync("markirovschik@yandex.ru", $"Exception in {nameof(CategoryUpdate)}", $"{exception.Message} \n{exception.InnerException?.Message}");
+                await StopAsync(default);
+                await Task.Delay(10000);
+                await StartAsync(default);
+
             }
         }
         

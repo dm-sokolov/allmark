@@ -100,8 +100,6 @@ namespace AllMark.Controllers
             newProduct.Customer = customer;
             if (category != null)
                 newProduct.Categories.Add(category);
-            foreach (var attribute in newProduct.Attributes)
-                attribute.Product = newProduct;
 
             var result = await _productRepository.SaveAsync(newProduct);
             return Json(result);
