@@ -1,9 +1,9 @@
-﻿using AllMark.Config;
+﻿using System.Net;
+using System.Threading.Tasks;
+using AllMark.Config;
 using AllMark.Models;
 using Newtonsoft.Json;
 using RestSharp;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace AllMark.Services.Base
 {

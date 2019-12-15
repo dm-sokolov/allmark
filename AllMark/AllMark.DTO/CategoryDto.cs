@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace AllMark.DTO
+﻿namespace AllMark.DTO
 {
-    public class CategoryDto: BaseDto
+    public class CategoryDto : BaseDto
     {
         public string Name { get; set; }
 

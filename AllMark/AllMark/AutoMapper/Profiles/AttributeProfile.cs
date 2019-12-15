@@ -4,7 +4,7 @@ using AutoMapper;
 
 namespace AllMark.AutoMapper.Profiles
 {
-    public class AttributeProfile: Profile
+    public class AttributeProfile : Profile
     {
         public AttributeProfile()
         {

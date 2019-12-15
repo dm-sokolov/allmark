@@ -1,17 +1,17 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using AllMark.AutoMapper.Extensions;
+using AllMark.Controllers.Base;
+using AllMark.Core.Models;
+using AllMark.DTO;
+using AllMark.Helpers.Interfaces;
 using AllMark.Models;
 using AllMark.Repository;
-using NHibernate.Linq;
-using AllMark.Core.Models;
-using Microsoft.AspNetCore.Authorization;
-using AllMark.Controllers.Base;
-using AllMark.Helpers.Interfaces;
-using System;
 using AllMark.Services.Interfaces;
-using AllMark.AutoMapper.Extensions;
 using AutoMapper;
-using AllMark.DTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using NHibernate.Linq;
 
 namespace AllMark.Controllers
 {
@@ -44,9 +44,9 @@ namespace AllMark.Controllers
         public async Task<ActionResult> Manage()
         {
             var customer = await _customerService.GetCurrentAsync();
-            if (customer != null)
-                return View(_mapper, customer, typeof(CustomerDto));
-            return Redirect(Url.Action("Index", "Home"));
+            if (customer == null)
+                return Redirect(Url.Action("Index", "Home"));
+            return View(_mapper, customer, typeof(CustomerDto));
         }
 
         [HttpPost]
@@ -90,7 +90,9 @@ namespace AllMark.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 else
+                {
                     ModelState.AddModelError(string.Empty, "Пользователь с таким логином уже существует");
+                }
             }
             return View(model);
         }
@@ -119,7 +121,9 @@ namespace AllMark.Controllers
                 return RedirectToAction("Index", "Home");
             }
             else
+            {
                 return RedirectToAction("Error", "Home");
+            }
         }
 
         public async Task<ActionResult> Update(CustomerDto dto)

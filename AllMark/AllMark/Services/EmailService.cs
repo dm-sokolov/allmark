@@ -1,13 +1,13 @@
-﻿using AllMark.Config;
+﻿using System.Threading.Tasks;
+using AllMark.Config;
 using AllMark.Services.Interfaces;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System.Threading.Tasks;
 
 namespace AllMark.Services
 {
-    public class EmailService: IEmailService
+    public class EmailService : IEmailService
     {
         private readonly EmailConfig _emailConfig;
 

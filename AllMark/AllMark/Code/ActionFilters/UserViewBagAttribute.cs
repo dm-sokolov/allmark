@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 
 namespace AllMark.Code.ActionFilters
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class UserViewBagAttribute: ActionFilterAttribute 
+    public sealed class UserViewBagAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {

@@ -1,10 +1,10 @@
-﻿using AllMark.Core.Models;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
+using AllMark.Core.Models;
 using AllMark.Repository;
 using AllMark.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using NHibernate.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace AllMark.Services
 {

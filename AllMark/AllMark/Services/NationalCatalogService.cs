@@ -1,22 +1,22 @@
-﻿using AllMark.Config;
-using AllMark.Models;
-using AllMark.Services.Base;
-using AllMark.Services.Interfaces;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AllMark.Config;
+using AllMark.Models;
+using AllMark.Services.Base;
+using AllMark.Services.Interfaces;
+using Microsoft.Extensions.Options;
 using Utils.NationalCatalog.Models;
 
 namespace AllMark.Services
 {
-    public class NationalCatalogService: BaseApiService, INationalCatalogService
+    public class NationalCatalogService : BaseApiService, INationalCatalogService
     {
         public NationalCatalogService(IOptions<NationalCatalogConfig> nationalCatalogConfig)
             : base(nationalCatalogConfig.Value)
-        {  }
+        { }
 
         /// <inheritdoc />
         public async Task<BaseApiResponse<NationalCatalogResponse<CatalogAttribute>>> GetAttributes(int? categoryId = null, string attributeType = null)

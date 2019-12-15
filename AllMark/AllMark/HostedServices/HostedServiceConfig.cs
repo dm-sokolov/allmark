@@ -4,10 +4,7 @@ namespace AllMark.HostedServices
 {
     public static class HostedServiceConfig
     {
-        public static void AddHostedServices(this IServiceCollection services)
-        {
-            services.AddHostedService<CategoryUpdate>();
-        }
+        public static void AddHostedServices(this IServiceCollection services) => services.AddHostedService<CategoryUpdate>();
 
     }
 }

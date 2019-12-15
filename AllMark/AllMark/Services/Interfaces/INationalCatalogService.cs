@@ -1,6 +1,6 @@
-﻿using AllMark.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AllMark.Models;
 using Utils.NationalCatalog.Models;
 
 namespace AllMark.Services.Interfaces

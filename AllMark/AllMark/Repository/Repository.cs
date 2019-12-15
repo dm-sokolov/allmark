@@ -1,9 +1,9 @@
-﻿using AllMark.Core.Models;
-using NHibernate;
-using NHibernate.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AllMark.Core.Models;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace AllMark.Repository
 {
@@ -16,15 +16,9 @@ namespace AllMark.Repository
             _session = session;
         }
 
-        public async Task<T> GetByIdAsync(int? id)
-        {
-            return id.HasValue && id > 0 ? await _session.GetAsync<T>(id) : null;
-        }
+        public async Task<T> GetByIdAsync(int? id) => id.HasValue && id > 0 ? await _session.GetAsync<T>(id) : null;
 
-        public IQueryable<T> Query()
-        {
-            return _session.Query<T>();
-        }
+        public IQueryable<T> Query() => _session.Query<T>();
 
         public async Task<T> SaveAsync(T entity)
         {
@@ -38,10 +32,7 @@ namespace AllMark.Repository
             return entity;
         }
 
-        public async Task DeleteAsync(T entity)
-        {
-            await _session.DeleteAsync(entity);
-        }
+        public async Task DeleteAsync(T entity) => await _session.DeleteAsync(entity);
 
         public async Task DeleteByIdAsync(int? id)
         {
@@ -78,9 +69,6 @@ namespace AllMark.Repository
                         .ToListAsync();
         }
 
-        public async Task EvictAsync(T entity)
-        {
-            await _session.EvictAsync(entity);
-        }
+        public async Task EvictAsync(T entity) => await _session.EvictAsync(entity);
     }
 }

@@ -1,13 +1,13 @@
-﻿using AllMark.Core.Models;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AllMark.Core.Models;
 using AllMark.Repository;
 using AllMark.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHibernate.Linq;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AllMark.HostedServices
 {
@@ -71,7 +71,7 @@ namespace AllMark.HostedServices
 
             }
         }
-        
+
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -86,9 +86,6 @@ namespace AllMark.HostedServices
             return Task.CompletedTask;
         }
 
-        public void Dispose()
-        {
-            _timer?.Dispose();
-        }
+        public void Dispose() => _timer?.Dispose();
     }
 }

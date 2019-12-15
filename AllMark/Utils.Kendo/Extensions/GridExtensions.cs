@@ -5,7 +5,7 @@ namespace Utils.Kendo.Extensions
 {
     public static class GridExtensions
     {
-        public static GridBuilder<T> BaseGrid<T>(this GridBuilder<T> grid) where T: class
+        public static GridBuilder<T> BaseGrid<T>(this GridBuilder<T> grid) where T : class
         {
             return grid.ColumnMenu(m => m.Enabled(true)
                        .Sortable(true))

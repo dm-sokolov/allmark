@@ -2,7 +2,7 @@
 
 namespace AllMark.DTO
 {
-    public class CustomerDto: BaseDto
+    public class CustomerDto : BaseDto
     {
         [DisplayName("Название")]
         public string Name { get; set; }

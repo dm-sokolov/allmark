@@ -1,13 +1,13 @@
-﻿using AllMark.Services.Interfaces;
-using ExcelDataReader;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using AllMark.Services.Interfaces;
+using ExcelDataReader;
+using Microsoft.AspNetCore.Http;
 
 namespace AllMark.Services
 {
-    public class ExcelService: IExcelService
+    public class ExcelService : IExcelService
     {
         private readonly ExcelReaderConfiguration _excelConfig;
 
@@ -51,7 +51,7 @@ namespace AllMark.Services
                     var rows = table.Rows;
                 }
             }
-            
+
         }
 
         public void ReadFiles(IEnumerable<IFormFile> files)

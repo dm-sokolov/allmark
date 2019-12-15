@@ -1,5 +1,5 @@
-﻿using Autofac;
-using System;
+﻿using System;
+using Autofac;
 
 namespace AllMark.Repository
 {

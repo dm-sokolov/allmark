@@ -4,7 +4,7 @@ using AutoMapper;
 
 namespace AllMark.AutoMapper.Profiles
 {
-    public class CategoryProfile: Profile
+    public class CategoryProfile : Profile
     {
         public CategoryProfile()
         {

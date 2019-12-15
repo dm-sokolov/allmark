@@ -1,12 +1,12 @@
-﻿using AllMark.Core.Models;
+﻿using System.Threading.Tasks;
+using AllMark.Core.Models;
 using AllMark.Helpers.Interfaces;
 using AllMark.Repository;
 using AllMark.Services.Interfaces;
-using System.Threading.Tasks;
 
 namespace AllMark.Helpers
 {
-    public class CustomerHelper: ICustomerHelper
+    public class CustomerHelper : ICustomerHelper
     {
         private readonly IEmailService _emailService;
         private readonly IRepository<Customer> _customerRepository;

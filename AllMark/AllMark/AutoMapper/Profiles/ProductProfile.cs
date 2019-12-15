@@ -1,11 +1,11 @@
-﻿using AllMark.Core.Models;
+﻿using System.Linq;
+using AllMark.Core.Models;
 using AllMark.DTO;
 using AutoMapper;
-using System.Linq;
 
 namespace AllMark.AutoMapper.Profiles
 {
-    public class ProductProfile: Profile
+    public class ProductProfile : Profile
     {
         public ProductProfile()
         {

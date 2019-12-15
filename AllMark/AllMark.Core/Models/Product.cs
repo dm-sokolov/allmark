@@ -2,7 +2,7 @@
 
 namespace AllMark.Core.Models
 {
-    public class Product: BaseModel
+    public class Product : BaseModel
     {
         public virtual int GoodId { get; set; }
         public virtual long GTIN { get; set; }

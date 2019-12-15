@@ -1,11 +1,11 @@
-﻿using AllMark.Config;
+﻿using System.Net;
+using System.Threading.Tasks;
+using AllMark.Config;
 using AllMark.Services.Base;
 using AllMark.Services.Interfaces;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 using RestSharp;
 using Utils.HonestSign.Models;
-using System.Net;
 
 namespace AllMark.Services
 {
@@ -13,7 +13,7 @@ namespace AllMark.Services
     {
         private readonly string ApiVersion;
 
-        public HonestSignService(IOptions<HonestSignConfig> config) : base(config.Value) 
+        public HonestSignService(IOptions<HonestSignConfig> config) : base(config.Value)
         {
             ApiVersion = config.Value.ApiVersion;
         }
@@ -54,9 +54,6 @@ namespace AllMark.Services
             return httpResponse.Content.Code;
         }
 
-        protected override string ProcessResponseError(HttpStatusCode statusCode)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override string ProcessResponseError(HttpStatusCode statusCode) => throw new System.NotImplementedException();
     }
 }

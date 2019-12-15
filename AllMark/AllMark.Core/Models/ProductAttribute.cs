@@ -1,6 +1,6 @@
 ﻿namespace AllMark.Core.Models
 {
-    public class ProductAttribute: BaseModel
+    public class ProductAttribute : BaseModel
     {
         public virtual int AttributeId { get; set; }
         public virtual string AttributeValue { get; set; }

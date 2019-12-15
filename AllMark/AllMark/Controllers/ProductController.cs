@@ -1,17 +1,17 @@
-﻿using AllMark.AutoMapper.Extensions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AllMark.AutoMapper.Extensions;
 using AllMark.Controllers.Base;
+using AllMark.Core.Models;
 using AllMark.DTO;
+using AllMark.Repository;
 using AllMark.Services.Interfaces;
 using AutoMapper;
+using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AllMark.Core.Models;
-using AllMark.Repository;
-using Kendo.Mvc.Extensions;
 using NHibernate.Linq;
 
 namespace AllMark.Controllers
@@ -50,10 +50,7 @@ namespace AllMark.Controllers
             return Json(dtos.ToDataSourceResult(request));
         }
 
-        public void UploadExcel(IEnumerable<IFormFile> files)
-        {
-            _excelService.ReadFiles(files);
-        }
+        public void UploadExcel(IEnumerable<IFormFile> files) => _excelService.ReadFiles(files);
 
         public async Task<IActionResult> GetAttributes(int categoryId)
         {
@@ -66,7 +63,7 @@ namespace AllMark.Controllers
         public async Task<IActionResult> GetCategories(int? categoryId)
         {
             var categories = await _categoryRepository.GetAllCacheableAsync();
-            
+
             var selectedCategories = new List<Category>();
             if (categoryId.HasValue)
             {
@@ -88,7 +85,7 @@ namespace AllMark.Controllers
             var brandsResponse = await _nationalCatalogService.GetBrands();
             return Json(brandsResponse);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Put(ProductDto productDto)
         {
@@ -96,7 +93,7 @@ namespace AllMark.Controllers
 
             var customer = await _customerService.GetCurrentAsync();
             var category = await _categoryRepository.GetByIdAsync(productDto.CategoryId);
-            
+
             newProduct.Customer = customer;
             if (category != null)
                 newProduct.Categories.Add(category);

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using AllMark.Controllers.Base;
 using AllMark.Models;
 using Microsoft.AspNetCore.Authorization;
-using AllMark.Controllers.Base;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AllMark.Controllers
 {
