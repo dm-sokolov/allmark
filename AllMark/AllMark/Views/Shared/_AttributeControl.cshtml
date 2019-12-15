@@ -30,7 +30,7 @@
     {
         if (Model.Preset?.Any() ?? false)
         {
-            if (Model.Preset.Count < 3 && Model.Preset.Contains("НЕ ОПРЕДЕЛЕНО"))
+            if (Model.Preset.Count < 3 && (Model.Preset.Contains("НЕ ОПРЕДЕЛЕНО") || Model.Preset.Contains("НЕ ОГРАНИЧЕН")))
             {
                     @(Html.Kendo()
                                 .ComboBox()
