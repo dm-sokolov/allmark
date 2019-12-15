@@ -97,12 +97,33 @@ namespace AllMark.Controllers
             var customer = await _customerService.GetCurrentAsync();
             var category = await _categoryRepository.GetByIdAsync(productDto.CategoryId);
 
+            if (productDto.Id == 0)
+            {
+                foreach(var attribute in newProduct.Attributes)
+                    await _productAttributeRepository.SaveAsync(attribute);
+            }
+            else
+            {
+                var attrIds = productDto.Attributes.Select(i => i.AttributeId).ToList();
+                var existingAttributes = await _productAttributeRepository.Query()
+                    .Where(i => i.Product.Id == productDto.Id && attrIds.Contains(i.AttributeId))
+                    .ToListAsync();
+                var newAttributes = newProduct.Attributes.Where(i => existingAttributes.All(a => a.AttributeId != i.AttributeId))
+                    .ToList();
+                foreach (var attribute in newAttributes)
+                    await _productAttributeRepository.SaveAsync(attribute);
+                foreach(var attribute in existingAttributes)
+                {
+                    await _productAttributeRepository.EvictAsync(attribute);
+                    var newAttribute = newProduct.Attributes.FirstOrDefault(i => i.AttributeId == attribute.AttributeId);
+                    newAttribute.Id = attribute.Id;
+                    await _productAttributeRepository.UpdateAsync(newAttribute);
+                }
+            }
+
             newProduct.Customer = customer;
             if (category != null)
                 newProduct.Categories.Add(category);
-            
-            foreach (var attribute in newProduct.Attributes)
-                attribute.Product = newProduct;
 
             var result = await _productRepository.SaveAsync(newProduct);
             return Json(result);
