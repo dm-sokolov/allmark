@@ -21,6 +21,7 @@ namespace AllMark.Controllers
         private readonly IRepository<Product> _productRepository;
         private readonly INationalCatalogService _nationalCatalogService;
         private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<ProductAttribute> _productAttributeRepository;
         private readonly ICustomerService _customerService;
         private readonly IExcelService _excelService;
         private readonly IMapper _mapper;
@@ -29,10 +30,12 @@ namespace AllMark.Controllers
             IExcelService excelService,
             IMapper mapper,
             IRepository<Category> categoryRepository,
+            IRepository<ProductAttribute> productAttributeRepository,
             ICustomerService customerService,
             IRepository<Product> productRepository)
         {
             _productRepository = productRepository;
+            _productAttributeRepository = productAttributeRepository;
             _nationalCatalogService = nationalCatalogService;
             _excelService = excelService;
             _mapper = mapper;
