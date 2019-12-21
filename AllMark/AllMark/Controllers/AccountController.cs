@@ -91,7 +91,7 @@ namespace AllMark.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Пользователь с таким логином уже существует");
+                    ModelState.AddModelError(nameof(RegisterViewModel.Email), "Пользователь с таким логином уже существует");
                 }
             }
             return View(model);
