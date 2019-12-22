@@ -155,11 +155,11 @@
     }
 
     function wndAttributes_open() {
-        const wndAttributes = $('#wndAttributes').getKendoWindow().center().open();
         if (!selectedCategory) {
             swal('Внимание!', 'Выберите категорию', 'warning');
             return;
-        }
+        }        
+        const wndAttributes = $('#wndAttributes').getKendoWindow().center().open();
         if (wndAttributes)
             wndAttributes.refresh({
                 url: '@(Url.Action("GetAttributes", "Product"))',
