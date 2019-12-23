@@ -134,9 +134,29 @@
             wndProduct.close();
     }
 
+    function checkFields(data) {
+        if (data.@nameof(ProductDto.GoodName) == '')
+            swal('Внимание!', 'Введите название товара', 'warning');
+
+        else if (data.@nameof(ProductDto.BrandId) == '')
+            swal('Внимание!', 'Выберете бренд', 'warning');
+
+        else if (data.@nameof(ProductDto.TNVED) == '')
+            swal('Внимание!', 'Введите ТН ВЭД', 'warning');
+
+        else if (data.@nameof(ProductDto.CategoryId) == '')
+            swal('Внимание!', 'Выберете категорию', 'warning');
+        else
+            return true;
+
+        return false;
+    }
+
     function wndProduct_btSaveAndQuit_onClick() {
         const wndProduct = $('#wndProduct').getKendoWindow();
         var fields = collectProductFields();
+        if (!checkFields(fields))
+            return;
         var attributeFields = collectAttributes();
         var attributes = prepareAttributes(attributeFields);
         fields.@nameof(ProductDto.Attributes) = attributes;
