@@ -48,8 +48,14 @@ namespace AllMark.Controllers
         [HttpPost]
         public async Task<ActionResult> GetProducts([DataSourceRequest] DataSourceRequest request)
         {
+            var brands = await _nationalCatalogService.GetBrands();
             var products = await _productRepository.Query().ToListAsync();
             var dtos = products.MapTo<List<ProductDto>>(_mapper);
+            foreach (var product in dtos)
+            {
+                if (product != null &&  brands != null)
+                        product.BrandName = brands.FirstOrDefault(i => i.Id == product.BrandId).Name;
+            }
             return Json(dtos.ToDataSourceResult(request));
         }
 

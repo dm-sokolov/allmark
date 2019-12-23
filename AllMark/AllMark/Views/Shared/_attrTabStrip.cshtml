@@ -37,5 +37,14 @@
         .Button()
         .Name("wndAttributes_btSave")
         .Content("Сохранить")
-    )
+        .Events(i => i.Click("wndAttributes_btSave_onClick"))
+        )
 </div>
+
+<script>
+    function wndAttributes_btSave_onClick() {
+        const wndAttributes = $('#wndAttributes').getKendoWindow();
+        if (wndAttributes)
+            wndAttributes.close();       
+    }
+</script>

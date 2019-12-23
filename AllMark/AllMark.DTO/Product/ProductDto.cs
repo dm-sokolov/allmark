@@ -20,6 +20,9 @@ namespace AllMark.DTO
         [DisplayName("Бренд")]
         public int BrandId { get; set; }
 
+        [DisplayName("Бренд")]
+        public string BrandName { get; set; }
+
         public int CategoryId { get; set; }
 
         [DisplayName("Категория")]
