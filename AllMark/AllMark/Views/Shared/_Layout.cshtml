@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
 
-    <link rel="stylesheet" href="~/css/site.css" />
+
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.blueopal.min.css" rel="stylesheet" type="text/css" />
+    @*<link href="https://kendo.cdn.telerik.com/2019.2.619/styles/kendo.blueopal.min.css" rel="stylesheet" type="text/css" />*@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/kendo.custom.css" />
 
     <script src="https://kendo.cdn.telerik.com/2019.2.619/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.619/js/kendo.aspnetmvc.min.js"></script>
@@ -37,9 +40,9 @@
 </head>
 <body>
     <header>
-        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AllMark</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Маркировщик.рф</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -50,19 +53,37 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Для Юр. Лиц</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ForLegalEntity">Для Юр. Лиц</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Для ИП</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ForIP">Для ИП</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Products">Products</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Products">Товары</a>
                         </li>
+                        @if (ViewBag.User != null)
+                        {
+                            <li class="nav-item" style="float: right;">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Manage">Настройки</a>
+                            </li>
+                            <li class="nav-item" style="float: right;">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item" style="float: right;">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Войти</a>
+                            </li>
+                            <li class="nav-item" style="float: right;">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
-        </nav>*@
-        @(Html.Kendo()
+        </nav>
+        @*@(Html.Kendo()
               .Menu()
               .Name("kendoMenu")
               .Items(items =>
@@ -98,11 +119,11 @@
                            .Action("Register", "Account");
                   }
               })
-            )
+            )*@
     </header>
-    <div class="container">
+    <div class="container" style="max-width: 100%;">
         <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
+        <main role="main" @*class="pb-3"*@ >
             @RenderBody()
         </main>
     </div>

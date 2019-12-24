@@ -5,7 +5,7 @@ using AutoMapper;
 
 namespace AllMark.AutoMapper.Profiles
 {
-    public class CustomerProfile: Profile
+    public class CustomerProfile : Profile
     {
         public CustomerProfile()
         {

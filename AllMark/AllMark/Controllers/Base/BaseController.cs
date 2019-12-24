@@ -1,12 +1,12 @@
-﻿using AllMark.Code.ActionFilters;
+﻿using System;
+using AllMark.Code.ActionFilters;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace AllMark.Controllers.Base
 {
     [UserViewBag]
-    public class BaseController: Controller
+    public class BaseController : Controller
     {
         public ViewResult View(IMapper mapper, object model, Type destinationType)
         {

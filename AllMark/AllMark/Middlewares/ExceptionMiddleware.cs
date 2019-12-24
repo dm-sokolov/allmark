@@ -1,8 +1,8 @@
-﻿using AllMark.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using AllMark.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace AllMark.Middlewares
 {
@@ -31,7 +31,7 @@ namespace AllMark.Middlewares
                 str.AppendLine($"Message {exception.Message}");
                 str.AppendLine($"Stack trace {exception.StackTrace}");
                 var ex = exception.InnerException;
-                while(ex != null)
+                while (ex != null)
                 {
                     str.AppendLine("Inner exception");
                     str.AppendLine($"Message {ex.Message}");

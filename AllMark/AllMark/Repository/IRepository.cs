@@ -1,10 +1,11 @@
-﻿using AllMark.Core.Models;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AllMark.Core.Models;
 
 namespace AllMark.Repository
 {
-    public interface IRepository<T> where T: BaseModel
+    public interface IRepository<T> where T : BaseModel
     {
         Task<T> GetByIdAsync(int? id);
 
@@ -21,5 +22,9 @@ namespace AllMark.Repository
         Task<T> SaveOrUpdateAsync(T entity);
 
         Task FlushAsync();
+
+        Task<List<T>> GetAllCacheableAsync();
+
+        Task EvictAsync(T entity);
     }
 }

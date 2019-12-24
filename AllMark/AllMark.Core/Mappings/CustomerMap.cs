@@ -3,7 +3,7 @@ using FluentNHibernate.Mapping;
 
 namespace AllMark.Core.Mappings
 {
-    public class CustomerMap: ClassMap<Customer>
+    public class CustomerMap : ClassMap<Customer>
     {
         public CustomerMap()
         {

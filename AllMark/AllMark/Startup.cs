@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Linq;
+using AllMark.Config;
+using AllMark.DAL;
+using AllMark.HostedServices;
+using AllMark.Middlewares;
+using AllMark.Repository;
+using Autofac;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Autofac;
-using AllMark.DAL;
-using AllMark.Repository;
-using AllMark.Config;
-using AllMark.Middlewares;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Hosting;
-using AutoMapper;
 
 namespace AllMark
 {
@@ -68,6 +69,7 @@ namespace AllMark
                 services.AddControllersWithViews()
                     .AddRazorRuntimeCompilation();
             }
+            services.AddHostedServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

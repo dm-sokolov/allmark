@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using Utils.NationalCatalog.Enums;
 
@@ -9,9 +11,9 @@ namespace Utils.NationalCatalog.Models
         /// <summary>
         /// идентификатор атрибута
         /// </summary>
-        [JsonProperty("attr_id")] 
+        [JsonProperty("attr_id")]
         public int Id { get; set; }
-        
+
         /// <summary>
         /// наименование атрибута
         /// </summary>

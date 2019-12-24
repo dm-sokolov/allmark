@@ -8,4 +8,8 @@
     <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2019.3.917" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AllMark.DTO\AllMark.DTO.csproj" />
+  </ItemGroup>
+
 </Project>

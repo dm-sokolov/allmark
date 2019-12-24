@@ -60,3 +60,7 @@ body {
     padding-right: 0 !important;
     margin-bottom: 5px !important;
 }
+
+.sweet-alert{
+    z-index: 99999;
+}

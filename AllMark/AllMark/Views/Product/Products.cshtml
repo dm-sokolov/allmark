@@ -1,6 +1,7 @@
 ﻿@using Kendo.Mvc.UI;
 @using AllMark.DTO
 @using Utils.Kendo.Extensions
+@using Utils.NationalCatalog.Models
 
 @{
     ViewData["Title"] = "Товары";
@@ -13,11 +14,19 @@
         .Name("btAdd")
         .Content("Добавить товар")
         .Events(e => e.Click("btAdd_onClick"))
+        )
+    @(Html.Kendo()
+        .DropDownTree()
+        .BaseDropDownTree()
+        .Name("ddtSelectCategory")
+        .CategoryDropDownTree()
+        .LoadOnDemand()
     )
     @(Html.Kendo()
         .Button()
         .Name("btLoadExcel")
         .Content("Загрузить Excel")
+        .HtmlAttributes( new { style="float:right" })
         .Events(e => e.Click("btLoadExcel_onClick"))
     )
 </div>
@@ -28,13 +37,17 @@
         .DataSource(ds => ds.Ajax()
                             .Read(read => read.Action("GetProducts", "Product"))
         )
-        .AutoBind(false)
         .Columns(columns =>
         {
+            columns.Bound(i => i.Id);
+            //columns.Bound(i => i.GoodId);
             columns.Bound(i => i.GoodName);
-            columns.Bound(i => i.BrandId);
-            columns.Bound(i => i.GoodId);
+            columns.Bound(i => i.GTIN);
+            columns.Bound(i => i.BrandName);
+            columns.Bound(i => i.CategoriesToString)
+                .Sortable(false);
         })
+        .FullWidth()
 )
 
 @(Html.Kendo()
@@ -43,19 +56,15 @@
     .Visible(false)
     .Title("Добавление товара")
     .Resizable(r => r.Enabled(false))
-    .Animation(true)
     .Width(800)
     .Actions(a => a.Close())
     .Draggable()
-    .Animation(animation =>
-              animation.Open(effect =>
-                  effect.Fade(FadeDirection.In)))
     .Content(@<text>
-            <div class="container-fluid allmark-div">
-                <partial name="_NewProduct" />
-            </div>
-    </text>)
-)
+                 <div class="container-fluid allmark-div">
+                     <partial name="_NewProduct" />
+                 </div>
+              </text>)
+    )
 
 @(Html.Kendo()
     .Window()
@@ -63,12 +72,8 @@
     .Visible(false)
     .Title("Загрузка Excel")
     .Resizable(r => r.Enabled(false))
-    .Animation(true)
     .Width(400)
     .Actions(a => a.Close())
-    .Animation(animation =>
-              animation.Open(effect =>
-                  effect.Fade(FadeDirection.In)))
     .Content(@<text>
             <div class="k-content">
                 @(Html.Kendo().Upload()
@@ -88,15 +93,31 @@
 )
 
 <script type="text/javascript">
+    var ddtSelectCategory,
+        wndLoadExcel,
+        wndProduct,
+        grProducts;
+
+    $(document).ready(() => {
+        ddtSelectCategory = getKendoDropDownTree("ddtSelectCategory");
+        wndLoadExcel = getKendoWindow("wndLoadExcel");
+        wndProduct = getKendoWindow("wndProduct");
+        grProducts = getKendoGrid("grProducts");
+    });
+
     function btAdd_onClick() {
         wndProduct_open();
+        window.initControls();
+        window.ddtChangeCategory.value(window.ddtSelectCategory.value());
     }
 
     function btLoadExcel_onClick() {
-        $("#wndLoadExcel").getKendoWindow().center().open();
+        wndLoadExcel.center().open();
     }
 
     function wndProduct_open() {
-        $('#wndProduct').getKendoWindow().center().open();
+        wndProduct.center().open();
+        setControlsSettings();
     }
+
 </script>

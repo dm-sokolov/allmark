@@ -1,0 +1,160 @@
+﻿@using Utils.NationalCatalog.Models
+@using Utils.Kendo.Extensions
+@model CatalogAttribute
+
+
+@if (Model.ValueTypes?.Any() ?? false)
+{
+    if (Model.FieldType == "number")
+    {
+            @(Html.Kendo()
+                    .IntegerTextBox()
+                    .Name($"tbAttr{Model.Id}")
+                    .Min(0)
+                    .FullWidth())
+            @(Html.Kendo()
+                        .ComboBox()
+                        .Name($"cbAttrValueType{Model.Id}")
+                        .Items(i =>
+                        {
+                            foreach (var presetItem in Model.ValueTypes)
+                            {
+                                i.Add()
+                                    .Text(presetItem)
+                                    .Value(presetItem);
+                            }
+                        })
+                        .FullWidth())
+    }
+    else
+    {
+        if (Model.Preset?.Any() ?? false)
+        {
+            if (Model.Preset.Count < 3 && (Model.Preset.Contains("НЕ ОПРЕДЕЛЕНО") || Model.Preset.Contains("НЕ ОГРАНИЧЕН")))
+            {
+                    @(Html.Kendo()
+                                .ComboBox()
+                                .Name($"cbAttr{Model.Id}")
+                                .Items(i =>
+                                {
+                                    foreach (var presetItem in Model.Preset)
+                                    {
+                                        i.Add()
+                                         .Text(presetItem)
+                                         .Value(presetItem);
+                                    }
+                                })
+                                .FullWidth())
+                    @(Html.Kendo()
+                                .ComboBox()
+                                .Name($"cbAttrValueType{Model.Id}")
+                                .Items(i =>
+                                {
+                                    foreach (var presetItem in Model.ValueTypes)
+                                    {
+                                        i.Add()
+                                         .Text(presetItem)
+                                         .Value(presetItem);
+                                    }
+                                    i.Add()
+                                     .Text("ДРУГОЕ")
+                                     .Value("ДРУГОЕ");
+                                })
+                                .FullWidth())
+                    @(Html.Kendo()
+                            .TextBox()
+                            .Name($"tbAttr{Model.Id}")
+                            .FullWidth())
+            }
+            else
+            {
+                    @(Html.Kendo()
+                            .ComboBox()
+                            .Name($"cbAttr{Model.Id}")
+                            .Items(i =>
+                            {
+                                foreach (var presetItem in Model.Preset)
+                                {
+                                    i.Add()
+                                        .Text(presetItem)
+                                        .Value(presetItem);
+                                }
+                            })
+                            .FullWidth())
+                    @(Html.Kendo()
+                            .ComboBox()
+                            .Name($"cbAttrValueType{Model.Id}")
+                            .Items(i =>
+                            {
+                                foreach (var presetItem in Model.ValueTypes)
+                                {
+                                    i.Add()
+                                        .Text(presetItem)
+                                        .Value(presetItem);
+                                }
+                                i.Add()
+                                    .Text("ДРУГОЕ")
+                                    .Value("ДРУГОЕ");
+                            })
+                            .FullWidth())
+            }
+        }
+        else
+        {
+                @(Html.Kendo()
+                    .TextBox()
+                    .Name($"tbAttr{Model.Id}")
+                    .FullWidth())
+                @(Html.Kendo()
+                    .ComboBox()
+                    .Name($"cbAttrValueType{Model.Id}")
+                    .Items(i =>
+                    {
+                        foreach (var presetItem in Model.ValueTypes)
+                        {
+                            i.Add()
+                                .Text(presetItem)
+                                .Value(presetItem);
+                        }
+                    })
+                    .FullWidth())
+        }
+    }
+}
+else
+{
+    if (Model.FieldType == "number")
+    {
+        @(Html.Kendo()
+                .IntegerTextBox()
+                .Min(0)
+                .Name($"tbAttr{Model.Id}")
+                .FullWidth())
+    }
+    else
+    {
+        if (Model.Preset?.Any() ?? false)
+        {
+            @(Html.Kendo()
+                    .ComboBox()
+                    .Name($"cbAttr{Model.Id}")
+                    .Items(i =>
+                    {
+                        foreach (var presetItem in Model.Preset)
+                        {
+                            i.Add()
+                                .Text(presetItem)
+                                .Value(presetItem);
+                        }
+                    })
+                    .FullWidth());
+        }
+        else
+        {
+            @(Html.Kendo()
+                    .TextBox()
+                    .Name($"tbAttr{Model.Id}")
+                    .FullWidth())
+        }
+    }
+}

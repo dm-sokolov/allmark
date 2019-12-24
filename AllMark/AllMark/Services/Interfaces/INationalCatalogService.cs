@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AllMark.Models;
 using Utils.NationalCatalog.Models;
 
 namespace AllMark.Services.Interfaces
@@ -17,7 +18,7 @@ namespace AllMark.Services.Interfaces
         /// o — вернуть только опциональные атрибуты
         /// </param>
         /// <returns></returns>
-        Task<IEnumerable<CatalogAttribute>> GetAttributes(int? categoryId, string attributeType = null);
+        Task<BaseApiResponse<NationalCatalogResponse<CatalogAttribute>>> GetAttributes(int? categoryId, string attributeType = null);
 
         /// <summary>
         /// Используется для получения списка торговых марок

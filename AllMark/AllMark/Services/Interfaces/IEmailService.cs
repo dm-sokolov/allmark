@@ -1,5 +1,4 @@
-﻿using AllMark.Core.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace AllMark.Services.Interfaces
 {

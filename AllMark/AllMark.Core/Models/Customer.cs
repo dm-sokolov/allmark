@@ -1,6 +1,6 @@
 ﻿namespace AllMark.Core.Models
 {
-    public class Customer: BaseModel
+    public class Customer : BaseModel
     {
         public virtual string Name { get; set; }
 

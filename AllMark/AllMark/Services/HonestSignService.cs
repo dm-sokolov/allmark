@@ -1,8 +1,9 @@
-﻿using AllMark.Config;
+﻿using System.Net;
+using System.Threading.Tasks;
+using AllMark.Config;
 using AllMark.Services.Base;
 using AllMark.Services.Interfaces;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 using RestSharp;
 using Utils.HonestSign.Models;
 
@@ -12,7 +13,7 @@ namespace AllMark.Services
     {
         private readonly string ApiVersion;
 
-        public HonestSignService(IOptions<HonestSignConfig> config) : base(config.Value) 
+        public HonestSignService(IOptions<HonestSignConfig> config) : base(config.Value)
         {
             ApiVersion = config.Value.ApiVersion;
         }
@@ -36,8 +37,8 @@ namespace AllMark.Services
             var request = GetRequest(GetMethodString("registration/accounting_system"), Method.POST);
             request = GetAuthorizedRequest(request, token);
             request.AddJsonBody(accountingSystem);
-            var apiResponse = await ExecuteRequestAsync<AccountingSystemRegistered>(request);
-            return apiResponse;
+            var httpResponse = await ExecuteRequestAsync<AccountingSystemRegistered>(request);
+            return httpResponse.Content;
         }
 
         /// <summary>
@@ -49,8 +50,10 @@ namespace AllMark.Services
         {
             var request = GetRequest(GetMethodString("auth"), Method.POST);
             request.AddJsonBody(info);
-            var apiResponse = await ExecuteRequestAsync<AuthCode>(request);
-            return apiResponse.Code;
+            var httpResponse = await ExecuteRequestAsync<AuthCode>(request);
+            return httpResponse.Content.Code;
         }
+
+        protected override string ProcessResponseError(HttpStatusCode statusCode) => throw new System.NotImplementedException();
     }
 }

@@ -1,13 +1,13 @@
-﻿using AllMark.Config;
+﻿using System;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using AllMark.Config;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.Extensions.Options;
 using NHibernate;
 using NHibernate.Context;
-using System;
-using System.Globalization;
-using System.Reflection;
-using System.Linq;
 
 namespace AllMark.DAL
 {
@@ -77,11 +77,11 @@ namespace AllMark.DAL
 
             //if (_config.ShowSQL || _config.UseProfiler)
             //{
-                cfg.Database(MySQLConfiguration
-                            .Standard
-                            .FormatSql()
-                            .ShowSql()
-                            .Raw(NHibernate.Cfg.Environment.GenerateStatistics, "true"));
+            cfg.Database(MySQLConfiguration
+                        .Standard
+                        .FormatSql()
+                        .ShowSql()
+                        .Raw(NHibernate.Cfg.Environment.GenerateStatistics, "true"));
             //}
 
             return cfg;

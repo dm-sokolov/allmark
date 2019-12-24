@@ -3,7 +3,7 @@ using FluentNHibernate.Mapping;
 
 namespace AllMark.Core.Mappings
 {
-    public class CategoryMap: ClassMap<Category>
+    public class CategoryMap : ClassMap<Category>
     {
         public CategoryMap()
         {
@@ -12,9 +12,9 @@ namespace AllMark.Core.Mappings
                 .GeneratedBy.Native();
             Map(i => i.CategoryId, "cat_id")
                 .Not.Nullable();
-            References(i => i.Product, "product_id")
-                .Cascade.None()
-                .Not.Nullable();
+            Map(i => i.Level, "level");
+            Map(i => i.Name, "name");
+            Map(i => i.ParentId, "parent_id");
         }
     }
 }

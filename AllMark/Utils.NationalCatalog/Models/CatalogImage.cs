@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
 using Utils.NationalCatalog.Enums;
 
 namespace Utils.NationalCatalog.Models
 {
     public class CatalogImage
     {
-        [JsonProperty("photo_type")] 
+        [JsonProperty("photo_type")]
         public PhotoType Type { get; set; }
 
         /// <summary>
