@@ -83,46 +83,13 @@
                 </div>
             </div>
         </nav>
-        @*@(Html.Kendo()
-              .Menu()
-              .Name("kendoMenu")
-              .Items(items =>
-              {
-                  items.Add()
-                       .Text("Главная")
-                       .Action("Index", "Home");
-                  items.Add()
-                       .Text("Для Юр. Лиц")
-                       .Action("ForLegalEntity", "Home");
-                  items.Add()
-                       .Text("Для ИП")
-                       .Action("ForIP", "Home");
-                  items.Add()
-                       .Text("Товары")
-                       .Action("Products", "Product");
-                  if (ViewBag.User != null)
-                  {
-                      items.Add()
-                           .Text("Настройки")
-                           .Action("Manage", "Account");
-                      items.Add()
-                           .Text("Выйти")
-                           .Action("Logout", "Account");
-                  }
-                  else
-                  {
-                      items.Add()
-                           .Text("Войти")
-                           .Action("Login", "Account");
-                      items.Add()
-                           .Text("Регистрация")
-                           .Action("Register", "Account");
-                  }
-              })
-            )*@
     </header>
     <div class="container" style="max-width: 100%;">
-        <partial name="_CookieConsentPartial" />
+        @*<partial name="_CookieConsentPartial" />*@
+        @if ((bool?)ViewData["EmailConfirmed"] == true)
+        {
+            <p>Почта подтверждена</p>
+        }
         <main role="main" @*class="pb-3"*@ >
             @RenderBody()
         </main>
@@ -130,7 +97,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - AllMark - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - Маркировщик.рф
         </div>
     </footer>
 

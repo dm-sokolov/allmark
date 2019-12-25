@@ -10,6 +10,7 @@ using AllMark.Services.Interfaces;
 using AutoMapper;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate.Linq;
@@ -43,6 +44,7 @@ namespace AllMark.Controllers
             _categoryRepository = categoryRepository;
         }
 
+        [Authorize]
         public IActionResult Products() => View();
 
         [HttpPost]

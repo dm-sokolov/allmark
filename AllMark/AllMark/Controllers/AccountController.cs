@@ -118,6 +118,7 @@ namespace AllMark.Controllers
             {
                 user.EmailConfirmed = true;
                 await _customerRepository.UpdateAsync(user);
+                ViewData["EmailConfirmed"] = true;
                 return RedirectToAction("Index", "Home");
             }
             else

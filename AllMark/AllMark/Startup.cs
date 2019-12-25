@@ -64,6 +64,7 @@ namespace AllMark
             services.Configure<NationalCatalogConfig>(Configuration.GetSection("NationalCatalog"));
             services.Configure<HonestSignConfig>(Configuration.GetSection("HonestSign"));
             services.AddKendo();
+
             if (_environment.IsDevelopment())
             {
                 services.AddControllersWithViews()
