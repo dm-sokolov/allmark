@@ -8,14 +8,6 @@ using AllMark.Models;
 using AllMark.Services.Base;
 using AllMark.Services.Interfaces;
 using Microsoft.Extensions.Options;
-using System;
-using AllMark.Config;
-using AllMark.Services.Base;
-using AllMark.Services.Interfaces;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using RestSharp;
 using Utils.NationalCatalog.Models;
 

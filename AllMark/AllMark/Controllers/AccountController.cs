@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using AllMark.AutoMapper.Extensions;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AllMark.Models;
 using AllMark.Repository;
@@ -9,16 +8,10 @@ using NHibernate.Linq;
 using AllMark.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using AllMark.Controllers.Base;
-using AllMark.Core.Models;
 using AllMark.DTO;
 using AllMark.Helpers.Interfaces;
-using AllMark.Models;
-using AllMark.Repository;
 using AllMark.Services.Interfaces;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using NHibernate.Linq;
 
 namespace AllMark.Controllers
 {

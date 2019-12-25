@@ -8,6 +8,7 @@ using FluentNHibernate.Cfg.Db;
 using Microsoft.Extensions.Options;
 using NHibernate;
 using NHibernate.Context;
+using NHibernate.Caches.CoreMemoryCache;
 
 namespace AllMark.DAL
 {
@@ -59,7 +60,7 @@ namespace AllMark.DAL
             return cfg.BuildSessionFactory();
         }
 
-        private static FluentConfiguration GetConfiguration(string connectionKey)
+        private FluentConfiguration GetConfiguration(string connectionKey)
         {
             var cfg = Fluently.Configure()
                               .Database(MySQLConfiguration
@@ -69,20 +70,20 @@ namespace AllMark.DAL
                                        .Raw(NHibernate.Cfg.Environment.CommandTimeout, TimeSpan.FromMinutes(5)
                                                                                 .TotalSeconds.ToString(CultureInfo.InvariantCulture))
                                        .AdoNetBatchSize(100))
-                              //.Cache(c => c //TODO Пока без кэша
-                              //           .UseQueryCache()
-                              //           .UseSecondLevelCache()
-                              //           .ProviderClass<CoreMemoryCacheProvider>())
+                              .Cache(c => c
+                                         .UseQueryCache()
+                                         .UseSecondLevelCache()
+                                         .ProviderClass<CoreMemoryCacheProvider>())
                               .CurrentSessionContext<AsyncLocalSessionContext>();
 
-            //if (_config.ShowSQL || _config.UseProfiler)
-            //{
-            cfg.Database(MySQLConfiguration
-                        .Standard
-                        .FormatSql()
-                        .ShowSql()
-                        .Raw(NHibernate.Cfg.Environment.GenerateStatistics, "true"));
-            //}
+            if (_databaseConfig.ShowSql)
+            {
+                cfg.Database(MySQLConfiguration
+                            .Standard
+                            .FormatSql()
+                            .ShowSql()
+                            .Raw(NHibernate.Cfg.Environment.GenerateStatistics, "true"));
+            }
 
             return cfg;
         }

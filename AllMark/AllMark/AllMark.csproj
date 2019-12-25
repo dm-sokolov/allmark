@@ -33,6 +33,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="NHibernate.Caches.CoreMemoryCache" Version="5.6.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.6.0" />
     <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2019.3.917" />
     <PackageReference Include="Autofac" Version="4.9.4" />

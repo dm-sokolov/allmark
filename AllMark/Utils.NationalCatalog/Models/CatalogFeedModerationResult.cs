@@ -8,6 +8,6 @@ namespace Utils.NationalCatalog.Models
         public int GoodDraftId { get; set; }
 
         [JsonProperty("error")]
-        public string? Error { get; set; }
+        public string Error { get; set; }
     }
 }
