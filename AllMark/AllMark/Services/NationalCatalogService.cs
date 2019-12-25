@@ -132,7 +132,7 @@ namespace AllMark.Services
             var request = GetRequest("feed");
             request.AddJsonBody(feed);
             var apiResponse = await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedResult>>(request);
-            return apiResponse.Result;
+            return apiResponse.Content.Result;
         }
 
         /// <inheritdoc />
@@ -143,7 +143,7 @@ namespace AllMark.Services
             if (!string.IsNullOrEmpty(supplierKey))
                 request.AddParameter("supplier_key", supplierKey);
             var apiResponse = await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogGtinResult>>(request);
-            return apiResponse.Result;
+            return apiResponse.Content.Result;
         }
 
         /// <inheritdoc />
@@ -153,7 +153,7 @@ namespace AllMark.Services
             request.AddParameter("feed_id", feedId);
             var apiResponse =
                 await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedStatusResult>>(request);
-            return apiResponse.Result;
+            return apiResponse.Content.Result;
         }
 
         /// <inheritdoc />
@@ -163,7 +163,7 @@ namespace AllMark.Services
             request.AddParameter("good_id", goodId);
             var apiResponse =
                 await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedModerationResult>>(request);
-            return apiResponse.Result;
+            return apiResponse.Content.Result;
         }
 
         /// <inheritdoc />
@@ -174,7 +174,7 @@ namespace AllMark.Services
             request.AddParameter("inn", inn);
             var apiResponse =
                 await ExecuteRequestAsync<NationalCatalogSingleResponse<CatalogFeedModerationResult>>(request);
-            return apiResponse.Result;
+            return apiResponse.Content.Result;
         }
     }
 }
