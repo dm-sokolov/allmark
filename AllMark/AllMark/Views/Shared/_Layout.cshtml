@@ -58,11 +58,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ForIP">Для ИП</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Products">Товары</a>
-                        </li>
                         @if (ViewBag.User != null)
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Products">Товары</a>
+                            </li>
                             <li class="nav-item" style="float: right;">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Manage">Настройки</a>
                             </li>
