@@ -12,6 +12,9 @@ using AllMark.DTO;
 using AllMark.Helpers.Interfaces;
 using AllMark.Services.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using System.Linq;
 
 namespace AllMark.Controllers
 {
@@ -22,18 +25,21 @@ namespace AllMark.Controllers
         private readonly IAuthentificationHelper _authentificationHelper;
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
         public AccountController(IRepository<Customer> customerRepository,
             ICustomerHelper customerHelper,
             IAuthentificationHelper authentificationHelper,
             ICustomerService customerService,
-            IMapper mapper)
+            IMapper mapper,
+            IEmailService emailService)
         {
             _customerRepository = customerRepository;
             _customerHelper = customerHelper;
             _authentificationHelper = authentificationHelper;
             _customerService = customerService;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         public IActionResult Login() => View();
@@ -127,7 +133,7 @@ namespace AllMark.Controllers
             }
         }
 
-        public async Task<ActionResult> Update(CustomerDto dto)
+        public async Task<IActionResult> Update(CustomerDto dto)
         {
             var user = await _customerRepository.GetByIdAsync(dto?.Id);
             user.Name = dto.Name;
@@ -135,5 +141,54 @@ namespace AllMark.Controllers
             await _customerRepository.UpdateAsync(user);
             return Json(_mapper, user, typeof(CustomerDto));
         }
+
+        public async Task<IActionResult> SendPasswordResetMail(string email)
+        {
+            var customer = await _customerRepository.Query()
+                .FirstOrDefaultAsync(i => i.Email == email);
+            if (customer != null)
+            {
+                var code = new Guid().ToString();
+                var callbackUrl = Url.Action(
+                        "ResetPassword",
+                        "Account",
+                        new { userId = customer.Id, code },
+                        protocol: HttpContext.Request.Scheme);
+                var message = $"<a href='{callbackUrl}'>Сброс пароля</a>";
+                await _emailService.SendEmailAsync(email, "Сброс пароля", message);
+                customer.GUID = code;
+                await _customerRepository.UpdateAsync(customer);
+                return Json("Письмо для сбрса пароля отправлено. Проверте почту");
+            }
+
+            return Json("Пользователь не найден");
+        }
+
+        public async Task<IActionResult> ResetPassword(int userId, string code)
+        {
+            var customer = await _customerRepository.Query()
+                .FirstOrDefaultAsync(i => i.Id == userId && i.GUID == code);
+            if (customer != null)
+                return View(userId);
+            else
+                return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePassword(CustomerDto dto)
+        {
+            await _customerRepository.Query()
+                .Where(i => i.Id == dto.Id)
+                .UpdateAsync(i => new Customer 
+                { 
+                    Password = dto.Password,
+                    GUID = null
+                }, default);
+            return Json(true);
+        }
+
+        public IActionResult PasswordResetSuccess() => View();
+
+        public IActionResult PasswordResetRequest() => View();
     }
 }
